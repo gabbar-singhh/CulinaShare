@@ -1,0 +1,38 @@
+.hero_main {
+    height: 100vh;
+    background-color: var(--primary-color);
+    padding-top: 80px;
+    margin-top: 2em;
+}
+
+.hero_container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9em;
+    height: 90vh;
+}
+
+.hero_container .hero_h1 {
+    /* margin: 2em 0; */
+    font-size: 4.8em;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero_container .hero_h1:last-child {
+    text-transform: uppercase;
+    z-index: 3;
+    font-size: 14em;
+    transform: scale(1, 1.5);
+}
+
+.hero_container img {
+    position: absolute;
+    height: 500px;
+    top: 5em;
+}
