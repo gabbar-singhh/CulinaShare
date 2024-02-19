@@ -3,4 +3,5 @@
     background-color: #fff;
     padding-top: 80px;
     margin-top: 2em;
+    scroll-snap-align: start;
 }

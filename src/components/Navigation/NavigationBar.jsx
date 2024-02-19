@@ -41,19 +41,19 @@ const NavigationBar = () => {
       style={{ position: "fixed", width: "100%", top: "0", zIndex: "100" }}
     >
       <ul>
-        <li>
+        <li className={"underline_effect"}>
           <Link href="/">Home</Link>
         </li>
-        <li>
+        <li className={"underline_effect"}>
           <Link href="/recipes">Recipes</Link>
         </li>
         <li>
           <Link href="/">Culina Share</Link>
         </li>
-        <li>
+        <li className={"underline_effect"}>
           <Link href="/contribute">Contribute</Link>
         </li>
-        <li>
+        <li className="">
           <Link href="/favorites">Favorites</Link>
         </li>
       </ul>

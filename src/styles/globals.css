@@ -34,8 +34,9 @@
   --card-border-rgb: 131, 134, 135;
 
   --primary-color: #ff9100;
-  --secondary-color: #524439;
-  --primary-font:  "Poppins", sans-serif;
+  --secondary-color: #610600;
+
+  --primary-font: "Poppins", sans-serif;
   --logo-font: "Abril Fatface", serif;
 }
 
@@ -52,7 +53,7 @@ body {
 }
 
 body {
-font-family: var(--primary-font);
+  font-family: var(--primary-font);
 }
 
 a {
@@ -70,4 +71,66 @@ body {
 body:hover {
   scrollbar-color: #888 #f0f0f0;
   overflow-y: auto;
+}
+
+/* CSS EFFECTS */
+.bubble_effect {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: hsl(236, 32%, 26%);
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+
+}
+
+.bubble_effect::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 100%;
+  right: 100%;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: rgb(144, 10, 0);
+  transform-origin: center;
+  transform: translate3d(50%, -50%, 0) scale3d(0, 0, 0);
+  transition: transform 0.45s ease-in-out;
+}
+
+.bubble_effect:hover {
+  cursor: pointer;
+  color: #161616;
+}
+
+.bubble_effect:hover::before {
+  transform: translate3d(50%, -50%, 0) scale3d(15, 15, 15);
+}
+
+.underline_effect {
+  position: relative;
+}
+
+.underline_effect::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--secondary-color);
+  transform-origin: bottom right;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+}
+
+.underline_effect:hover::before {
+  transform-origin: bottom left;
+  transform: scaleX(1);
 }

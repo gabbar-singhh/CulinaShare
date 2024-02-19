@@ -23,8 +23,10 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <NavigationBar />
+        <div className={styles.container}>
         <HeroSection/>
         <Discover/>
+        </div>
       </main>
     </>
   );

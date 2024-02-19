@@ -3,6 +3,7 @@
     background-color: var(--primary-color);
     padding-top: 80px;
     margin-top: 2em;
+    scroll-snap-align: start;
 }
 
 .hero_container {
@@ -15,7 +16,6 @@
 }
 
 .hero_container .hero_h1 {
-    /* margin: 2em 0; */
     font-size: 4.8em;
     color: #fff;
 
