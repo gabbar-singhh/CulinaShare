@@ -37,6 +37,7 @@
     cursor: pointer;
     box-shadow: 1px 1px 9px #cf7d12;
     transition: transform 0.3s ease-in-out;
+    font-weight: 500;
 }
 
 .nav_main ul li:last-child:hover {
