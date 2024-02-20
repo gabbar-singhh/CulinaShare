@@ -1,7 +1,192 @@
 .discover_main {
     height: 100vh;
     background-color: #fff;
-    padding-top: 80px;
-    margin-top: 2em;
+    padding: 80px 1em 0 1em;
     scroll-snap-align: start;
+}
+
+.wrapper {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 5px 5px 10px #cfcfcf;
+    padding: 2em;
+}
+
+.top_lane {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left_container {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+/* DROPDOWN MENU */
+.category_dropdown {
+    border: 1px solid #caced1;
+    display: flex;
+    align-items: center;
+
+    position: relative;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    border-radius: 0.4em;
+}
+
+.category_dropdown::before,
+.category_dropdown::after {
+    --size: 0.3rem;
+    position: absolute;
+    content: "";
+    right: 1rem;
+    pointer-events: none;
+}
+
+.category_dropdown::before {
+    border-left: 0.3rem solid transparent;
+    border-right: 0.3rem solid transparent;
+    border-bottom: 0.3rem solid var(--secondary-color);
+    top: 40%;
+}
+
+.category_dropdown::after {
+    border-left: 0.3rem solid transparent;
+    border-right: 0.3rem solid transparent;
+    border-top: 0.3rem solid var(--secondary-color);
+    top: 55%;
+}
+
+.category_dropdown:hover {
+    border: 1px solid var(--secondary-color);
+}
+
+.category_dropdown select {
+    outline: none;
+    color: var(--secondary-color);
+
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 1.15rem;
+    padding: 0.675em 6em 0.675em 1em;
+    background-color: #fff;
+    border: 1px solid #caced1;
+    border: none;
+    color: var(--secondary-color);
+    /* border-radius: 0.25rem; */
+    border-radius: 5em;
+    cursor: pointer;
+    width: 100%;
+}
+
+
+/* SEARCH */
+.searchbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #caced1;
+    border-radius: 0.4em;
+    padding: 0.2em 0.2em 0.2em 1em;
+    transition: 0.2s ease-in-out;
+}
+
+.searchbar:hover {
+    border: 1px solid var(--secondary-color);
+}
+
+.search_input {
+    outline: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 1em;
+    background-color: #fff;
+    color: var(--secondary-color);
+    border-radius: 0.25rem;
+    display: inline;
+    width: 200px;
+}
+
+.search_input::placeholder {
+    color: var(--secondary-color);
+}
+
+.search_icon {
+    background-color: var(--secondary-color);
+    padding: 10px;
+    padding-bottom: 4px;
+    border-radius: 0.4em;
+    cursor: pointer;
+}
+
+
+/* RIGHT CONTAINER */
+.right_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5em;
+}
+
+.right_container .featured,
+.right_container .random {
+    font-size: 1em;
+    color: var(--secondary-color);
+    font-weight: 500;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+
+    border: 1px solid var(--secondary-color);
+    border-radius: 0.4em;
+    padding: 0.5em 1em;
+    transition: 0.2s ease-in-out;
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.right_container .featured:hover,
+.right_container .random:hover {
+    background-color: var(--secondary-color-light);
+    border: 1px solid var(--secondary-color-light);
+}
+
+.bottom_lane {
+    margin-top: 1.5em;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.bottom_lane ul {
+    margin-top: 1em;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    gap: 1.2em;
+    font-size: 14px;
+}
+
+.bottom_lane .suggestion_chips li {
+    border: 1px solid var(--secondary-color);
+    padding: 4px 12px;
+    border-radius: 5em;
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+}
+
+.bottom_lane .suggestion_chips li:hover {
+    border: 1px solid var(--secondary-color-light);
+    background-color: var(--secondary-color-light);
+    color: #fff;
+}
+
+.active_chip {
+    border: 1px solid var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: #fff;
 }

@@ -2,7 +2,6 @@
     height: 100vh;
     background-color: var(--primary-color);
     padding-top: 80px;
-    margin-top: 2em;
     scroll-snap-align: start;
 }
 
@@ -12,7 +11,6 @@
     flex-direction: column;
     align-items: center;
     gap: 9em;
-    height: 90vh;
 }
 
 .hero_container .hero_h1 {

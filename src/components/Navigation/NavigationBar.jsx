@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./NavigationBar.module.css";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ const NavigationBar = () => {
       if (scrollTop > threshold) {
         // document.body.style.backgroundColor = "#ac51ff"; // page end color
       } else {
-        document.body.style.backgroundColor = "#ff9407"; // page start color
+        document.body.style.backgroundColor = "#ff9100"; // page start color
       }
 
       if (scrollTop > lastScrollTop) {
@@ -35,12 +35,12 @@ const NavigationBar = () => {
   }, []);
   return (
     <nav
-      className={styles.nav_main}
+      className={styles.nav}
       id="nav"
       ref={navbarRef}
-      style={{ position: "fixed", width: "100%", top: "0", zIndex: "100" }}
+      // style={{ position: "fixed", width: "100%", top: "0", zIndex: "100" }}
     >
-      <ul>
+      <ul className={styles.nav_list}>
         <li className={"underline_effect"}>
           <Link href="/">Home</Link>
         </li>

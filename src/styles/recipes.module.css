@@ -1,0 +1,27 @@
+.cat_list {
+    list-style-type: none;
+    /* display: flex; */
+    align-items: center;
+    justify-content: left;
+    gap: 1em;
+}
+
+.cat_list .cat_item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.2em;
+
+    background-color: #f7f7f7;
+    border-radius: 12px;
+    padding: 1.5em;
+    box-shadow: 2px 2px 7px rgb(235, 235, 235);
+}
+
+.cat_list .cat_item p{
+    font-size: 1.2em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+}
