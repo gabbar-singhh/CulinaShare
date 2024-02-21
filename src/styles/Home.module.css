@@ -5,4 +5,5 @@
   overflow-y: scroll;
   padding-top: 1em;
   /* height: 100vh; */
+  background-color: var(--primary-color);
 }

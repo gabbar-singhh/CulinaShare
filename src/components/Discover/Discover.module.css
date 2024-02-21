@@ -148,21 +148,28 @@
     transition: 0.2s ease-in-out;
     background-color: var(--secondary-color);
     color: #fff;
+    transition: 0.3 ease-in-out;
 }
 
+/* 
 .right_container .featured:hover,
 .right_container .random:hover {
     background-color: var(--secondary-color-light);
     border: 1px solid var(--secondary-color-light);
+} */
+
+.right_container .featured:hover,
+.right_container .random:hover {
+    transform: scale(1.03);
 }
 
-.bottom_lane {
+.middle_lane {
     margin-top: 1.5em;
     color: var(--secondary-color);
     font-weight: 500;
 }
 
-.bottom_lane ul {
+.middle_lane ul {
     margin-top: 1em;
     list-style-type: none;
     display: flex;
@@ -171,7 +178,7 @@
     font-size: 14px;
 }
 
-.bottom_lane .suggestion_chips li {
+.middle_lane .suggestion_chips li {
     border: 1px solid var(--secondary-color);
     padding: 4px 12px;
     border-radius: 5em;
@@ -179,7 +186,7 @@
     transition: 200ms ease-in-out;
 }
 
-.bottom_lane .suggestion_chips li:hover {
+.middle_lane .suggestion_chips li:hover {
     border: 1px solid var(--secondary-color-light);
     background-color: var(--secondary-color-light);
     color: #fff;
@@ -189,4 +196,16 @@
     border: 1px solid var(--secondary-color);
     background-color: var(--secondary-color);
     color: #fff;
+}
+
+/*  */
+.bottom_lane {
+    margin-top: 2em;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.active_button {
+    background-color: var(--secondary-color-light)!important;
+    border: 1px solid var(--secondary-color-light)!important;
 }

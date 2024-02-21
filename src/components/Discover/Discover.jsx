@@ -5,7 +5,14 @@ import Script from "next/script";
 
 const Discover = () => {
   const [data, setData] = useState([]);
+
+  // USER FILTER STATES
+  const [categoryVal, setCategoryVal] = useState(null);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [nameVal, setNameVal] = useState("");
+  const [chipVal, setChipVal] = useState("");
+  const [isFeaturedVal, setIsFeaturedVal] = useState(false);
+  const [isRandomVal, setIsRandomVal] = useState(false);
 
   const handleSearchClick = () => {
     setIsSearchClicked((prevState) => !prevState);
@@ -49,6 +56,51 @@ const Discover = () => {
           : { ...chip, isSelected: false }
       )
     );
+    setChipVal(item.id);
+  };
+
+  const categoryDataHandler = (e) => {
+    setCategoryVal(e.target.value);
+  };
+
+  const nameDataHandler = (e) => {
+    setNameVal(e.target.value);
+  };
+
+  const featuredButtonHandler = () => {
+    setIsFeaturedVal((prevIsFeaturedVal) => !prevIsFeaturedVal);
+  };
+
+  const randomButtonHandler = () => {
+    setIsRandomVal((prevIsRandomVal) => !prevIsRandomVal);
+  };
+
+  const getDataFromAPI = (type) => {
+    switch (type) {
+      case "CATEGORY":
+        // Code for CATEGORY type
+        break;
+
+      case "SEARCH":
+        // Code for SEARCH type
+        break;
+
+      case "TOP":
+        // Code for TOP type
+        break;
+
+      case "FEATURED":
+        // Code for FEATURED type
+        break;
+
+      case "RANDOM":
+        // Code for RANDOM type
+        break;
+
+      default:
+        // Default code if none of the cases match
+        break;
+    }
   };
 
   return (
@@ -58,7 +110,12 @@ const Discover = () => {
           <div className={styles.top_lane}>
             <div className={styles.left_container}>
               <div className={styles.category_dropdown}>
-                <select name="category" id="category">
+                <select
+                  name="category"
+                  id="category"
+                  onChange={categoryDataHandler}
+                  value={categoryVal}
+                >
                   <option value="default" disabled selected>
                     Category
                   </option>
@@ -78,6 +135,8 @@ const Discover = () => {
                   type="text"
                   name=""
                   id=""
+                  value={nameVal}
+                  onChange={nameDataHandler}
                 />
                 <span
                   className={`${styles.search_icon} shine_effect`}
@@ -94,18 +153,28 @@ const Discover = () => {
             </div>
 
             <div className={styles.right_container}>
-              <span className={`${styles.featured}`}>
+              <span
+                className={`${isFeaturedVal && styles.active_button} ${
+                  styles.featured
+                }`}
+                onClick={featuredButtonHandler}
+              >
                 <img height={20} src="/icons/fire.png" alt="" />
                 <p>Top Featured Recipes</p>
               </span>
-              <span className={styles.random}>
+              <span
+                className={`${isRandomVal && styles.active_button} ${
+                  styles.random
+                }`}
+                onClick={randomButtonHandler}
+              >
                 <img src="/icons/random.png" height={20} alt="" />
                 <p>Get a Random Recipe</p>
               </span>
             </div>
           </div>
 
-          <div className={styles.bottom_lane}>
+          <div className={styles.middle_lane}>
             <p>Top Searches:</p>
             <ul className={styles.suggestion_chips}>
               {chips.map((element) => {
@@ -127,6 +196,10 @@ const Discover = () => {
                 );
               })}
             </ul>
+          </div>
+
+          <div className={styles.bottom_lane}>
+            <p>Showing results for "{}"</p>
           </div>
         </div>
       </section>
