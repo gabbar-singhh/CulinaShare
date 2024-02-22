@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import styles from "./Discover.module.css";
 import axios from "axios";
 import Script from "next/script";
+import Feed from "../Feed/Feed";
 
 const Discover = () => {
   const [data, setData] = useState([]);
+  const [resultStr, setResultStr] = useState(null);
 
   // USER FILTER STATES
-  const [categoryVal, setCategoryVal] = useState(null);
+  const [categoryVal, setCategoryVal] = useState();
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [nameVal, setNameVal] = useState("");
   const [chipVal, setChipVal] = useState("");
@@ -32,11 +34,11 @@ const Discover = () => {
 
   useEffect(() => {
     axios
-      .get("https://www.themealdb.com/api/json/v1/1/categories.php")
+      .get("https://www.themealdb.com/api/json/v1/1/search.php?f=a")
       .then(function (response) {
         // handle success
-        console.log("response", response.data.categories);
-        setData(response.data.categories);
+        console.log("response", response.data);
+        setData(response.data.meals);
       })
       .catch(function (error) {
         // handle error
@@ -61,6 +63,8 @@ const Discover = () => {
 
   const categoryDataHandler = (e) => {
     setCategoryVal(e.target.value);
+    setResultStr(e.target.value);
+    getDataFromAPI({ type: "CATEGORY", value: e.target.value });
   };
 
   const nameDataHandler = (e) => {
@@ -75,10 +79,27 @@ const Discover = () => {
     setIsRandomVal((prevIsRandomVal) => !prevIsRandomVal);
   };
 
-  const getDataFromAPI = (type) => {
-    switch (type) {
+  const getDataFromAPI = (fetch) => {
+    switch (fetch.type) {
       case "CATEGORY":
-        // Code for CATEGORY type
+        console.log("categoryVal", categoryVal);
+        axios
+          .get(
+            `https://www.themealdb.com/api/json/v1/1/filter.php?c=${fetch.value}`
+          )
+          .then((response) => {
+            // handle success
+            console.log(`${fetch.value}`, response.data);
+            setData(response.data.meals);
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+          })
+          .finally(() => {
+            // always executed
+          });
+
         break;
 
       case "SEARCH":
@@ -199,9 +220,10 @@ const Discover = () => {
           </div>
 
           <div className={styles.bottom_lane}>
-            <p>Showing results for "{}"</p>
+            <p>Showing results for "{resultStr}"</p>
           </div>
         </div>
+        <Feed data={data} />
       </section>
     </>
   );
