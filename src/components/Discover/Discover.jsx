@@ -12,7 +12,6 @@ const Discover = () => {
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [nameVal, setNameVal] = useState("");
   const [chipVal, setChipVal] = useState("");
-  const [isFeaturedVal, setIsFeaturedVal] = useState(false);
   const [showShowResults, setShowShowResults] = useState(false);
 
   const handleSearchClick = () => {
@@ -76,7 +75,6 @@ const Discover = () => {
   };
 
   const featuredButtonHandler = async () => {
-    setIsFeaturedVal((prevIsFeaturedVal) => !prevIsFeaturedVal);
     getDataFromAPI({ type: "FEATURED", value: "" });
   };
 
@@ -112,6 +110,13 @@ const Discover = () => {
           })
           .finally(() => {
             // always executed
+            setChips([
+              { id: "breakfast", isSelected: false, value: "breakfast" },
+              { id: "shawarma", isSelected: false, value: "shawarma" },
+              { id: "indian", isSelected: false, value: "indian" },
+              { id: "chicken", isSelected: false, value: "chicken" },
+              { id: "dessert", isSelected: false, value: "dessert" },
+            ]);
             setShowShowResults(true);
           });
 
@@ -135,6 +140,13 @@ const Discover = () => {
           })
           .finally(() => {
             // always executed
+            setChips([
+              { id: "breakfast", isSelected: false, value: "breakfast" },
+              { id: "shawarma", isSelected: false, value: "shawarma" },
+              { id: "indian", isSelected: false, value: "indian" },
+              { id: "chicken", isSelected: false, value: "chicken" },
+              { id: "dessert", isSelected: false, value: "dessert" },
+            ]);
             setShowShowResults(true);
           });
 
@@ -212,6 +224,13 @@ const Discover = () => {
             setData({ meals: null, error: true });
           })
           .finally(() => {
+            setChips([
+              { id: "breakfast", isSelected: false, value: "breakfast" },
+              { id: "shawarma", isSelected: false, value: "shawarma" },
+              { id: "indian", isSelected: false, value: "indian" },
+              { id: "chicken", isSelected: false, value: "chicken" },
+              { id: "dessert", isSelected: false, value: "dessert" },
+            ]);
             setResultStr("top featured recipes");
             setShowShowResults(true);
           });
@@ -232,6 +251,13 @@ const Discover = () => {
           })
           .finally(() => {
             // always executed
+            setChips([
+              { id: "breakfast", isSelected: false, value: "breakfast" },
+              { id: "shawarma", isSelected: false, value: "shawarma" },
+              { id: "indian", isSelected: false, value: "indian" },
+              { id: "chicken", isSelected: false, value: "chicken" },
+              { id: "dessert", isSelected: false, value: "dessert" },
+            ]);
             setShowShowResults(true);
           });
         break;
@@ -339,9 +365,7 @@ const Discover = () => {
 
             <div className={styles.right_container}>
               <span
-                className={`${isFeaturedVal && styles.active_button} ${
-                  styles.featured
-                }`}
+                className={`${styles.featured}`}
                 onClick={featuredButtonHandler}
               >
                 <img height={20} src="/icons/fire.png" alt="" />
