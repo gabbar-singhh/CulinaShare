@@ -1,3 +1,25 @@
 .feed_container {
-    margin: 1em;
+    margin: 0;
+    padding: 3em 1em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 1.5em;
+    flex-wrap: wrap;
+    background-color: #fff;
+    box-shadow: 0 5px 15px #e3e3e3;
+}
+
+.feed_notFound {
+    font-size: 1.1em;
+    color: var(--secondary-color);
+    text-transform: capitalize;
+    font-weight: 600;
+
+    margin: 0;
+    padding: 3em 1em;
+    gap: 1.5em;
+    background-color: #fff;
+    box-shadow: 0 5px 15px #e3e3e3;
+    text-align: center;
 }

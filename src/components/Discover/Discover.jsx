@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Discover.module.css";
 import axios from "axios";
-import Script from "next/script";
 import Feed from "../Feed/Feed";
 
 const Discover = () => {
@@ -14,10 +13,12 @@ const Discover = () => {
   const [nameVal, setNameVal] = useState("");
   const [chipVal, setChipVal] = useState("");
   const [isFeaturedVal, setIsFeaturedVal] = useState(false);
-  const [isRandomVal, setIsRandomVal] = useState(false);
 
   const handleSearchClick = () => {
     setIsSearchClicked((prevState) => !prevState);
+
+    setResultStr(nameVal);
+    getDataFromAPI({ type: "SEARCH", value: nameVal });
 
     setTimeout(() => {
       setIsSearchClicked(false);
@@ -34,7 +35,7 @@ const Discover = () => {
 
   useEffect(() => {
     axios
-      .get("https://www.themealdb.com/api/json/v1/1/search.php?f=a")
+      .get("https://www.themealdb.com/api/json/v1/1/search.php?f=t")
       .then(function (response) {
         // handle success
         console.log("response", response.data);
@@ -42,7 +43,7 @@ const Discover = () => {
       })
       .catch(function (error) {
         // handle error
-        console.log(error);
+        setData({ meals: null, error: true });
       })
       .finally(function () {
         // always executed
@@ -59,6 +60,8 @@ const Discover = () => {
       )
     );
     setChipVal(item.id);
+    setResultStr(item.id);
+    getDataFromAPI({ type: "TOP_SEARCH", value: item.id });
   };
 
   const categoryDataHandler = (e) => {
@@ -76,7 +79,15 @@ const Discover = () => {
   };
 
   const randomButtonHandler = () => {
-    setIsRandomVal((prevIsRandomVal) => !prevIsRandomVal);
+    setResultStr("a random reciple");
+    getDataFromAPI({ type: "RANDOM", value: "" });
+  };
+
+  const nameValKeyDownHandler = (e) => {
+    if (e.keyCode === 13) {
+      setResultStr(e.target.value);
+      getDataFromAPI({ type: "SEARCH", value: e.target.value });
+    }
   };
 
   const getDataFromAPI = (fetch) => {
@@ -95,6 +106,7 @@ const Discover = () => {
           .catch((error) => {
             // handle error
             console.log(error);
+            setData({ meals: null, error: true });
           })
           .finally(() => {
             // always executed
@@ -104,10 +116,83 @@ const Discover = () => {
 
       case "SEARCH":
         // Code for SEARCH type
+        axios
+          .get(
+            `https://www.themealdb.com/api/json/v1/1/search.php?s=${fetch.value}`
+          )
+          .then((response) => {
+            // handle success
+            console.log(`${fetch.value}`, response.data);
+            setData(response.data.meals);
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+            setData({ meals: null, error: true });
+          })
+          .finally(() => {
+            // always executed
+          });
+
         break;
 
-      case "TOP":
+      case "TOP_SEARCH":
         // Code for TOP type
+        console.log("TOP_SEARCH: ", fetch.value);
+        if (
+          fetch.value === "breakfast" ||
+          fetch.value === "chicken" ||
+          fetch.value === "dessert"
+        ) {
+          axios
+            .get(
+              `https://www.themealdb.com/api/json/v1/1/filter.php?c=${fetch.value}`
+            )
+            .then((response) => {
+              // handle success
+              setData(response.data.meals);
+            })
+            .catch((error) => {
+              // handle error
+              console.log(error);
+              setData({ meals: null, error: true });
+            })
+            .finally(() => {
+              // always executed
+            });
+        } else if (fetch.value === "indian") {
+          axios
+            .get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=indian`)
+            .then((response) => {
+              // handle success
+              setData(response.data.meals);
+            })
+            .catch((error) => {
+              // handle error
+              console.log(error);
+              setData({ meals: null, error: true });
+            })
+            .finally(() => {
+              // always executed
+            });
+        } else if (fetch.value === "shawarma") {
+          axios
+            .get(
+              `https://www.themealdb.com/api/json/v1/1/search.php?s=shawarma`
+            )
+            .then((response) => {
+              // handle success
+              setData(response.data.meals);
+            })
+            .catch((error) => {
+              // handle error
+              console.log(error);
+              setData({ meals: null, error: true });
+            })
+            .finally(() => {
+              // always executed
+            });
+        }
         break;
 
       case "FEATURED":
@@ -115,7 +200,21 @@ const Discover = () => {
         break;
 
       case "RANDOM":
-        // Code for RANDOM type
+        axios
+          .get(`https://www.themealdb.com/api/json/v1/1/random.php`)
+          .then((response) => {
+            // handle success
+            console.log(`RANDOM: `, response);
+            setData(response.data.meals);
+          })
+          .catch((error) => {
+            // handle error
+            console.log(error);
+            setData({ meals: null, error: true });
+          })
+          .finally(() => {
+            // always executed
+          });
         break;
 
       default:
@@ -158,6 +257,7 @@ const Discover = () => {
                   id=""
                   value={nameVal}
                   onChange={nameDataHandler}
+                  onKeyDown={nameValKeyDownHandler}
                 />
                 <span
                   className={`${styles.search_icon} shine_effect`}
@@ -183,12 +283,7 @@ const Discover = () => {
                 <img height={20} src="/icons/fire.png" alt="" />
                 <p>Top Featured Recipes</p>
               </span>
-              <span
-                className={`${isRandomVal && styles.active_button} ${
-                  styles.random
-                }`}
-                onClick={randomButtonHandler}
-              >
+              <span className={styles.random} onClick={randomButtonHandler}>
                 <img src="/icons/random.png" height={20} alt="" />
                 <p>Get a Random Recipe</p>
               </span>
@@ -220,7 +315,7 @@ const Discover = () => {
           </div>
 
           <div className={styles.bottom_lane}>
-            <p>Showing results for "{resultStr}"</p>
+            <p className={styles.hide}>Showing results for "{resultStr}"</p>
           </div>
         </div>
         <Feed data={data} />

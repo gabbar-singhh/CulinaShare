@@ -1,5 +1,4 @@
 .discover_main {
-    height: 100vh;
     background-color: #fff;
     padding: 80px 1em 0 1em;
     scroll-snap-align: start;
@@ -151,13 +150,6 @@
     transition: 0.3 ease-in-out;
 }
 
-/* 
-.right_container .featured:hover,
-.right_container .random:hover {
-    background-color: var(--secondary-color-light);
-    border: 1px solid var(--secondary-color-light);
-} */
-
 .right_container .featured:hover,
 .right_container .random:hover {
     transform: scale(1.03);
@@ -206,6 +198,10 @@
 }
 
 .active_button {
-    background-color: var(--secondary-color-light)!important;
-    border: 1px solid var(--secondary-color-light)!important;
+    background-color: var(--secondary-color-light) !important;
+    border: 1px solid var(--secondary-color-light) !important;
+}
+
+.hide {
+    visibility:hidden;
 }
