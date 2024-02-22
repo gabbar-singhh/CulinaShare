@@ -75,8 +75,9 @@ const Discover = () => {
     setNameVal(e.target.value);
   };
 
-  const featuredButtonHandler = () => {
+  const featuredButtonHandler = async () => {
     setIsFeaturedVal((prevIsFeaturedVal) => !prevIsFeaturedVal);
+    getDataFromAPI({ type: "FEATURED", value: "" });
   };
 
   const randomButtonHandler = () => {
@@ -203,6 +204,17 @@ const Discover = () => {
 
       case "FEATURED":
         // Code for FEATURED type
+        const allMeals = fetchAllMeals()
+          .then((res) => {
+            setData(res);
+          })
+          .catch(() => {
+            setData({ meals: null, error: true });
+          })
+          .finally(() => {
+            setResultStr("top featured recipes");
+            setShowShowResults(true);
+          });
         break;
 
       case "RANDOM":
@@ -228,6 +240,51 @@ const Discover = () => {
         // Default code if none of the cases match
         break;
     }
+  };
+
+  const fetchMealDetails = async (mealId) => {
+    try {
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`
+      );
+      return response.data.meals[0];
+    } catch (error) {
+      console.error(
+        `Error fetching meal details for ID ${mealId}:`,
+        error.message
+      );
+      return null;
+    }
+  };
+
+  const fetchAllMeals = async () => {
+    const mealIds = [
+      "53014",
+      "53065",
+      "52865",
+      "52813",
+      "53010",
+      "52777",
+      "52942",
+      "52814",
+      "52819",
+      "53024",
+      "52881",
+      "52860",
+      "53073",
+      "52804",
+      "53006",
+      "52805",
+      "52820",
+      "52829",
+      "53052",
+      "52785",
+    ];
+
+    const allMeals = await Promise.all(
+      mealIds.map((id) => fetchMealDetails(id))
+    );
+    return allMeals.filter((meal) => meal !== null);
   };
 
   return (
@@ -334,3 +391,26 @@ const Discover = () => {
 };
 
 export default Discover;
+
+/*
+53014
+"53065"
+"52865"
+"52813"
+53010
+"52777"
+"52942"
+"52814"
+"52819"
+"53024"
+"52881"
+"52860"
+"53073"
+"52804"
+"53006"
+"52805"
+"52820"
+"52829"
+"53052"
+"52785"
+*/
