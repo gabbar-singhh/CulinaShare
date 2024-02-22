@@ -13,6 +13,7 @@ const Discover = () => {
   const [nameVal, setNameVal] = useState("");
   const [chipVal, setChipVal] = useState("");
   const [isFeaturedVal, setIsFeaturedVal] = useState(false);
+  const [showShowResults, setShowShowResults] = useState(false);
 
   const handleSearchClick = () => {
     setIsSearchClicked((prevState) => !prevState);
@@ -110,6 +111,7 @@ const Discover = () => {
           })
           .finally(() => {
             // always executed
+            setShowShowResults(true);
           });
 
         break;
@@ -132,6 +134,7 @@ const Discover = () => {
           })
           .finally(() => {
             // always executed
+            setShowShowResults(true);
           });
 
         break;
@@ -159,6 +162,7 @@ const Discover = () => {
             })
             .finally(() => {
               // always executed
+              setShowShowResults(true);
             });
         } else if (fetch.value === "indian") {
           axios
@@ -174,6 +178,7 @@ const Discover = () => {
             })
             .finally(() => {
               // always executed
+              setShowShowResults(true);
             });
         } else if (fetch.value === "shawarma") {
           axios
@@ -191,6 +196,7 @@ const Discover = () => {
             })
             .finally(() => {
               // always executed
+              setShowShowResults(true);
             });
         }
         break;
@@ -214,6 +220,7 @@ const Discover = () => {
           })
           .finally(() => {
             // always executed
+            setShowShowResults(true);
           });
         break;
 
@@ -315,7 +322,9 @@ const Discover = () => {
           </div>
 
           <div className={styles.bottom_lane}>
-            <p className={styles.hide}>Showing results for "{resultStr}"</p>
+            <p className={!showShowResults ? `${styles.hide}` : ""}>
+              Showing results for "{resultStr}"
+            </p>
           </div>
         </div>
         <Feed data={data} />
