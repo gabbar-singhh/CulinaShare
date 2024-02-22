@@ -1,41 +1,18 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from '../styles/recipes.module.css'
+import styles from "../styles/recipes.module.css";
+import Discover from "@/components/Discover/Discover";
+import NavigationBar from "@/components/Navigation/NavigationBar";
 const recipes = () => {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("https://www.themealdb.com/api/json/v1/1/categories.php")
-      .then(function (response) {
-        // handle success
-        console.log("response", response.data);
-        setData(response.data.categories);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-  }, []);
+  useEffect(() => {}, []);
   return (
-    <section>
-      <h1>damn damn</h1>
-
-      <ul className={styles.cat_list}>
-        {data.map((item) => {
-          return (
-            <li
-              key={item.idCategory}
-              className={`${styles.cat_item}`}
-            >
-              <p>{item.strCategory}</p>
-            </li>
-          );
-        })}
-      </ul>
+    <section className={styles.recipes_main}>
+      <div className={styles.recipes_div}>
+      <NavigationBar style={{ backgroundColor: "var(--primary-color)" }} />
+      </div>
+      <Discover />
     </section>
   );
 };

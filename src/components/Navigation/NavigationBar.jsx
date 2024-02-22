@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import styles from "./NavigationBar.module.css";
 import Link from "next/link";
 
-const NavigationBar = () => {
+const NavigationBar = (props) => {
   const navbarRef = useRef(null);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const NavigationBar = () => {
       className={styles.nav}
       id="nav"
       ref={navbarRef}
-      // style={{ position: "fixed", width: "100%", top: "0", zIndex: "100" }}
+      style={props.style}
     >
       <ul className={styles.nav_list}>
         <li className={"underline_effect"}>
