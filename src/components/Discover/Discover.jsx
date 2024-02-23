@@ -45,7 +45,7 @@ const Discover = () => {
         // handle error
         setData({ meals: null, error: true });
       })
-      .finally(function () {
+      .finally(function (response) {
         // always executed
       });
   }, []);
