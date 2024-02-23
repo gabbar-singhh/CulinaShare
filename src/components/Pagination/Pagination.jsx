@@ -9,18 +9,16 @@ const Pagination = (props) => {
   }
 
   return (
-    <section>
+    <section className={styles.pagination_main}>
       {pages.map((pageNo, index) => {
         return (
-          <>
-            <button
-              className={styles.page_button}
-              onClick={() => props.setCurrentPage(pageNo)}
-              key={index}
-            >
-              {pageNo}
-            </button>
-          </>
+          <span
+            className={styles.page_button}
+            onClick={() => props.setCurrentPage(pageNo)}
+            key={index}
+          >
+            {pageNo}
+          </span>
         );
       })}
     </section>

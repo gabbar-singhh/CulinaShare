@@ -1,3 +1,21 @@
-.page_button{
-    background-color: red;
+.pagination_main {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding: 1em;
+    gap: 0.5em;
+    background-color: #fff;
+    box-shadow: 0 5px 15px #e3e3e3;
+}
+
+.page_button {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 1em;
+
+    background-color: var(--secondary-color);
+    padding: 5px 10px;
+    border-radius: 0.2em;
+    cursor: pointer;
+    font-weight: 600;
 }
