@@ -10,17 +10,18 @@ const Pagination = (props) => {
 
   return (
     <section className={styles.pagination_main}>
-      {pages.map((pageNo, index) => {
-        return (
-          <span
-            className={styles.page_button}
-            onClick={() => props.setCurrentPage(pageNo)}
-            key={index}
-          >
-            {pageNo}
-          </span>
-        );
-      })}
+      {pages.length > 1 &&
+        pages.map((pageNo, index) => {
+          return (
+            <span
+              className={styles.page_button}
+              onClick={() => props.setCurrentPage(pageNo)}
+              key={index}
+            >
+              {pageNo}
+            </span>
+          );
+        })}
     </section>
   );
 };
