@@ -9,8 +9,10 @@ const Feed = (props) => {
 
   const lastMealIndex = currentPage * mealsPerPage;
   const firstMealIndex = lastMealIndex - mealsPerPage;
-
-  const currentMeals = props.data.slice(firstMealIndex, lastMealIndex);
+  let currentMeals = [];
+  if (props.data) {
+    currentMeals = props.data.slice(firstMealIndex, lastMealIndex);
+  }
 
   useEffect(() => {
     console.log("props.data.length", props.data.length);
@@ -27,7 +29,7 @@ const Feed = (props) => {
               mealName={meal.strMeal}
             />
           ))}
-        </div>  
+        </div>
         <Pagination
           totalMeals={props.data.length}
           mealsPerPage={mealsPerPage}

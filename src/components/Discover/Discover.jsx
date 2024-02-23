@@ -118,6 +118,7 @@ const Discover = () => {
               { id: "dessert", isSelected: false, value: "dessert" },
             ]);
             setShowShowResults(true);
+            setNameVal(""); // making search box empty
           });
 
         break;
@@ -210,6 +211,7 @@ const Discover = () => {
             .finally(() => {
               // always executed
               setShowShowResults(true);
+              setNameVal("");
             });
         }
         break;
@@ -233,6 +235,7 @@ const Discover = () => {
             ]);
             setResultStr("top featured recipes");
             setShowShowResults(true);
+            setNameVal("");
           });
         break;
 
@@ -259,6 +262,7 @@ const Discover = () => {
               { id: "dessert", isSelected: false, value: "dessert" },
             ]);
             setShowShowResults(true);
+            setNameVal("");
           });
         break;
 
