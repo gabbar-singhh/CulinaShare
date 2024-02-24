@@ -26,6 +26,7 @@ const Feed = (props) => {
           {currentMeals.map((meal) => (
             <Cards
               key={meal.strId}
+              id={meal.idMeal}
               imgUrl={meal.strMealThumb}
               mealName={meal.strMeal}
             />

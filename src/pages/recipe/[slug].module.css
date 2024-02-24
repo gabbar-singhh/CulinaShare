@@ -1,0 +1,6 @@
+.meals_main {
+    height: 100vh;
+    padding-top: 80px;
+    scroll-snap-align: start;
+    font-family: var(--primary-font);
+}
