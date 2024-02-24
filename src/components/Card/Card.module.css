@@ -3,7 +3,7 @@
     position: relative;
     cursor: pointer;
     font-family: var(--primary-font);
-    padding: 1em;
+    padding: 1.2em;
     background-color: var(--primary-color);
     border-radius: 4px;
     transition: 0.3s ease-in-out;

@@ -16,20 +16,19 @@ const Feed = (props) => {
   }
 
   useEffect(() => {
-    console.log("props.data.length", props.data.length);
+    console.log(props.data);
   }, []);
 
-  if (props.data && props.data.length > 0) {
+  if (props.data) {
     return (
       <section className={styles.feed_main}>
         <div className={styles.feed_container}>
           {currentMeals.map((meal) => (
-            // <Cards
-            //   key={meal.strId}
-            //   imgUrl={meal.strMealThumb}
-            //   mealName={meal.strMeal}
-            // />
-            <SkeletonCard/>
+            <Cards
+              key={meal.strId}
+              imgUrl={meal.strMealThumb}
+              mealName={meal.strMeal}
+            />
           ))}
         </div>
         <Pagination
@@ -39,11 +38,29 @@ const Feed = (props) => {
         />
       </section>
     );
-  } else {
+  }
+
+  if (props.data === null) {
     return (
       <section className={styles.feed_main}>
         <div className={styles.feed_notFound}>
           <p>Result not found :(</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (props.isLoading) {
+    const num = [];
+    for (let i = 1; i <= 15; i++) {
+      num.push(i);
+    }
+    return (
+      <section className={styles.feed_main}>
+        <div className={styles.feed_container}>
+          {num.map(() => {
+            return <SkeletonCard />;
+          })}
         </div>
       </section>
     );

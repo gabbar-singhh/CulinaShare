@@ -6,6 +6,7 @@ import Feed from "../Feed/Feed";
 const Discover = () => {
   const [data, setData] = useState([]);
   const [resultStr, setResultStr] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // USER FILTER STATES
   const [categoryVal, setCategoryVal] = useState();
@@ -61,25 +62,30 @@ const Discover = () => {
     );
     setChipVal(item.id);
     setResultStr(item.id);
+    setIsLoading(true);
     getDataFromAPI({ type: "TOP_SEARCH", value: item.id });
   };
 
   const categoryDataHandler = (e) => {
     setCategoryVal(e.target.value);
     setResultStr(e.target.value);
+    setIsLoading(true);
     getDataFromAPI({ type: "CATEGORY", value: e.target.value });
   };
 
   const nameDataHandler = (e) => {
+    setIsLoading(true);
     setNameVal(e.target.value);
   };
 
   const featuredButtonHandler = async () => {
+    setIsLoading(true);
     getDataFromAPI({ type: "FEATURED", value: "" });
   };
 
   const randomButtonHandler = () => {
     setResultStr("a random reciple");
+    setIsLoading(true);
     getDataFromAPI({ type: "RANDOM", value: "" });
   };
 
@@ -119,6 +125,7 @@ const Discover = () => {
             ]);
             setShowShowResults(true);
             setNameVal(""); // making search box empty
+            setIsLoading(false);
           });
 
         break;
@@ -131,7 +138,6 @@ const Discover = () => {
           )
           .then((response) => {
             // handle success
-            console.log(`${fetch.value}`, response.data);
             setData(response.data.meals);
           })
           .catch((error) => {
@@ -149,6 +155,7 @@ const Discover = () => {
               { id: "dessert", isSelected: false, value: "dessert" },
             ]);
             setShowShowResults(true);
+            setIsLoading(false);
           });
 
         break;
@@ -177,6 +184,7 @@ const Discover = () => {
             .finally(() => {
               // always executed
               setShowShowResults(true);
+              setIsLoading(false);
             });
         } else if (fetch.value === "indian") {
           axios
@@ -193,6 +201,7 @@ const Discover = () => {
             .finally(() => {
               // always executed
               setShowShowResults(true);
+              setIsLoading(false);
             });
         } else if (fetch.value === "shawarma") {
           axios
@@ -212,6 +221,7 @@ const Discover = () => {
               // always executed
               setShowShowResults(true);
               setNameVal("");
+              setIsLoading(false);
             });
         }
         break;
@@ -236,6 +246,7 @@ const Discover = () => {
             setResultStr("top featured recipes");
             setShowShowResults(true);
             setNameVal("");
+            setIsLoading(false);
           });
         break;
 
@@ -263,6 +274,7 @@ const Discover = () => {
             ]);
             setShowShowResults(true);
             setNameVal("");
+            setIsLoading(false);
           });
         break;
 
@@ -304,11 +316,6 @@ const Discover = () => {
       "53073",
       "52804",
       "53006",
-      "52805",
-      "52820",
-      "52829",
-      "53052",
-      "52785",
     ];
 
     const allMeals = await Promise.all(
@@ -412,7 +419,7 @@ const Discover = () => {
             </p>
           </div>
         </div>
-        <Feed data={data} />
+        <Feed data={data} isLoading={isLoading} />
       </section>
     </>
   );
