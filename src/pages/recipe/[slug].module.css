@@ -1,6 +1,63 @@
-.meals_main {
+.page_main {
     height: 100vh;
     padding-top: 80px;
     scroll-snap-align: start;
     font-family: var(--primary-font);
+}
+
+.page_container {
+    margin: 2.4em 3em;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 2em;
+    cursor: default;
+    font-family: var(--primary-font);
+}
+
+.page_container .page_left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.page_container .page_right {
+    text-align: center;
+}
+
+.page_left .mealName {
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-size: 2.4em;
+    font-family: var(--logo-font);
+}
+
+.page_left .mealArea {
+    padding-left: 0.5em;
+    color: var(--secondary-color);
+    font-size: 14px;
+    margin-bottom: 2em;
+}
+
+.mealInstructions {
+    font-weight: 500;
+    font-size: 1em;
+    padding-left: 0.5em;
+}
+
+.mealInstructions h2 {
+    padding-left: 0;
+    text-transform: capitalize;
+    color: var(--secondary-color);
+    font-size: 1.5em;
+}
+
+.mealInstructions ol li {
+    margin-top: 0.5em;
+}
+
+.page_right img {
+    border-radius: 4px;
+    height: 400px;
 }
