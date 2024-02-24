@@ -21,15 +21,6 @@
     border-radius: 2px;
 }
 
-.card_container .card_mealArea {
-    position: absolute;
-    right: 1em;
-    bottom: 3em;
-    background-color: #fff;
-    color: var(--secondary-color);
-    font-weight: 500;
-}
-
 .card_container .card_mealName {
     font-weight: 600;
     text-align: center;

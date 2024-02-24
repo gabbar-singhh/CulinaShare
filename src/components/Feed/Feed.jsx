@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Feed.module.css";
 import Cards from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
+import SkeletonCard from "../SkeletonCard/SkeletonCard";
 
 const Feed = (props) => {
   const [currentPage, setcurrentPage] = useState(1);
@@ -23,11 +24,12 @@ const Feed = (props) => {
       <section className={styles.feed_main}>
         <div className={styles.feed_container}>
           {currentMeals.map((meal) => (
-            <Cards
-              key={meal.strId}
-              imgUrl={meal.strMealThumb}
-              mealName={meal.strMeal}
-            />
+            // <Cards
+            //   key={meal.strId}
+            //   imgUrl={meal.strMealThumb}
+            //   mealName={meal.strMeal}
+            // />
+            <SkeletonCard/>
           ))}
         </div>
         <Pagination

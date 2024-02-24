@@ -1,0 +1,11 @@
+.card_container {
+    cursor: default;
+    padding: 1.1em 1em;
+    border-radius: 4px;
+    width: 250px;
+    border: 1px solid #ebebeba1;
+}
+
+.card_container .card_mealName {
+    margin: 1em 0;
+}
