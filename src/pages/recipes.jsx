@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import styles from "../styles/recipes.module.css";
 import Discover from "@/components/Discover/Discover";
 import NavigationBar from "@/components/Navigation/NavigationBar";

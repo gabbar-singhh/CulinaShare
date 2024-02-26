@@ -27,7 +27,7 @@ const Feed = (props) => {
             <Cards
               key={meal.strId}
               id={meal.idMeal}
-              imgUrl={meal.strMealThumb}
+              imgUrl={meal.strMealThumb || "loading"}
               mealName={meal.strMeal}
             />
           ))}

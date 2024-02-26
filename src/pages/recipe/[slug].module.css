@@ -1,63 +1,167 @@
 .page_main {
-    height: 100vh;
-    padding-top: 80px;
-    scroll-snap-align: start;
-    font-family: var(--primary-font);
+  padding-top: 80px;
+  scroll-snap-align: start;
+  font-family: var(--primary-font);
+  background-color: #fff;
+  margin: 3em 0;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page_container {
-    margin: 2.4em 3em;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    gap: 2em;
-    cursor: default;
-    font-family: var(--primary-font);
+  font-family: var(--primary-font);
+  margin: 1em;
+  cursor: default;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 0 15px #e3e3e3;
+  padding: 3em 2em;
 }
 
-.page_container .page_left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+.mealName {
+  color: var(--primary-color);
+  text-transform: uppercase;
+  z-index: 3;
+  font-size: 2.1em;
+  transform: scale(1, 1.5);
 }
 
-.page_container .page_right {
-    text-align: center;
+.mealArea {
+  color: var(--secondary-color);
+  font-size: 14px;
+  margin-bottom: 2em;
 }
 
-.page_left .mealName {
-    color: var(--primary-color);
-    text-transform: uppercase;
-    font-size: 2.4em;
-    font-family: var(--logo-font);
+.mealImg {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
 }
 
-.page_left .mealArea {
-    padding-left: 0.5em;
-    color: var(--secondary-color);
-    font-size: 14px;
-    margin-bottom: 2em;
+.mealImg img {
+  width: 60%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 4px;
 }
 
-.mealInstructions {
-    font-weight: 500;
-    font-size: 1em;
-    padding-left: 0.5em;
+.mealImg img:hover {
+  transform: scale(1.02);
 }
 
-.mealInstructions h2 {
-    padding-left: 0;
-    text-transform: capitalize;
-    color: var(--secondary-color);
-    font-size: 1.5em;
+.mealprepare,
+.mealInstructions,
+.mealSource,
+.mealVideo,
+.mealSocialShare {
+  font-weight: 500;
+  font-size: 1em;
+  padding-left: 0.5em;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mealprepare div,
+.mealInstructions div,
+.mealSource div,
+.mealVideo div,
+.mealSocialShare div {
+  width: 60%;
+}
+
+.mealprepare h2,
+.mealInstructions h2,
+.mealSource h2,
+.mealVideo h2,
+.mealSocialShare h2 {
+  margin-top: 1.5em;
+  padding-left: 0;
+  text-transform: capitalize;
+  color: var(--secondary-color);
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.mealprepare ul,
+.mealSocialShare ul {
+  list-style-type: none;
+}
+
+.mealInstructions ol {
+  list-style-type: decimal;
+}
+
+.mealprepare ul li,
+.mealInstructions ol li {
+  text-transform: capitalize;
+  text-align: start;
+  margin-top: 0.4em;
+  color: #232323;
+  font-weight: 500;
+  font-size: 1em;
 }
 
 .mealInstructions ol li {
-    margin-top: 0.5em;
+  text-transform: none;
 }
 
-.page_right img {
-    border-radius: 4px;
-    height: 400px;
+.mealSource .sourceText {
+  margin-top: 0.4em;
+  color: #232323;
+  font-weight: 500;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-decoration: underline;
 }
+
+.mealVideo .mealPlayer {
+  margin-top: 1em;
+}
+
+.socialIcons {
+  margin-top: 0.4em;
+  display: flex;
+  gap: 1.2em;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.socialIcons li {
+  cursor: pointer;
+  background-color: #ff91031c;
+  border-radius: 5px;
+  padding: 0.7em;
+  transition: 0.3s ease-in-out;
+}
+
+.socialIcons li:hover {
+  transform: scale(1.03);
+  background-color: #ff91035c;
+}
+
+.socialIcons li img {
+  display: block;
+  height: 26px;
+  width: auto;
+} 

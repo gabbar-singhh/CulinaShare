@@ -5,6 +5,9 @@ import styles from "./[slug].module.css";
 import NavigationBar from "@/components/Navigation/NavigationBar";
 import seperateLines from "@/utils/seperateLines";
 import formatRecipeIngredients from "@/utils/formatRecipeIngredients";
+import extractDomain from "extract-domain";
+import Link from "next/link";
+import ReactPlayer from "react-player";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
@@ -15,17 +18,53 @@ export default function BlogPost({ meal }) {
     return <div>Loading...</div>;
   }
 
+  const copyToClipboardHandler = () => {
+    navigator.clipboard.writeText(window.location.href);
+  };
+
+  const shareToFacebookHandler = () => {
+    const url = `http://www.facebook.com/share.php?u=https://culina-share.vercel.app/recipe/${slug}`;
+
+    window.open(url, "_blank", "popup");
+  };
+
+  const shareToEmailHandler = () => {
+    const defaultBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, i found this   amazing ${
+      recipe.strMeal
+    } at https://culina-share.vercel.app/recipe/${slug} \n \nThanks!`;
+
+    const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to&body=${encodeURIComponent(
+      defaultBody + "\n\n"
+    )}`;
+
+    window.open(mailtoLink, "_blank", "popup");
+  };
+
+  const shareToTwitterHandler = () => {
+    const defaultBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, I found this amazing ${
+      recipe.strMeal
+    } at https://culina-share.vercel.app/recipe/${slug}`;
+
+    const tweetText = encodeURIComponent(defaultBody);
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+
+    window.open(tweetUrl, "_blank", "popup");
+  };
+
   return (
     <section className={styles.page_main}>
       <NavigationBar style={{ backgroundColor: "var(--primary-color)" }} />
 
       <div className={styles.page_container}>
-        <div className={styles.page_left}>
-          <h1 className={styles.mealName}>{recipe.strMeal}</h1>
-          <h3 className={styles.mealArea}>{recipe.strArea}</h3>
+        <h1 className={styles.mealName}>{recipe.strMeal}</h1>
+        <h3 className={styles.mealArea}>{recipe.strArea}</h3>
 
-          <div className={styles.mealIngredients}>
-            <h2>Ingredients you'll need</h2>
+        <span className={styles.mealImg}>
+          <img src={recipe.strMealThumb} alt="meal img" />
+        </span>
+        <div className={styles.mealprepare}>
+          <div>
+            <h2>ingredients you'll need</h2>
             <ul>
               {formatRecipeIngredients(recipe).map((item) => {
                 return (
@@ -36,8 +75,10 @@ export default function BlogPost({ meal }) {
               })}
             </ul>
           </div>
+        </div>
 
-          <div className={styles.mealInstructions}>
+        <div className={styles.mealInstructions}>
+          <div>
             <h2>steps to prepare</h2>
             <ol>
               {seperateLines(recipe.strInstructions).map((step, index) => {
@@ -47,8 +88,49 @@ export default function BlogPost({ meal }) {
           </div>
         </div>
 
-        <div className={styles.page_right}>
-          <img src={recipe.strMealThumb} alt="meal img" />
+        <div className={styles.mealVideo}>
+          <div>
+            <h2>hands-on walkthrough</h2>
+
+            <ReactPlayer
+              className={styles.mealPlayer}
+              height={"500px"}
+              width={"100%"}
+              url={recipe.strYoutube}
+            />
+          </div>
+        </div>
+
+        {recipe.strSource && (
+          <div className={styles.mealSource}>
+            <div>
+              <h2>source</h2>
+
+              <Link href={recipe.strSource} className={styles.sourceText}>
+                {extractDomain(recipe.strSource)}
+              </Link>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.mealSocialShare}>
+          <div>
+            <h2>Share: </h2>
+            <ul className={styles.socialIcons}>
+              <li onClick={copyToClipboardHandler}>
+                <img src="/icons/copy.png" alt="clipboard icon" />
+              </li>
+              <li onClick={shareToFacebookHandler}>
+                <img src="/icons/facebook.png" alt="facebook icon" />
+              </li>
+              <li onClick={shareToEmailHandler}>
+                <img src="/icons/email.png" alt="gmail icon" />
+              </li>
+              <li onClick={shareToTwitterHandler}>
+                <img src="/icons/twitter.png" alt="twitter icon" />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -67,112 +149,3 @@ export async function getServerSideProps({ params }) {
     props: { meal },
   };
 }
-
-/*
-Img: strMealThumb
-area: strArea
-Instructions: strInstructions
-Ingredients: strIngredient1 … 20
-measurements: strMeasure1 … 20
-Yt: strYoutube
-Source: strSource
-
-*/
-
-// const object1 = {
-//   strIngredient1: "Olive Oil",
-//   strIngredient2: "Onion",
-//   strIngredient3: "Chicken Breast",
-//   strIngredient4: "Ginger",
-//   strIngredient5: "Harissa Spice",
-//   strIngredient6: "Dried Apricots",
-//   strIngredient7: "Chickpeas",
-//   strIngredient8: "Couscous",
-//   strIngredient9: "Chicken Stock",
-//   strIngredient10: "Coriander",
-//   strIngredient11: "",
-//   strIngredient12: "",
-//   strIngredient13: "",
-//   strIngredient14: "",
-//   strIngredient15: "",
-//   strIngredient16: "",
-//   strIngredient17: "abc",
-//   strIngredient18: "",
-//   strIngredient19: "xyz",
-//   strIngredient20: "",
-//   strMeasure1: "1 tbsp",
-//   strMeasure2: "1 chopped",
-//   strMeasure3: "200g",
-//   strMeasure4: "pinch",
-//   strMeasure5: "2 tblsp ",
-//   strMeasure6: "10",
-//   strMeasure7: "220g",
-//   strMeasure8: "200g",
-//   strMeasure9: "200ml",
-//   strMeasure10: "Handful",
-//   strMeasure11: "",
-//   strMeasure12: "",
-//   strMeasure13: "",
-//   strMeasure14: "",
-//   strMeasure15: "",
-//   strMeasure16: "",
-//   strMeasure17: "",
-//   strMeasure18: "",
-//   strMeasure19: "",
-//   strMeasure20: "",
-
-//   // more objects
-// };
-
-// const object2 = [
-//   {
-//     strIngredient1: "Olive Oil",
-//     strMeasure1: "1 tbsp",
-//   },
-//   {
-//     strIngredient2: "Onion",
-//     strMeasure2: "1 chopped",
-//   },
-//   {
-//     strIngredient3: "Chicken Breast",
-//     strMeasure3: "200g",
-//   },
-//   {
-//     strIngredient4: "Ginger",
-//     strMeasure4: "pinch",
-//   },
-//   {
-//     strIngredient5: "Harissa Spice",
-//     strMeasure5: "2 tblsp ",
-//   },
-//   {
-//     strIngredient6: "Dried Apricots",
-//     strMeasure6: "10",
-//   },
-//   {
-//     strIngredient7: "Chickpeas",
-//     strMeasure7: "220g",
-//   },
-//   {
-//     strIngredient8: "Couscous",
-//     strMeasure8: "200g",
-//   },
-//   {
-//     strIngredient9: "Chicken Stock",
-//     strMeasure9: "200ml",
-//   },
-//   {
-//     strIngredient10: "Coriander",
-//     strMeasure10: "Handful",
-//   },
-//   {
-//     strIngredient17: "abc",
-//     strMeasure17: "-",
-//   },
-//   {
-//     strIngredient19: "xyz",
-//     strMeasure19: "-",
-//   },
-
-//   // more objects
-// ];

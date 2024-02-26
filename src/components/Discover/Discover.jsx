@@ -84,7 +84,7 @@ const Discover = () => {
   };
 
   const randomButtonHandler = () => {
-    setResultStr("a random reciple");
+    setResultStr("a random recipe");
     setIsLoading(true);
     getDataFromAPI({ type: "RANDOM", value: "" });
   };
