@@ -7,20 +7,16 @@ import seperateLines from "@/utils/seperateLines";
 import formatRecipeIngredients from "@/utils/formatRecipeIngredients";
 import extractDomain from "extract-domain";
 import Link from "next/link";
-import ReactPlayer from "react-player";
-import { Tooltip } from "@radix-ui/themes";
 import { useState } from "react";
+import { Tooltip } from "antd";
+import getYouTubeID from "get-youtube-id";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
   const { slug } = router.query;
-  const recipe = meal.meals[0];
-
   const [clipCopyText, setClipCopyText] = useState("click to copy");
 
-  if (!meal) {
-    return <div>Loading...</div>;
-  }
+  const recipe = meal.meals[0];
 
   const copyToClipboardHandler = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -60,98 +56,102 @@ export default function BlogPost({ meal }) {
     window.open(tweetUrl, "_blank", "popup");
   };
 
-  return (
-    <section className={styles.page_main}>
-      <NavigationBar style={{ backgroundColor: "var(--primary-color)" }} />
+  if (meal) {
+    return (
+      <section className={styles.page_main}>
+        <NavigationBar style={{ backgroundColor: "var(--primary-color)" }} />
 
-      <div className={styles.page_container}>
-        <h1 className={styles.mealName}>{recipe.strMeal}</h1>
-        <h3 className={styles.mealArea}>{recipe.strArea}</h3>
+        <div className={styles.page_container}>
+          <h1 className={styles.mealName}>{recipe.strMeal}</h1>
+          <h3 className={styles.mealArea}>{recipe.strArea}</h3>
 
-        <span className={styles.mealImg}>
-          <img src={recipe.strMealThumb} alt="meal img" />
-        </span>
-        <div className={styles.mealprepare}>
-          <div>
-            <h2>ingredients you'll need</h2>
-            <ul>
-              {formatRecipeIngredients(recipe).map((item) => {
-                return (
-                  <li>
-                    {item.strIngredient}: {item.strMeasure}
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-
-        <div className={styles.mealInstructions}>
-          <div>
-            <h2>steps to prepare</h2>
-            <ol>
-              {seperateLines(recipe.strInstructions).map((step, index) => {
-                return <li key={index}>{step}</li>;
-              })}
-            </ol>
-          </div>
-        </div>
-
-        <div className={styles.mealVideo}>
-          <div>
-            <h2>hands-on walkthrough</h2>
-
-            <ReactPlayer
-              className={styles.mealPlayer}
-              height={"500px"}
-              width={"100%"}
-              url={recipe.strYoutube}
-            />
-          </div>
-        </div>
-
-        {recipe.strSource && (
-          <div className={styles.mealSource}>
+          <span className={styles.mealImg}>
+            <img src={recipe.strMealThumb} alt="meal img" />
+          </span>
+          <div className={styles.mealprepare}>
             <div>
-              <h2>source</h2>
-
-              <Link href={recipe.strSource} className={styles.sourceText}>
-                {extractDomain(recipe.strSource)}
-              </Link>
+              <h2>ingredients you'll need</h2>
+              <ul>
+                {formatRecipeIngredients(recipe).map((item, index) => {
+                  return (
+                    <li key={index}>
+                      {item.strIngredient}: {item.strMeasure}
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
-        )}
 
-        <div className={styles.mealSocialShare}>
-          <div>
-            <h2>Share: </h2>
-            <ul className={styles.socialIcons}>
-              <Tooltip content={clipCopyText}>
-                <li onClick={copyToClipboardHandler}>
-                  <img src="/icons/copy.png" alt="clipboard icon" />
-                </li>
-              </Tooltip>
-              <Tooltip content="share on facebook">
-                <li onClick={shareToFacebookHandler}>
-                  <img src="/icons/facebook.png" alt="facebook icon" />
-                </li>
-              </Tooltip>
-              <Tooltip side="top" className="share via email">
-                <li onClick={shareToEmailHandler}>
-                  <img src="/icons/email.png" alt="email icon" />
-                </li>
-              </Tooltip>
-              <Tooltip content="share on twitter">
-                <li onClick={shareToTwitterHandler}>
-                  <img src="/icons/twitter.png" alt="twitter icon" />
-                </li>
-              </Tooltip>
-            </ul>
+          <div className={styles.mealInstructions}>
+            <div>
+              <h2>steps to prepare</h2>
+              <ol>
+                {seperateLines(recipe.strInstructions).map((step, index) => {
+                  return <li key={index}>{step}</li>;
+                })}
+              </ol>
+            </div>
+          </div>
+
+          <div className={styles.mealVideo}>
+            <div>
+              <h2>hands-on walkthrough</h2>
+
+              <iframe
+                width="100%"
+                height="500px"
+                className={styles.mealPlayer}
+                src={`https://www.youtube.com/embed/${getYouTubeID(
+                  recipe.strYoutube
+                )}`}
+              ></iframe>
+            </div>
+          </div>
+
+          {recipe.strSource && (
+            <div className={styles.mealSource}>
+              <div>
+                <h2>source</h2>
+
+                <Link href={recipe.strSource} className={styles.sourceText}>
+                  {extractDomain(recipe.strSource)}
+                </Link>
+              </div>
+            </div>
+          )}
+
+          <div className={styles.mealSocialShare}>
+            <div>
+              <h2>Share: </h2>
+              <ul className={styles.socialIcons}>
+                <Tooltip placement="top" title={clipCopyText}>
+                  <li onClick={copyToClipboardHandler}>
+                    <img src="/icons/copy.png" alt="clipboard icon" />
+                  </li>
+                </Tooltip>
+                <Tooltip placement="top" title="share on facebook">
+                  <li onClick={shareToFacebookHandler}>
+                    <img src="/icons/facebook.png" alt="facebook icon" />
+                  </li>
+                </Tooltip>
+                <Tooltip placement="top" title="share via email">
+                  <li onClick={shareToEmailHandler}>
+                    <img src="/icons/email.png" alt="email icon" />
+                  </li>
+                </Tooltip>
+                <Tooltip placement="top" title="share on twitter">
+                  <li onClick={shareToTwitterHandler}>
+                    <img src="/icons/twitter.png" alt="twitter icon" />
+                  </li>
+                </Tooltip>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
 }
 
 export async function getServerSideProps({ params }) {
@@ -160,7 +160,7 @@ export async function getServerSideProps({ params }) {
   const response = await fetch(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${slug}`
   );
-  const meal = await response.json();
+  let meal = await response.json();
 
   return {
     props: { meal },
