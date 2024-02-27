@@ -36,7 +36,7 @@ const Discover = () => {
 
   useEffect(() => {
     axios
-      .get("https://www.themealdb.com/api/json/v1/1/search.php?f=t")
+      .get("https://www.themealdb.com/api/json/v1/1/search.php?f=l")
       .then(function (response) {
         // handle success
         console.log("response", response.data);
@@ -191,7 +191,7 @@ const Discover = () => {
             .get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=indian`)
             .then((response) => {
               // handle success
-              console.log("first: ", response.data.meals)
+              console.log("first: ", response.data.meals);
               setData(response.data.meals);
             })
             .catch((error) => {

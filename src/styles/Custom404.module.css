@@ -1,0 +1,23 @@
+.notFound_main {
+    padding-top: 15px;
+    scroll-snap-align: start;
+    background-color: #fff;
+    margin: 3em 0;
+    width: 100%;
+}
+
+.notFound_div {
+    margin: 3em 0;
+}
+
+.text404 {
+    height: 60vh;
+    font-size: 3.8em;
+    font-family: var(--primary-font);
+    text-transform: capitalize;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+}
