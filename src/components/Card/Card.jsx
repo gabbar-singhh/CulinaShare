@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Card.module.css";
 import spliceText from "@/utils/spliceText";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addFavourite,
+  removeFavourite,
+} from "@/features/favourites/favouritesSlice";
+import checkIfFavourite from "@/utils/checkIfFavourite";
 
 const Cards = (props) => {
+  const [favoriteButtonText, setFavoriteButtonText] =
+    useState("Add to Favourites");
+
+  const favorites = useSelector((state) => state.favouritesReducer.favourites);
+
   const redirectToUrl = () => {
     window.location.href = `/recipes/${props.id}`;
   };
-  const addToFavorites = () => {
-    console.log("🤡", props.id);
+
+  const dispatch = useDispatch();
+
+  const addToFavouritesHandler = () => {
+    dispatch(addFavourite({ mealId: props.id }));
+    setFavoriteButtonText("Added To Favourites");
+
+    setTimeout(() => {
+      setFavoriteButtonText("Add To Favourites");
+    }, 300);
   };
 
   return (
@@ -22,10 +41,43 @@ const Cards = (props) => {
         <p className={styles.card_mealName} onClick={redirectToUrl}>
           {spliceText(props.mealName)}
         </p>
-        <div className={styles.card_favbutton} onClick={addToFavorites}>
-          <img src="/icons/star-yellow.png" alt="star icon" />
-          <p>Add to Favourites</p>
-        </div>
+        {props.isFav && <p className={styles.card_mealSaved}>saved </p>}
+
+        {props.isFav ? (
+          <>
+            <div
+              className={styles.card_favbutton}
+              onClick={() => {
+                props.removeFavouritesHandler(props.id);
+              }}
+            >
+              <img src="/icons/star-yellow.png" alt="star icon" />
+
+              <p>Remove from Favorites</p>
+            </div>
+          </>
+        ) : (
+          <>
+            {checkIfFavourite(props.id, favorites) ? (
+              <div
+                className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+              >
+                <img src="/icons/star-yellow.png" alt="star icon" />
+
+                <p>Added to Favourites</p>
+              </div>
+            ) : (
+              <div
+                className={styles.card_favbutton}
+                onClick={addToFavouritesHandler}
+              >
+                <img src="/icons/star-yellow.png" alt="star icon" />
+
+                <p>{favoriteButtonText}</p>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

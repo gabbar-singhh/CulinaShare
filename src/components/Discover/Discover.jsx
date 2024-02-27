@@ -420,7 +420,7 @@ const Discover = () => {
             </p>
           </div>
         </div>
-        <Feed data={data} isLoading={isLoading} />
+        <Feed data={data} isLoading={isLoading} isFav={false} />
       </section>
     </>
   );

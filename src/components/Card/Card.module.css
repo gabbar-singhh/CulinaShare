@@ -11,7 +11,6 @@
 }
 
 .card_container:hover {
-    transform: scale(1.02);
     background-color: #ff9100d4;
 }
 
@@ -24,8 +23,15 @@
 .card_container .card_mealName {
     font-weight: 600;
     text-align: center;
-    padding: 0.5em 0.5em 0.5em 0.5em;
+    padding: 0.5em 0.5em 0 0.5em;
     color: #fff;
+}
+
+.card_container .card_mealSaved{
+    font-weight: 600;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
 }
 
 .card_container .card_favbutton {
@@ -38,6 +44,16 @@
     justify-content: center;
     gap: 0.4em;
     padding: 0.5em;
+    transition: 0.3s ease-in-out;
+}
+
+.card_container .card_favbutton:hover {
+    background-color: #dfdfdf;
+}
+
+.yes_favourite {
+    background-color: #dfdfdf !important;
+    cursor: default;
 }
 
 .card_container .card_favbutton img {

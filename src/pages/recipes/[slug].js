@@ -8,8 +8,8 @@ import formatRecipeIngredients from "@/utils/formatRecipeIngredients";
 import extractDomain from "extract-domain";
 import Link from "next/link";
 import { useState } from "react";
-import { Tooltip } from "antd";
 import getYouTubeID from "get-youtube-id";
+import { Tooltip } from "@radix-ui/themes";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
@@ -106,7 +106,7 @@ export default function BlogPost({ meal }) {
                   recipe.strYoutube
                 )}`}
               ></iframe>
-            </div>
+            </div>  
           </div>
 
           {recipe.strSource && (
@@ -125,22 +125,22 @@ export default function BlogPost({ meal }) {
             <div>
               <h2>Share: </h2>
               <ul className={styles.socialIcons}>
-                <Tooltip placement="top" title={clipCopyText}>
+                <Tooltip side="top" content={clipCopyText}>
                   <li onClick={copyToClipboardHandler}>
                     <img src="/icons/copy.png" alt="clipboard icon" />
                   </li>
                 </Tooltip>
-                <Tooltip placement="top" title="share on facebook">
+                <Tooltip side="top" content="share on facebook">
                   <li onClick={shareToFacebookHandler}>
                     <img src="/icons/facebook.png" alt="facebook icon" />
                   </li>
                 </Tooltip>
-                <Tooltip placement="top" title="share via email">
+                <Tooltip side="top" content="share via email">
                   <li onClick={shareToEmailHandler}>
                     <img src="/icons/email.png" alt="email icon" />
                   </li>
                 </Tooltip>
-                <Tooltip placement="top" title="share on twitter">
+                <Tooltip side="top" content="share on twitter">
                   <li onClick={shareToTwitterHandler}>
                     <img src="/icons/twitter.png" alt="twitter icon" />
                   </li>

@@ -15,7 +15,7 @@ const NavigationBar = (props) => {
       if (scrollTop > threshold) {
         // document.body.style.backgroundColor = "#ac51ff"; // page end color
       } else {
-        document.body.style.backgroundColor = "#ff9100"; // page start color
+        document.body.style.backgroundColor = ""; // page start color
       }
 
       if (scrollTop > lastScrollTop) {
@@ -34,12 +34,7 @@ const NavigationBar = (props) => {
     };
   }, []);
   return (
-    <nav
-      className={styles.nav}
-      id="nav"
-      ref={navbarRef}
-      style={props.style}
-    >
+    <nav className={styles.nav} id="nav" ref={navbarRef} style={props.style}>
       <ul className={styles.nav_list}>
         <li className={"underline_effect"}>
           <Link href="/">Home</Link>
@@ -53,8 +48,10 @@ const NavigationBar = (props) => {
         <li className={"underline_effect"}>
           <Link href="/contribute">Contribute</Link>
         </li>
-        <li className="">
-          <Link href="/favorites">Favorites</Link>
+        <li className={styles.fav_btn}>
+          <Link href="/favorites" className={styles.fav_btn_text}>
+            Favorites
+          </Link>
         </li>
       </ul>
     </nav>

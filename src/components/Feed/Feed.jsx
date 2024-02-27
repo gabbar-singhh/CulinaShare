@@ -29,6 +29,8 @@ const Feed = (props) => {
               id={meal.idMeal}
               imgUrl={meal.strMealThumb}
               mealName={meal.strMeal}
+              isFav={props.isFav}
+              removeFavouritesHandler={props.onClickRemove}
             />
           ))}
         </div>

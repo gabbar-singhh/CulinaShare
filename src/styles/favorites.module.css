@@ -1,3 +1,37 @@
-.favorites_div{
-    margin: 3em 0;
+.favorites_main {
+    height: 100vh;
+    padding-top: 80px;
+    scroll-snap-align: start;
+    font-family: var(--primary-font);
+    margin: 0;
+}
+
+.favorites_container {
+    margin: 1em 0;
+    background-color: #fff;
+    margin: 1.5em;
+    color: var(--secondary-color);
+}
+
+.favorites_container h1 {
+    text-transform: capitalize;
+    color: var(--secondary-color);
+    font-size: 1.8em;
+    margin-bottom: 1em;
+}
+
+.favorites_container .favorites_noData {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 15px #e3e3e3;
+    padding: 3em 2em;
+    height: 60vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favorites_noData p {
+    font-weight: 600;
 }
