@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Feed.module.css";
 import Cards from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
@@ -15,11 +15,23 @@ const Feed = (props) => {
     currentMeals = props.data.slice(firstMealIndex, lastMealIndex);
   }
 
-  useEffect(() => {
-    console.log("props.data:  ", props.data);
-  }, []);
+  if (props.isLoading) {
+    const num = [];
+    for (let i = 1; i <= 15; i++) {
+      num.push(i);
+    }
+    return (
+      <section className={styles.feed_main}>
+        <div className={styles.feed_container}>
+          {num.map(() => {
+            return <SkeletonCard />;
+          })}
+        </div>
+      </section>
+    );
+  }
 
-  if (props.data) {
+  if (props.data.length >= 1) {
     return (
       <section className={styles.feed_main}>
         <div className={styles.feed_container}>
@@ -41,29 +53,11 @@ const Feed = (props) => {
         />
       </section>
     );
-  }
-
-  if (props.data === null) {
+  } else {
     return (
       <section className={styles.feed_main}>
         <div className={styles.feed_notFound}>
           <p>Result not found :(</p>
-        </div>
-      </section>
-    );
-  }
-
-  if (props.isLoading) {
-    const num = [];
-    for (let i = 1; i <= 15; i++) {
-      num.push(i);
-    }
-    return (
-      <section className={styles.feed_main}>
-        <div className={styles.feed_container}>
-          {num.map(() => {
-            return <SkeletonCard />;
-          })}
         </div>
       </section>
     );

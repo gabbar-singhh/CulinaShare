@@ -35,6 +35,7 @@ const Discover = () => {
   ]);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get("https://www.themealdb.com/api/json/v1/1/search.php?f=l")
       .then(function (response) {
@@ -49,6 +50,7 @@ const Discover = () => {
       .finally(function (response) {
         // always executed
       });
+    setIsLoading(false);
   }, []);
 
   const setActiveChip = (item) => {
@@ -138,7 +140,12 @@ const Discover = () => {
           )
           .then((response) => {
             // handle success
-            setData(response.data.meals);
+            console.log("response.data.meals ", response.data.meals);
+            if (response.data.meals === null) {
+              setData([]);
+            } else {
+              setData(response.data.meals);
+            }
           })
           .catch((error) => {
             // handle error

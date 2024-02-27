@@ -35,24 +35,24 @@ const NavigationBar = (props) => {
   }, []);
   return (
     <nav className={styles.nav} id="nav" ref={navbarRef} style={props.style}>
-      <ul className={styles.nav_list}>
-        <li className={"underline_effect"}>
-          <Link href="/">Home</Link>
-        </li>
-        <li className={"underline_effect"}>
-          <Link href="/recipes">Recipes</Link>
-        </li>
-        <li>
-          <Link href="/">Culina Share</Link>
-        </li>
-        <li className={"underline_effect"}>
-          <Link href="/contribute">Contribute</Link>
-        </li>
-        <li className={styles.fav_btn}>
-          <Link href="/favorites" className={styles.fav_btn_text}>
+      <ul className={`${styles.nav_list}`}>
+        <Link href="/">
+          <li className={`underline_effect ${styles.li_item}`}>Home</li>
+        </Link>
+        <Link href="/recipes">
+          <li className={`underline_effect ${styles.li_item}`}>Recipes</li>
+        </Link>
+        <Link href="/" className={`${styles.li_item}`} id={styles.culina_share}>
+          <li>Culina Share</li>
+        </Link>
+        <Link href="/contribute">
+          <li className={`underline_effect ${styles.li_item}`}>Contribute</li>
+        </Link>
+        <Link href="/favorites">
+          <li className={`${styles.fav_btn_text} ${styles.li_item}`}>
             Favorites
-          </Link>
-        </li>
+          </li>
+        </Link>
       </ul>
     </nav>
   );
