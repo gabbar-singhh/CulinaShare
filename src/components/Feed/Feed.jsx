@@ -16,7 +16,7 @@ const Feed = (props) => {
   }
 
   useEffect(() => {
-    console.log(props.data);
+    console.log("props.data:  ", props.data);
   }, []);
 
   if (props.data) {
@@ -27,7 +27,7 @@ const Feed = (props) => {
             <Cards
               key={meal.strId}
               id={meal.idMeal}
-              imgUrl={meal.strMealThumb || "loading"}
+              imgUrl={meal.strMealThumb}
               mealName={meal.strMeal}
             />
           ))}

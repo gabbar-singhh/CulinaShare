@@ -191,6 +191,7 @@ const Discover = () => {
             .get(`https://www.themealdb.com/api/json/v1/1/filter.php?a=indian`)
             .then((response) => {
               // handle success
+              console.log("first: ", response.data.meals)
               setData(response.data.meals);
             })
             .catch((error) => {

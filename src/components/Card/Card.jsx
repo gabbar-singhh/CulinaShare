@@ -4,7 +4,7 @@ import spliceText from "@/utils/spliceText";
 
 const Cards = (props) => {
   function redirectToUrl() {
-    window.location.href = `/recipe/${props.id}`;
+    window.location.href = `/recipes/${props.id}`;
   }
   return (
     <div className={styles.card_main} onClick={redirectToUrl}>

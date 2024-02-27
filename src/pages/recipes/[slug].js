@@ -8,11 +8,15 @@ import formatRecipeIngredients from "@/utils/formatRecipeIngredients";
 import extractDomain from "extract-domain";
 import Link from "next/link";
 import ReactPlayer from "react-player";
+import { Tooltip } from "@radix-ui/themes";
+import { useState } from "react";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
   const { slug } = router.query;
   const recipe = meal.meals[0];
+
+  const [clipCopyText, setClipCopyText] = useState("click to copy");
 
   if (!meal) {
     return <div>Loading...</div>;
@@ -20,6 +24,11 @@ export default function BlogPost({ meal }) {
 
   const copyToClipboardHandler = () => {
     navigator.clipboard.writeText(window.location.href);
+    setClipCopyText("copied!");
+
+    setTimeout(() => {
+      setClipCopyText("click to copy");
+    }, 5000);
   };
 
   const shareToFacebookHandler = () => {
@@ -117,18 +126,26 @@ export default function BlogPost({ meal }) {
           <div>
             <h2>Share: </h2>
             <ul className={styles.socialIcons}>
-              <li onClick={copyToClipboardHandler}>
-                <img src="/icons/copy.png" alt="clipboard icon" />
-              </li>
-              <li onClick={shareToFacebookHandler}>
-                <img src="/icons/facebook.png" alt="facebook icon" />
-              </li>
-              <li onClick={shareToEmailHandler}>
-                <img src="/icons/email.png" alt="gmail icon" />
-              </li>
-              <li onClick={shareToTwitterHandler}>
-                <img src="/icons/twitter.png" alt="twitter icon" />
-              </li>
+              <Tooltip content={clipCopyText}>
+                <li onClick={copyToClipboardHandler}>
+                  <img src="/icons/copy.png" alt="clipboard icon" />
+                </li>
+              </Tooltip>
+              <Tooltip content="share on facebook">
+                <li onClick={shareToFacebookHandler}>
+                  <img src="/icons/facebook.png" alt="facebook icon" />
+                </li>
+              </Tooltip>
+              <Tooltip side="top" className="share via email">
+                <li onClick={shareToEmailHandler}>
+                  <img src="/icons/email.png" alt="email icon" />
+                </li>
+              </Tooltip>
+              <Tooltip content="share on twitter">
+                <li onClick={shareToTwitterHandler}>
+                  <img src="/icons/twitter.png" alt="twitter icon" />
+                </li>
+              </Tooltip>
             </ul>
           </div>
         </div>
