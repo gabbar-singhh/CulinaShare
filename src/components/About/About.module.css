@@ -109,6 +109,7 @@
 }
 
 .footer {
+    cursor: default;
     display: block;
     background-color: var(--secondary-color);
     font-weight: 400;

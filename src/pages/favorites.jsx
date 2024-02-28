@@ -75,7 +75,6 @@ const favorites = () => {
             data={data} // data again i.e, fetched!
             isFav={true}
             onClickRemove={removeFavouritesHandler}
-            favoriteIds={favorites}
           />
         )}
       </div>

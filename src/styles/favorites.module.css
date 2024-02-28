@@ -7,7 +7,7 @@
 }
 
 .favorites_container {
-    margin: 1em 1em;
+    margin: 1em 0.8em;
     background-color: #fff;
     color: var(--secondary-color);
 }
