@@ -3,7 +3,8 @@
   scroll-snap-align: start;
   font-family: var(--primary-font);
   background-color: #fff;
-  margin: 3em 0;
+  margin-top: 2.8em;
+  margin-bottom: 0.5em;
   width: 100%;
 
   display: flex;

@@ -1,7 +1,8 @@
 .discover_main {
-    background-color: #fff;
+    background-color: #fff!important;
     padding: 50px 1em 0 1em;
     scroll-snap-align: start;
+    margin-bottom: 5em;
 }
 
 .wrapper {

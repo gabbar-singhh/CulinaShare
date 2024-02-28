@@ -7,7 +7,7 @@ const Custom404 = () => {
   return (
     <section className={styles.notFound_main}>
       <div className={styles.notFound_div}>
-        <NavigationBar style={{ backgroundColor: "var(--primary-color)" }} />
+        <NavigationBar/>
       </div>
       <div className={styles.text404}>page not found :)</div>
       <Discover />

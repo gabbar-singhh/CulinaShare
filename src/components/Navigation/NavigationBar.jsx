@@ -3,38 +3,8 @@ import styles from "./NavigationBar.module.css";
 import Link from "next/link";
 
 const NavigationBar = (props) => {
-  const navbarRef = useRef(null);
-
-  useEffect(() => {
-    let lastScrollTop = 0;
-
-    const handleScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const threshold = 200;
-
-      if (scrollTop > threshold) {
-        // document.body.style.backgroundColor = "#ac51ff"; // page end color
-      } else {
-        document.body.style.backgroundColor = ""; // page start color
-      }
-
-      if (scrollTop > lastScrollTop) {
-        navbarRef.current.style.top = "-80px";
-      } else {
-        navbarRef.current.style.top = "0";
-      }
-
-      lastScrollTop = scrollTop;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   return (
-    <nav className={styles.nav} id="nav" ref={navbarRef} style={props.style}>
+    <nav className={styles.nav} id="nav">
       <ul className={`${styles.nav_list}`}>
         <Link href="/">
           <li className={`underline_effect ${styles.li_item}`}>Home</li>

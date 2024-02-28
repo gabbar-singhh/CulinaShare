@@ -1,0 +1,119 @@
+.about_main {
+    padding: 80px 1.5em;
+    scroll-snap-align: start;
+    font-family: var(--primary-font);
+    background-color: var(--primary-color);
+    z-index: 999;
+}
+
+.about_container {
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    cursor: default;
+}
+
+.about_container h1 {
+    font-family: var(--logo-font);
+    font-size: 2.4em;
+    text-transform: uppercase;
+    cursor: default;
+    color: var(--secondary-color);
+}
+
+.about_container p {
+    font-weight: 500;
+}
+
+.leftSide {
+    width: 70%;
+}
+
+.rightSide {
+    width: 30%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2.4em;
+}
+
+
+.rightSide .companyBox,
+.rightSide .resourceBox {}
+
+.rightSide .companyBox h3,
+.rightSide .resourceBox h3 {
+    text-transform: capitalize;
+}
+
+
+.rightSide .companyBox ul,
+.rightSide .resourceBox ul {
+    list-style-type: none;
+    text-transform: capitalize;
+    font-size: 1em;
+}
+
+.rightSide .companyBox ul li,
+.rightSide .resourceBox ul li {
+    font-size: 14px;
+    margin-left: 3px;
+    transition: 0.3s ease-in-out;
+}
+
+.rightSide .companyBox ul li:hover,
+.rightSide .resourceBox ul li:hover {
+    font-size: 14px;
+    margin-left: 3px;
+    cursor: pointer;
+
+    text-decoration: underline;
+}
+
+.about_bottomLane {
+    display: flex;
+    align-items: center;
+    gap: 1.2em;
+    margin-top: 2.8em;
+}
+
+.about_bottomLane h3 {
+    font-size: 1.2em;
+    color: var(--secondary-color);
+}
+
+.about_bottomLane ul {
+    display: flex;
+    list-style-type: none;
+    gap: 8px;
+}
+
+.about_bottomLane ul .social {
+    display: inline-flex;
+    padding: 0.25em;
+    background-color: #ffffff47;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.about_bottomLane ul .social:hover {
+    background-color: #ffffff7a;
+}
+
+.about_bottomLane ul img {
+    height: 27px;
+    width: 27px;
+}
+
+.footer {
+    display: block;
+    background-color: var(--secondary-color);
+    font-weight: 400;
+    text-align: center;
+    color: var(--primary-color);
+    padding: 3px 0;
+    color: #ffffffbb;
+}

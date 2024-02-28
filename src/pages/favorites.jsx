@@ -8,6 +8,7 @@ import { removeFavourite } from "@/features/favourites/favouritesSlice";
 import axios from "axios";
 import Feed from "@/components/Feed/Feed";
 import Discover from "@/components/Discover/Discover";
+import About from "@/components/About/About";
 
 const favorites = () => {
   const favorites = useSelector((state) => state.favouritesReducer.favourites);
@@ -57,13 +58,9 @@ const favorites = () => {
     console.log("favoritesfavoritesfavorites, ", favorites);
   };
 
-  useEffect(() => {
-    console.log("datadata: ", data);
-  }, []);
-
   return (
     <section className={styles.favorites_main}>
-      <NavigationBar style={{ backgroundColor: "var(--primary-color)" }} />
+      <NavigationBar/>
       <div className={styles.favorites_container}>
         <h1>your saved recipes</h1>
         {data.length <= 0 ? (
@@ -75,12 +72,14 @@ const favorites = () => {
           </>
         ) : (
           <Feed
-            data={data}
+            data={data} // data again i.e, fetched!
             isFav={true}
             onClickRemove={removeFavouritesHandler}
+            favoriteIds={favorites}
           />
         )}
       </div>
+      <About/>
     </section>
   );
 };

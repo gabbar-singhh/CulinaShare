@@ -6,6 +6,7 @@
     height: 80px;
     transition: 0.3s;
     z-index: 100;
+    background-color: var(--primary-color);
 }
 
 .nav_list {
@@ -18,7 +19,7 @@
 
 .nav_list .li_item {
     font-size: 1.1em;
-    font-weight: 800;
+    font-weight: 600;
     text-transform: uppercase;
     margin: 0 0.8em;
     color: var(--secondary-color);
@@ -35,12 +36,12 @@
 .fav_btn_text {
     background-color: var(--secondary-color);
     padding: 0.5em 0.8em;
-    color: #fff !important;
+    color: #fff!important;
     border-radius: 0.3em;
     cursor: pointer;
     box-shadow: 1px 1px 9px #dddddd56;
     transition: transform 0.3s ease-in-out;
-    font-weight: 600 !important;
+    font-weight: 500!important;
 }
 
 .fav_btn_text:hover {
