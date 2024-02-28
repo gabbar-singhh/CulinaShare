@@ -17,6 +17,7 @@
     color: var(--secondary-color);
     font-size: 1.8em;
     margin-bottom: 1em;
+    font-weight: 600;
 }
 
 .favorites_container .favorites_noData {

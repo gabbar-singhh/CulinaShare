@@ -60,7 +60,7 @@ const favorites = () => {
 
   return (
     <section className={styles.favorites_main}>
-      <NavigationBar/>
+      <NavigationBar />
       <div className={styles.favorites_container}>
         <h1>your saved recipes</h1>
         {data.length <= 0 ? (
@@ -78,7 +78,7 @@ const favorites = () => {
           />
         )}
       </div>
-      <About/>
+      <About />
     </section>
   );
 };

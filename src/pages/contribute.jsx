@@ -55,7 +55,7 @@ const contribute = () => {
           <div>
             <p className={styles.input_label}>Recipe Name</p>
             <input
-              placeholder=""
+              placeholder="for eg, biryani.."
               className={styles.search_input}
               type="text"
               name=""
@@ -82,19 +82,6 @@ const contribute = () => {
 
           <div className={styles.file_div}>
             <p className={styles.input_label}>Thumbnail</p>
-            {/* <label htmlFor="file-upload" className={styles.input_label}>
-
-            </label> */}
-            {/* <input
-              type="file"
-              id="file-upload"
-              src=""
-              alt=""
-              data-key="RECIPE_IMG"
-              value={thumbnail}
-              onChange={eventDataHandler}
-              className={styles.file_input}
-            /> */}
             <label className={styles.custum_file_upload} for="file">
               <div className={styles.icon}>
                 <svg
@@ -146,7 +133,7 @@ const contribute = () => {
             </p>
             <textarea
               name=""
-              placeholder="eg: Basmati Rice: 2 Cups, Ghee: 2 Tbsp..."
+              placeholder="for eg - Basmati Rice: 2 Cups, Ghee: 2 Tbsp.."
               id=""
               cols="30"
               rows="10"
@@ -162,7 +149,7 @@ const contribute = () => {
             </p>
             <textarea
               name=""
-              placeholder="eg: Wash the rice and soak in water for twenty minutes"
+              placeholder="for eg - Wash the rice and soak in water for twenty mins.."
               id=""
               cols="30"
               rows="10"
