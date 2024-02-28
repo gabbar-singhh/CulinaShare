@@ -41,9 +41,13 @@ const Cards = (props) => {
         <p className={styles.card_mealName} onClick={redirectToUrl}>
           {spliceText(props.mealName)}
         </p>
+
         {props.isFav && (
           <p className={styles.card_mealSaved}>
-            Saved {formatDistanceToNowStrict(getTimeById(props.id, favorites))}{" "}
+            Saved{" "}
+            {formatDistanceToNowStrict(
+              getTimeById(props.id, favorites) && new Date().toISOString()
+            )}{" "}
             ago
           </p>
         )}

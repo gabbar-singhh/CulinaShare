@@ -80,6 +80,7 @@ const favorites = () => {
       </div>
       <About />
     </section>
+
   );
 };
 

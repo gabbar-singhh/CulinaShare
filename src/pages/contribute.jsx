@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "../styles/contribute.module.css";
 import NavigationBar from "@/components/Navigation/NavigationBar";
 import About from "@/components/About/About";
-import { red } from "@mui/material/colors";
 
 const contribute = () => {
   const [recipeName, setRecipeName] = useState("");

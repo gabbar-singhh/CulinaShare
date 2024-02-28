@@ -36,14 +36,53 @@
 .fav_btn_text {
     background-color: var(--secondary-color);
     padding: 0.5em 0.8em;
-    color: #fff!important;
+    color: #fff !important;
     border-radius: 0.3em;
     cursor: pointer;
     box-shadow: 1px 1px 9px #dddddd56;
     transition: transform 0.3s ease-in-out;
-    font-weight: 500!important;
+    font-weight: 500 !important;
 }
 
 .fav_btn_text:hover {
     transform: scale(1.03);
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .nav_list #culina_share {
+        font-size: 1.6em;
+        display: inline-flex;
+    }
+
+    .nav_list {
+        gap: 1em;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .nav_list #culina_share {
+        display: none;
+    }
+
+    .nav_list {
+        gap: 1em;
+    }
+
+    .nav_list .li_item {
+        font-size: 15px;
+    }
+}
+
+@media screen and (min-width: 360px) and (max-width: 480px) {
+    .nav_list #culina_share {
+        display: none;
+    }
+
+    .nav_list {
+        gap: 0;
+    }
+
+    .nav_list .li_item {
+        font-size: 14px;
+    }
 }

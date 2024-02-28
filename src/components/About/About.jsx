@@ -45,7 +45,7 @@ const About = () => {
               </ul>
             </div>
             <div className={styles.resourceBox}>
-              <h3>resources</h3>
+              <h3>resource</h3>
               <ul>
                 <li>blog</li>
                 <li>eBooks</li>
