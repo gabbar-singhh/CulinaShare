@@ -163,3 +163,71 @@
   height: 26px;
   width: auto;
 }
+
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .page_container {
+    padding: 3em 0;
+  }
+
+  .mealImg {
+    height: 300px;
+  }
+
+  .mealVideo .mealPlayer {
+    margin-top: 1em;
+    height: 300px;
+  }
+}
+
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .page_container {
+    padding: 3em 0;
+  }
+
+
+  .mealprepare div,
+  .mealInstructions div,
+  .mealSource div,
+  .mealVideo div,
+  .mealSocialShare div {
+    width: 90%;
+  }
+
+  .mealImg {
+    height: 300px;
+  }
+
+  .mealVideo .mealPlayer {
+    margin-top: 1em;
+    height: 300px;
+  }
+}
+
+
+@media screen and (min-width: 360px) and (max-width: 480px) {
+  .page_container {
+    padding: 3em 0;
+    margin: 0.4em;
+  }
+
+
+  .mealprepare div,
+  .mealInstructions div,
+  .mealSource div,
+  .mealVideo div,
+  .mealSocialShare div {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .mealImg {
+    height: 250px;
+  }
+
+  .mealVideo .mealPlayer {
+    margin-top: 1em;
+    height: 200px;
+  }
+}
