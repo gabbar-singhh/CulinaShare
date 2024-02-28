@@ -3,16 +3,172 @@
     padding-top: 80px;
     scroll-snap-align: start;
     font-family: var(--primary-font);
+    width: 100%;
 }
 
 .contribute_container {
-    margin: 1.5em;
     color: var(--secondary-color);
+    background-color: #fff;
+    box-shadow: 0 0 15px #e3e3e3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3.5em;
+    margin: 1em 0.8em;
 }
 
-.contribute_container h1 {
+.contribute_main h1 {
     color: var(--secondary-color);
-    text-align: center;
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: 600;
+    margin: 1em 0 0 1em;
+}
+
+.form {
+    margin-top: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.form div {
+    margin-top: 1.2em;
+}
+
+.form div .input_label {
+    margin-right: 1em;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form div .search_input {
+    outline: none;
+    border: none;
+    color: var(--secondary-color);
+    font-size: 1em;
+    background-color: #fff;
+    color: var(--secondary-color);
+    border-radius: 0.25rem;
+    display: inline;
+    border: 1px solid #caced1;
+
+    border-radius: 0.2em;
+    padding: 0.2em 0.2em 0.2em 1em;
+    transition: 0.2s ease-in-out;
+    font-size: 1.2em;
+    width: 600px;
+}
+
+.form div .search_input:hover {
+    border: 1px solid var(--secondary-color);
+}
+
+.form div .search_input::placeholder {
+    color: var(--secondary-color-light);
+    font-size: 15px;
+}
+
+.form .file_div {}
+
+.file_input {
+    border: 1px solid #caced1;
+    outline: none;
+    color: var(--secondary-color);
+    transition: 0.2s ease-in-out;
+    padding: 0.2em 0.2em 0.2em 1em;
+    font-size: 1em;
+}
+
+.custum_file_upload {
+    height: 200px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    gap: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--secondary-color);
+    background-color: rgba(255, 255, 255, 1);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+}
+
+.custum_file_upload .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custum_file_upload .icon svg {
+    height: 80px;
+    fill: var(--secondary-color);
+}
+
+.custum_file_upload .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custum_file_upload .text span {
+    font-weight: 500;
+    color: var(--secondary-color);
+
+}
+
+.custum_file_upload input {
+    display: none;
+}
+
+.youtube_div {}
+
+.ingredients_div {}
+
+.ingredients_div textarea,
+.instructions_div textarea {
+    outline: none;
+    border: none;
+    resize: none;
+    color: var(--secondary-color);
+    border: 1px solid #caced1;
+    border-radius: 0.4em;
+    padding: 1em;
+    font-size: 1em;
+    transition: 0.2s ease-in-out;
+    width: 600px;
+
+}
+
+.ingredients_div textarea::placeholder,
+.instructions_div textarea::placeholder {
+    color: var(--secondary-color-light);
+}
+
+.ingredients_div textarea:hover,
+.instructions_div textarea:hover {
+    border: 1px solid var(--secondary-color);
+}
+
+.submit_button {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 1em;
+    border-radius: 0.4em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    margin-top: 0.5em;
+    font-size: 1em;
+}
+
+.submit_button:hover {
+    background-color: var(--secondary-color-light);
 }
