@@ -54,7 +54,7 @@
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .nav_list #culina_share {
-        font-size: 1.6em;
+        font-size: 1.8em;
         display: inline-flex;
     }
 
@@ -65,33 +65,21 @@
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
     .nav_list #culina_share {
-        display: none;
+        font-size: 1.5em;
     }
 
     .nav_list {
-        gap: 1em;
+        gap: 4px;
     }
 
     .nav_list .li_item {
         font-size: 15px;
+        margin: 0;
     }
+
 }
 
-@media screen and (min-width: 360px) and (max-width: 480px) {
-    .nav_list #culina_share {
-        display: none;
-    }
-
-    .nav_list {
-        gap: 0;
-    }
-
-    .nav_list .li_item {
-        font-size: 14px;
-    }
-}
-
-@media (max-width:480px) {
+@media (max-width:640px) {
     .nav_list {
         display: none;
     }
