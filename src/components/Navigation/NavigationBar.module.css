@@ -1,9 +1,8 @@
 .nav {
     width: 100%;
     padding: 1em 0;
-    position: fixed;
+    position: sticky;
     top: 0;
-    height: 80px;
     transition: 0.3s;
     z-index: 100;
     background-color: var(--primary-color);
@@ -48,6 +47,11 @@
     transform: scale(1.03);
 }
 
+.nav_mobile,
+.nav_list_mobile {
+    display: none;
+}
+
 @media screen and (min-width: 769px) and (max-width: 1024px) {
     .nav_list #culina_share {
         font-size: 1.6em;
@@ -84,5 +88,88 @@
 
     .nav_list .li_item {
         font-size: 14px;
+    }
+}
+
+@media (max-width:480px) {
+    .nav_list {
+        display: none;
+    }
+
+    .nav_mobile {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 1.2em;
+        color: var(--secondary-color);
+    }
+
+    .nav_mobile:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 100%;
+        height: 1px;
+        background-color: #cc730038;
+        transform: translateX(-50%);
+    }
+
+    .nav_mobile p {
+        font-family: var(--logo-font);
+        font-size: 1.4em;
+        text-transform: uppercase;
+        cursor: default;
+    }
+
+    .nav_mobile span {
+        cursor: pointer;
+        transform: scale(2);
+    }
+
+    .nav_list_mobile {
+        background-color: var(--primary-color);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        list-style-type: none;
+        text-align: center;
+        gap: 1em;
+    }
+
+    .nav_list_mobile #li_home_mobile {
+        margin-top: 1em;
+    }
+
+    .nav_list_mobile li {
+        padding: 1em 0;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 0 0.8em;
+        color: var(--secondary-color);
+    }
+
+    .nav_list_mobile #li_sign_mobile {
+        background-color: var(--secondary-color);
+        padding: 0.5em 0.8em;
+        color: #fff !important;
+        border-radius: 0.3em;
+        cursor: pointer;
+        box-shadow: 1px 1px 9px #dddddd56;
+        transition: transform 0.3s ease-in-out;
+        font-weight: 500 !important;
+    }
+
+    .nav_list_mobile #li_sign_mobile:hover {
+        transform: scale(1.02);
+    }
+
+    .close {
+        display: none;
+    }
+
+    .x_size {
+        transform: scale(1.6) !important;
     }
 }
