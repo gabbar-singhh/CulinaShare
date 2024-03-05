@@ -42,7 +42,7 @@
 
 @media screen and (min-width: 481px) and (max-width: 768px) {}
 
-@media (max-width: 500px) {
+@media (max-width: 640px) {
     .hero_main {
         background-color: var(--primary-color);
     }
@@ -81,13 +81,14 @@
     }
 
     .content_box .top_text {
-        font-size: 1.3rem;
+        font-size: clamp(1.3rem, 2vw + 1rem, 2.4rem);
     }
 
     .content_box .bottom_text {
         font-size: 4rem;
         text-transform: uppercase;
         transform: scale(1, 1.4);
+        font-size: clamp(2rem, 12vw + 1.5rem, 6.2rem)
     }
 
     .discover_button {
@@ -100,9 +101,9 @@
         box-shadow: 1px 1px 9px #6e2c0b;
         transition: transform 0.3s ease-in-out;
         font-weight: 500 !important;
-        font-size: 1rem;
+        font-size: 1.05rem;
         text-align: center;
-        width: 120px;
+        width: 130px;
         margin-top: 5.6em;
     }
 
