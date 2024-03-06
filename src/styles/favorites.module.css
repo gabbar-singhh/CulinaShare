@@ -1,9 +1,7 @@
 .favorites_main {
     height: 100vh;
-    padding-top: 80px;
     scroll-snap-align: start;
     font-family: var(--primary-font);
-    margin: 0;
 }
 
 .favorites_container {
