@@ -6,23 +6,7 @@ const HeroSection = () => {
   return (
     <section className={styles.hero_main}>
       <div className={styles.hero_container}>
-        <h1 className={`${styles.hero_h1} animate__animated animate__fadeInUp`}>
-          Discover. Share. Save.
-        </h1>
-
-        <img
-          src="/assets/bowl_hero.png"
-          className="animate__animated animate__fadeInUp"
-          alt="shawarma img"
-        />
-
-        <h1 className={`${styles.hero_h1} animate__animated animate__fadeInUp`}>
-          recipes
-        </h1>
-      </div>
-
-      <div className={styles.hero_container_mobile}>
-        <img src="/assets/hero_gradient.png" alt="" />
+        <img src="/assets/hero_gradient.png" alt="background img" />
         <div className={styles.content_box}>
           <TypeAnimation
             sequence={[
@@ -40,7 +24,14 @@ const HeroSection = () => {
           />
           <h1 className={styles.bottom_text}>recipes</h1>
 
-          <div className={styles.discover_button}>Discover!</div>
+          <div className={styles.discover_button}>
+            EXPLORE NOW{" "}
+            <img
+              className={styles.next_icon}
+              src="/icons/next_arrow.svg"
+              alt="next arrow icon"
+            />
+          </div>
         </div>
       </div>
     </section>

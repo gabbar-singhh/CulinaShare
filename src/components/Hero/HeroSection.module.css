@@ -2,150 +2,79 @@
     background-color: var(--primary-color);
     scroll-snap-align: start;
     height: 90vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .hero_container {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9em;
-}
-
-.hero_container .hero_h1 {
-    color: #fff;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    font-size: clamp(18px, 4vw, 80px);
-}
 
-.hero_container .hero_h1:last-child {
     color: #fff;
-    text-transform: uppercase;
-    z-index: 3;
-    transform: scale(1, 1.5);
-    font-size: clamp(1vw, 19.5vw, 35vh);
+    gap: 2rem;
+
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
 }
 
 .hero_container img {
     position: absolute;
-    height: 500px;
-    top: 5em;
+    width: 100vw;
+    height: 90vh;
+    object-fit: cover;
 }
 
-/* 1024px and above */
-@media (min-width:1024px) {
-    .hero_container_mobile {
-        display: none;
-    }
+.content_box {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4em;
 }
 
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .hero_container_mobile {
-        display: none;
-    }
+.content_box .top_text {
+    font-size: clamp(1.3rem, 2vw + 1rem, 2.4rem);
 }
 
-@media screen and (min-width: 641px) and (max-width: 768px) {
-    .hero_container_mobile {
-        display: none;
-    }
-
-    .hero_container {
-        gap: 4em;
-        top: 1em;
-    }
-
-    .hero_container .hero_h1 {
-        font-size: 2.4rem;
-    }
-
-    .hero_container img {
-        position: absolute;
-        height: 360px;
-        top: 50px;
-    }
-
-    .hero_container .hero_h1:last-child {
-        transform: scale(1, 1.4);
-        font-size: 8rem;
-        text-transform: uppercase;
-        transform: scale(1, 1.4);
-        /* font-size: clamp(2rem, 12vw + 1.5rem, 6.2rem) */
-    }
+.content_box .bottom_text {
+    text-transform: uppercase;
+    transform: scale(1.2, 1.5);
+    font-size: clamp(2rem, 12vw + 1.5rem, 6.2rem)
 }
 
-@media (max-width: 640px) {
-    .hero_main {
-        background-color: var(--primary-color);
-    }
+.discover_button {
+    font-size: 15px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    box-shadow: 1px 1px 9px #6e2c0b;
+    border-radius: 3rem;
+    padding: 12px 1.6em 12px 2.1em;
+    cursor: pointer;
 
-    .hero_container {
-        display: none;
-    }
+    margin-top: 4.8em;
+    letter-spacing: 1px;
+    transition: 0.3s ease-in-out;
 
-    .hero_container_mobile {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        gap: 2rem;
+    /* for icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
 
-        position: relative;
-        width: 100%;
-        height: 90vh;
-        overflow: hidden;
-    }
+.discover_button .next_icon {
+    position: initial;
+    height: 32px;
+    width: 32px;
+}
 
-    .hero_container_mobile img {
-        position: absolute;
-        width: 100vw;
-        height: 90vh;
-        object-fit: cover;
-    }
+/* for moving of arrow */
+.discover_button .next_icon {
+    transition: transform 0.5s ease;
+}
 
-    .content_box {
-        z-index: 99;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2.4em;
-    }
-
-    .content_box .top_text {
-        font-size: clamp(1.3rem, 2vw + 1rem, 2.4rem);
-    }
-
-    .content_box .bottom_text {
-        font-size: 4rem;
-        text-transform: uppercase;
-        transform: scale(1, 1.4);
-        font-size: clamp(2rem, 12vw + 1.5rem, 6.2rem)
-    }
-
-    .discover_button {
-        z-index: 99;
-        background-color: var(--primary-color);
-        padding: 0.5em 0.8em;
-        color: #fff !important;
-        border-radius: 0.15em;
-        cursor: pointer;
-        box-shadow: 1px 1px 9px #6e2c0b;
-        transition: transform 0.3s ease-in-out;
-        font-weight: 500 !important;
-        font-size: 1.05rem;
-        text-align: center;
-        width: 130px;
-        margin-top: 5.6em;
-    }
-
-    .discover_button:hover {
-        transform: scale(1.03);
-    }
+.discover_button:hover .next_icon {
+    transform: translate(4px, 0);
 }
