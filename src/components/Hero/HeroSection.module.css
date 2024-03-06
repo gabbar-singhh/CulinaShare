@@ -55,6 +55,29 @@
     .hero_container_mobile {
         display: none;
     }
+
+    .hero_container {
+        gap: 4em;
+        top: 1em;
+    }
+
+    .hero_container .hero_h1 {
+        font-size: 2.4rem;
+    }
+
+    .hero_container img {
+        position: absolute;
+        height: 360px;
+        top: 50px;
+    }
+
+    .hero_container .hero_h1:last-child {
+        transform: scale(1, 1.4);
+        font-size: 8rem;
+        text-transform: uppercase;
+        transform: scale(1, 1.4);
+        /* font-size: clamp(2rem, 12vw + 1.5rem, 6.2rem) */
+    }
 }
 
 @media (max-width: 640px) {
