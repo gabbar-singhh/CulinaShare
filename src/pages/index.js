@@ -24,7 +24,7 @@ export default function Home() {
           <HeroSection />
           <Discover />
         </div>
-        <About />
+        {/* <About /> */}
       </main>
     </>
   );

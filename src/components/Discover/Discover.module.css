@@ -312,3 +312,33 @@
         flex-wrap: wrap;
     }
 }
+
+@media screen and (min-width: 200px) and (max-width: 360px) {
+    .discover_main {
+        padding: 50px 0.5em 0 0.5em;
+    }
+
+    .wrapper {
+        padding: 2em 5px;
+    }
+
+    .top_lane {
+        flex-direction: column;
+        gap: 0.7em;
+    }
+
+    .left_container {
+        flex-direction: column;
+    }
+
+    .right_container .featured,
+    .right_container .random {
+        gap: 0.8em;
+        padding: 0.4em;
+        font-size: 15px;
+    }
+
+    .middle_lane ul {
+        flex-wrap: wrap;
+    }
+}
