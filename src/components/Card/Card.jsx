@@ -12,6 +12,7 @@ import { Howl } from "howler";
 const Cards = (props) => {
   const soundRef = useRef(null);
   const deleteSoundRef = useRef(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const [favoriteButtonText, setFavoriteButtonText] =
     useState("Add to Favourites");
@@ -41,6 +42,7 @@ const Cards = (props) => {
     deleteSoundRef.current.play();
   };
 
+  // USEEFFECT FOR "ADDED TO FAVS" AUDIO
   useEffect(() => {
     soundRef.current = new Howl({
       src: ["/sound/multi-pop.mp3"],
@@ -51,6 +53,7 @@ const Cards = (props) => {
     };
   }, ["/sound/multi-pop.mp3"]);
 
+  // USEEFFECT FOR "DELETE" AUDIO
   useEffect(() => {
     deleteSoundRef.current = new Howl({
       src: ["/sound/delete.mp3"],
@@ -61,16 +64,36 @@ const Cards = (props) => {
     };
   }, ["/sound/delete.mp3"]);
 
+  // CHECKING IF IMAGE IS LOADED OR NOT
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+
+    img.src = props.imgUrl;
+  }, [props.imgUrl]);
+
   return (
     <div className={styles.card_main}>
       <div className={styles.card_container} data-key={props.key}>
         <div className={styles.cardImgWrapper}>
-          <img
-            className={styles.card_img}
-            onClick={redirectToUrl}
-            src={props.imgUrl}
-            alt="dish img"
-          />
+          {imageLoaded ? (
+            <img
+              className={styles.card_img}
+              onClick={redirectToUrl}
+              src={props.imgUrl}
+              alt="dish img"
+              loading="lazy"
+            />
+          ) : (
+            <img
+              className={styles.card_img}
+              onClick={redirectToUrl}
+              src={"/assets/notLoaded.gif"}
+              alt="dish img"
+            />
+          )}
         </div>
         <Tooltip title={props.mealName} arrow>
           <p className={styles.card_mealName} onClick={redirectToUrl}>
@@ -89,22 +112,17 @@ const Cards = (props) => {
         )}
 
         {props.isFav ? (
-          <Tooltip
-            arrow
-            title={`Click to remove ${props.mealName} from favourites!`}
+          <div
+            className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+            onClick={() => {
+              props.removeFavouritesHandler(props.id);
+              playDeleteSound();
+            }}
           >
-            <div
-              className={`${styles.yes_favourite} ${styles.card_favbutton}`}
-              onClick={() => {
-                props.removeFavouritesHandler(props.id);
-                playDeleteSound();
-              }}
-            >
-              <img src="/icons/star-white.png" alt="star icon" />
+            <img src="/icons/star-white.png" alt="star icon" />
 
-              <p>Remove from Favorites</p>
-            </div>
-          </Tooltip>
+            <p>Remove from Favorites</p>
+          </div>
         ) : (
           <>
             {checkIfFavourite(props.id, favorites) ? (
@@ -121,19 +139,14 @@ const Cards = (props) => {
                 </div>
               </Tooltip>
             ) : (
-              <Tooltip
-                arrow
-                title={`Click to add ${props.mealName} to favourites`}
+              <div
+                className={styles.card_favbutton}
+                onClick={addToFavouritesHandler}
               >
-                <div
-                  className={styles.card_favbutton}
-                  onClick={addToFavouritesHandler}
-                >
-                  <img src="/icons/star-brown.png" alt="star icon" />
+                <img src="/icons/star-brown.png" alt="star icon" />
 
-                  <p>{favoriteButtonText}</p>
-                </div>
-              </Tooltip>
+                <p>{favoriteButtonText}</p>
+              </div>
             )}
           </>
         )}
