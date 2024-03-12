@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./Card.module.css";
 import spliceText from "@/utils/spliceText";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,14 @@ import { addFavourite } from "@/features/favourites/favouritesSlice";
 import checkIfFavourite from "@/utils/checkIfFavourite";
 import getTimeById from "@/utils/getTimeById";
 import { formatDistanceToNowStrict } from "date-fns";
+import { Tooltip } from "@mui/material";
+import { Howl } from "howler";
 
 const Cards = (props) => {
+  const soundRef = useRef(null);
+  const deleteSoundRef = useRef(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   const [favoriteButtonText, setFavoriteButtonText] =
     useState("Add to Favourites");
 
@@ -20,6 +26,7 @@ const Cards = (props) => {
 
   const addToFavouritesHandler = () => {
     dispatch(addFavourite({ mealId: props.id }));
+    playSound();
     setFavoriteButtonText("Added To Favourites");
 
     setTimeout(() => {
@@ -27,20 +34,72 @@ const Cards = (props) => {
     }, 300);
   };
 
-  const mergeRecipeWithFavourites = () => {};
+  const playSound = () => {
+    soundRef.current.play();
+  };
+
+  const playDeleteSound = () => {
+    deleteSoundRef.current.play();
+  };
+
+  // USEEFFECT FOR "ADDED TO FAVS" AUDIO
+  useEffect(() => {
+    soundRef.current = new Howl({
+      src: ["/sound/multi-pop.mp3"],
+    });
+
+    return () => {
+      soundRef.current.unload();
+    };
+  }, ["/sound/multi-pop.mp3"]);
+
+  // USEEFFECT FOR "DELETE" AUDIO
+  useEffect(() => {
+    deleteSoundRef.current = new Howl({
+      src: ["/sound/delete.mp3"],
+    });
+
+    return () => {
+      deleteSoundRef.current.unload();
+    };
+  }, ["/sound/delete.mp3"]);
+
+  // CHECKING IF IMAGE IS LOADED OR NOT
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+
+    img.src = props.imgUrl;
+  }, [props.imgUrl]);
 
   return (
     <div className={styles.card_main}>
       <div className={styles.card_container} data-key={props.key}>
-        <img
-          className={styles.card_img}
-          onClick={redirectToUrl}
-          src={props.imgUrl}
-          alt="dish img"
-        />
-        <p className={styles.card_mealName} onClick={redirectToUrl}>
-          {spliceText(props.mealName)}
-        </p>
+        <div className={styles.cardImgWrapper}>
+          {imageLoaded ? (
+            <img
+              className={styles.card_img}
+              onClick={redirectToUrl}
+              src={props.imgUrl}
+              alt="dish img"
+              loading="lazy"
+            />
+          ) : (
+            <img
+              className={styles.card_img}
+              onClick={redirectToUrl}
+              src={"/assets/notLoaded.gif"}
+              alt="dish img"
+            />
+          )}
+        </div>
+        <Tooltip title={props.mealName} arrow>
+          <p className={styles.card_mealName} onClick={redirectToUrl}>
+            {spliceText(props.mealName)}
+          </p>
+        </Tooltip>
 
         {props.isFav && (
           <p className={styles.card_mealSaved}>
@@ -53,34 +112,38 @@ const Cards = (props) => {
         )}
 
         {props.isFav ? (
-          <>
-            <div
-              className={styles.card_favbutton}
-              onClick={() => {
-                props.removeFavouritesHandler(props.id);
-              }}
-            >
-              <img src="/icons/star-yellow.png" alt="star icon" />
+          <div
+            className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+            onClick={() => {
+              props.removeFavouritesHandler(props.id);
+              playDeleteSound();
+            }}
+          >
+            <img src="/icons/star-white.png" alt="star icon" />
 
-              <p>Remove from Favorites</p>
-            </div>
-          </>
+            <p>Remove from Favorites</p>
+          </div>
         ) : (
           <>
             {checkIfFavourite(props.id, favorites) ? (
-              <div
-                className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+              <Tooltip
+                arrow
+                title={`${props.mealName} is added to favourites!`}
               >
-                <img src="/icons/star-yellow.png" alt="star icon" />
+                <div
+                  className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+                >
+                  <img src="/icons/star-white.png" alt="star icon" />
 
-                <p>Added to Favourites</p>
-              </div>
+                  <p>Added to Favourites</p>
+                </div>
+              </Tooltip>
             ) : (
               <div
                 className={styles.card_favbutton}
                 onClick={addToFavouritesHandler}
               >
-                <img src="/icons/star-yellow.png" alt="star icon" />
+                <img src="/icons/star-brown.png" alt="star icon" />
 
                 <p>{favoriteButtonText}</p>
               </div>

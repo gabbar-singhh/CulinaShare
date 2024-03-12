@@ -40,8 +40,7 @@
 }
 
 .rightSide .companyBox,
-.rightSide .resourceBox {
-}
+.rightSide .resourceBox {}
 
 .rightSide .companyBox h3,
 .rightSide .resourceBox h3 {
@@ -213,5 +212,47 @@
   .rightSide {
     width: 100%;
     justify-content: flex-start;
+  }
+
+}
+
+
+@media screen and (min-width: 200px) and (max-width: 360px) {
+  .about_main {
+    padding: 40px 1.5em;
+  }
+
+  .about_container {
+    display: flex;
+    gap: 1.5em;
+  }
+
+  .rightSide {
+    gap: 2em;
+  }
+
+  .about_container {
+    color: var(--secondary-color);
+    cursor: default;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  .about_container h1 {
+    margin-left: 0;
+  }
+
+  .leftSide {
+    width: 100%;
+  }
+
+  .rightSide {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .about_bottomLane {
+    flex-direction: column;
   }
 }

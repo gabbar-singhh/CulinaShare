@@ -1,111 +1,80 @@
 .hero_main {
-    height: 100vh;
     background-color: var(--primary-color);
-    padding-top: 80px;
     scroll-snap-align: start;
+    height: 90vh;
 }
 
 .hero_container {
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9em;
-}
-
-.hero_container .hero_h1 {
-    font-size: 4.8em;
-    color: #fff;
-
-    display: flex;
-    align-items: center;
     justify-content: center;
-}
 
-.hero_container .hero_h1:last-child {
-    text-transform: uppercase;
-    z-index: 3;
-    font-size: 14em;
-    transform: scale(1, 1.5);
+    color: #fff;
+    gap: 2rem;
+
+    position: relative;
+    width: 100%;
+    height: 90vh;
+    overflow: hidden;
 }
 
 .hero_container img {
     position: absolute;
-    height: 500px;
-    top: 5em;
+    width: 100vw;
+    height: 90vh;
+    object-fit: cover;
 }
 
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-    .hero_container .hero_h1 {
-        font-size: 3.2em;
-    }
-
-    .hero_container .hero_h1:last-child {
-        font-size: 12em;
-        transform: scale(1, 1.5);
-    }
-
-    .hero_container {
-        /* gap: 4em; */
-        margin-top: 2em;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hero_container img {
-        height: 100vh / 2;
-    }
+.content_box {
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4em;
 }
 
-
-@media screen and (min-width: 481px) and (max-width: 768px) {
-    .hero_main {
-        height: 80vh;
-    }
-
-    .hero_container .hero_h1 {
-        font-size: 2.4em;
-    }
-
-    .hero_container .hero_h1:last-child {
-        font-size: 7em;
-        transform: scale(1, 1.5);
-    }
-
-    .hero_container {
-        align-items: center;
-        justify-content: center;
-        gap: 4em;
-    }
-
-    .hero_container img {
-        height: 250px;
-    }
-
+.content_box .top_text {
+    font-size: clamp(1.3rem, 2vw + 1rem, 2.4rem);
 }
 
+.content_box .bottom_text {
+    text-transform: uppercase;
+    transform: scale(1.2, 1.5);
+    font-size: clamp(2rem, 12vw + 1.5rem, 6.2rem)
+}
 
-@media screen and (min-width: 360px) and (max-width: 480px) {
-    .hero_main {
-        height: 70vh;
-    }
+.discover_button {
+    font-size: 15px;
+    font-weight: 600;
+    background-color: var(--primary-color);
+    box-shadow: 1px 1px 9px #6e2c0b;
+    border-radius: 3rem;
+    padding: 12px 1.6em 12px 2.1em;
+    cursor: pointer;
 
-    .hero_container .hero_h1 {
-        font-size: 1.8em;
-    }
+    margin-top: 4.8em;
+    letter-spacing: 1px;
+    transition: 0.3s ease-in-out;
 
-    .hero_container .hero_h1:last-child {
-        font-size: 5em;
-        transform: scale(1, 1.5);
-    }
+    /* for icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
 
-    .hero_container {
-        align-items: center;
-        justify-content: center;
-        gap: 5em;
-    }
+.discover_button .next_icon {
+    position: initial;
+    height: 32px;
+    width: 32px;
+}
 
-    .hero_container img {
-        height: 250px;
-    }
+/* for moving of arrow */
+.discover_button .next_icon {
+    transition: transform 0.5s ease;
+}
+
+.discover_button:hover .next_icon {
+    transform: translate(4px, 0);
 }

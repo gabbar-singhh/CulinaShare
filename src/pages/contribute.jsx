@@ -13,35 +13,33 @@ const contribute = () => {
 
   const eventDataHandler = (event) => {
     const type = event.currentTarget.getAttribute("data-key");
-    console.log(type);
-    if (type === "RECIPE_NAME") {
-      setRecipeName(event.target.value);
-    } else if (type === "RECIPE_AREA") {
-      setRecipeArea(event.target.value);
-    } else if (type === "RECIPE_IMG") {
-      setThumbnail(event.target.value);
-    } else if (type === "YOUTUBE_VIDEO") {
-      setYoutubeVideoLink(event.target.value);
-    } else if (type === "INGREDIENTS") {
-      setIngredients(event.target.value);
-    } else if (type === "INSTRUCTIONS") {
-      setInstructions(event.target.value);
+    switch (type) {
+      case "RECIPE_NAME":
+        setRecipeName(event.target.value);
+        break;
+      case "RECIPE_AREA":
+        setRecipeArea(event.target.value);
+        break;
+      case "RECIPE_IMG":
+        setThumbnail(event.target.value);
+        break;
+      case "YOUTUBE_VIDEO":
+        setYoutubeVideoLink(event.target.value);
+        break;
+      case "INGREDIENTS":
+        setIngredients(event.target.value);
+        break;
+      case "INSTRUCTIONS":
+        setInstructions(event.target.value);
+        break;
+      default:
+        // Handle the case when type is not recognized
+        break;
     }
   };
 
   const submitButtonHandler = (event) => {
     event.preventDefault();
-
-    console.log("You clicked submit button");
-    console.log([
-      recipeName,
-      recipeArea,
-      thumbnail,
-      youtubeVideoLink,
-      ingredients,
-      instructions,
-    ]);
-
     // submit button handler code
   };
 

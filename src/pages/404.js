@@ -6,9 +6,7 @@ import Discover from "@/components/Discover/Discover";
 const Custom404 = () => {
   return (
     <section className={styles.notFound_main}>
-      <div className={styles.notFound_div}>
-        <NavigationBar/>
-      </div>
+      <NavigationBar />
       <div className={styles.text404}>page not found :)</div>
       <Discover />
     </section>

@@ -9,10 +9,12 @@ import axios from "axios";
 import Feed from "@/components/Feed/Feed";
 import Discover from "@/components/Discover/Discover";
 import About from "@/components/About/About";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const favorites = () => {
   const favorites = useSelector((state) => state.favouritesReducer.favourites);
   const dispatch = useDispatch();
+  const { user, isLoading, error } = useUser();
 
   const [data, setData] = useState([]);
 
@@ -62,7 +64,12 @@ const favorites = () => {
     <section className={styles.favorites_main}>
       <NavigationBar />
       <div className={styles.favorites_container}>
-        <h1>your saved recipes</h1>
+        {!user ? (
+          <h1>your saved recipes</h1>
+        ) : (
+          <h1>{user.name} 's Saved Recipes</h1>
+        )}
+
         {data.length <= 0 ? (
           <>
             <div className={styles.favorites_noData}>
@@ -80,7 +87,6 @@ const favorites = () => {
       </div>
       <About />
     </section>
-
   );
 };
 

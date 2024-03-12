@@ -23,9 +23,11 @@ const Feed = (props) => {
     return (
       <section className={styles.feed_main}>
         <div className={styles.feed_container}>
-          {num.map(() => {
-            return <SkeletonCard />;
-          })}
+          <div className={styles.card_manager}>
+            {num.map(() => {
+              return <SkeletonCard />;
+            })}
+          </div>
         </div>
       </section>
     );
@@ -35,16 +37,18 @@ const Feed = (props) => {
     return (
       <section className={styles.feed_main}>
         <div className={styles.feed_container}>
-          {currentMeals.map((meal) => (
-            <Cards
-              key={meal.strId}
-              id={meal.idMeal}
-              imgUrl={meal.strMealThumb}
-              mealName={meal.strMeal}
-              isFav={props.isFav}
-              removeFavouritesHandler={props.onClickRemove}
-            />
-          ))}
+          <div className={styles.card_manager}>
+            {currentMeals.map((meal) => (
+              <Cards
+                key={meal.strId}
+                id={meal.idMeal}
+                imgUrl={meal.strMealThumb}
+                mealName={meal.strMeal}
+                isFav={props.isFav}
+                removeFavouritesHandler={props.onClickRemove}
+              />
+            ))}
+          </div>
         </div>
         <Pagination
           totalMeals={props.data.length}

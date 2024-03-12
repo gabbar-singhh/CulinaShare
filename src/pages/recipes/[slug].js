@@ -12,6 +12,7 @@ import { useState } from "react";
 import getYouTubeID from "get-youtube-id";
 import { Tooltip } from "@mui/material";
 import About from "@/components/About/About";
+import Head from "next/head";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
@@ -61,6 +62,15 @@ export default function BlogPost({ meal }) {
   if (meal) {
     return (
       <React.Fragment>
+        <Head>
+          <title>{`${recipe.strMeal} - CulinaShare`}</title>
+          <meta
+          name="description"
+          content="CulinaShare - Where Every Recipe Tells a Story!"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.svg" />
+        </Head>
         <section className={styles.page_main}>
           <NavigationBar />
 

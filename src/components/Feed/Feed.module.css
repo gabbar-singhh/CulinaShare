@@ -1,13 +1,12 @@
 .feed_container {
     margin: 0;
     padding: 3em 1em;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 1.5em;
-    flex-wrap: wrap;
     background-color: #fff;
     box-shadow: 0 5px 15px #e3e3e3;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .feed_notFound {
@@ -24,10 +23,27 @@
     text-align: center;
 }
 
+.card_manager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1.2rem;
+}
 
-@media screen and (min-width: 481px) and (max-width: 768px) {
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {}
+
+@media (min-width:430px) and (max-width:640px) {
+
     .feed_container {
         padding: 3em 0.5em;
+    }
 
+    .card_manager {
+        gap: 0.5em;
     }
 }

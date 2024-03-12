@@ -1,16 +1,4 @@
-.page_main {
-  padding-top: 15px;
-  scroll-snap-align: start;
-  font-family: var(--primary-font);
-  background-color: #fff;
-  margin-top: 2.8em;
-  margin-bottom: 0.5em;
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.page_main {}
 
 .page_container {
   font-family: var(--primary-font);
