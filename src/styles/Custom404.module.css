@@ -1,13 +1,6 @@
 .notFound_main {
-    padding-top: 15px;
-    scroll-snap-align: start;
     background-color: #fff;
-    margin: 3em 0;
     width: 100%;
-}
-
-.notFound_div {
-    margin: 3em 0;
 }
 
 .text404 {

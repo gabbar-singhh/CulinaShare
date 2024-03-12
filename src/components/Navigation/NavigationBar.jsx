@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./NavigationBar.module.css";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
 
 const NavigationBar = (props) => {
+  const { user, error, isLoading } = useUser();
   const [showMenu, setShowMenu] = useState(false);
   const [hamburgerIcon, setHamburgerIcon] = useState("&#9776;");
-
+  const [showDropdown, setShowDropdown] = useState(false);
   const showHamburgerMenu = () => {
     setShowMenu((prevShowMenu) => !prevShowMenu);
 
@@ -13,6 +16,14 @@ const NavigationBar = (props) => {
       prevIcon === "&#9776;" ? "&#10005;" : "&#9776;"
     );
   };
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  useEffect(() => {
+    console.log("user: ", user);
+  }, []);
 
   return (
     <nav className={styles.nav} id="nav">
@@ -29,11 +40,44 @@ const NavigationBar = (props) => {
         <Link href="/contribute">
           <li className={`underline_effect ${styles.li_item}`}>Contribute</li>
         </Link>
-        <Link href="/favorites">
-          <li className={`${styles.fav_btn_text} ${styles.li_item}`}>
-            Sign In
-          </li>
-        </Link>
+
+        {!user ? (
+          <Link href={"/api/auth/login"}>
+            <li className={`${styles.fav_btn_text} ${styles.li_item}`}>
+              Sign In
+            </li>
+          </Link>
+        ) : (
+          <div className={`${styles.dropdownContainer}`}>
+            <div className={`${styles.fav_btn_text} ${styles.li_item}`}  onClick={toggleDropdown}>
+              <Link href="/favorites">{user.nickname}</Link>
+              <Image
+                className={styles.triangleIcon}
+                src="/icons/triangle.png"
+                height={11}
+                width={11}
+                alt="triangle icon"
+              />
+            </div>
+            <div
+              className={`${showDropdown && styles.showDropdownMenu} ${
+                styles.dropdownContent
+              }`}
+            >
+              <ul>
+                <Link href={"/favorites"}>
+                  <li className={styles.dropdownItem}>Saved Recipes</li>
+                </Link>
+                <Link href={"/about"}>
+                  <li className={styles.dropdownItem}>About Us</li>
+                </Link>
+                <Link href={"/api/auth/logout"}>
+                  <li className={`${styles.dropdownItem} ${styles.logoutItem}`}>Logout</li>
+                </Link>
+              </ul>
+            </div>
+          </div>
+        )}
       </ul>
 
       <div className={styles.nav_mobile}>
@@ -62,9 +106,17 @@ const NavigationBar = (props) => {
         <Link href={"/contribute"}>
           <li>Contribute</li>
         </Link>
-        <Link href={"/"}>
-          <li id={styles.li_sign_mobile}>Sign In</li>
-        </Link>
+        {!user ? (
+          <Link href={"/api/auth/login"}>
+            <li id={styles.li_sign_mobile}>Sign In</li>
+          </Link>
+        ) : (
+          <Link href={"/favorites"}>
+            <li className={`${styles.fav_btn_text} ${styles.li_item}`}>
+              Favourites
+            </li>
+          </Link>
+        )}
       </ul>
     </nav>
   );

@@ -11,7 +11,7 @@
 }
 
 .favorites_container h1 {
-    text-transform: capitalize;
+    /* text-transform: capitalize; */
     color: var(--secondary-color);
     font-size: 1.8em;
     margin-bottom: 1em;

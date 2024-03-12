@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./HeroSection.module.css";
 import { TypeAnimation } from "react-type-animation";
 
@@ -12,16 +12,16 @@ const HeroSection = () => {
       setImageLoaded(true);
     };
 
-    img.src = "/assets/hero_gradient.png";
-  }, ["/assets/hero_gradient.png"]);
+    img.src = "/assets/hero_gradient.webp";
+  }, ["/assets/hero_gradient.webp"]);
 
   return (
     <section className={styles.hero_main}>
       <div className={styles.hero_container}>
         {imageLoaded ? (
-          <img src="/assets/hero_gradient.png" alt="background img" />
+          <img src="/assets/hero_gradient.webp" alt="background img" />
         ) : (
-          <img src="/assets/heroPlaceholder.png" alt="background img" />
+          <img src="/assets/heroPlaceholder.webp" alt="background img placeholder" />
         )}
         <div className={styles.content_box}>
           <TypeAnimation
