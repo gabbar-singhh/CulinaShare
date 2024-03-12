@@ -49,7 +49,10 @@ const NavigationBar = (props) => {
           </Link>
         ) : (
           <div className={`${styles.dropdownContainer}`}>
-            <div className={`${styles.fav_btn_text} ${styles.li_item}`}  onClick={toggleDropdown}>
+            <div
+              className={`${styles.fav_btn_text} ${styles.li_item}`}
+              onClick={toggleDropdown}
+            >
               <Link href="/favorites">{user.nickname}</Link>
               <Image
                 className={styles.triangleIcon}
@@ -66,13 +69,16 @@ const NavigationBar = (props) => {
             >
               <ul>
                 <Link href={"/favorites"}>
-                  <li className={styles.dropdownItem}>Saved Recipes</li>
+                  <li className={styles.dropdownItem}>Favourite Recipes</li>
                 </Link>
                 <Link href={"/about"}>
-                  <li className={styles.dropdownItem}>About Us</li>
+                  <li className={styles.dropdownItem}> About Us</li>
                 </Link>
                 <Link href={"/api/auth/logout"}>
-                  <li className={`${styles.dropdownItem} ${styles.logoutItem}`}>Logout</li>
+                  <li className={`${styles.dropdownItem} ${styles.logoutItem}`}>
+                    Logout{" "}
+                    <Image src={"/icons/logout.png"} height={17} width={17} />
+                  </li>
                 </Link>
               </ul>
             </div>
@@ -106,16 +112,26 @@ const NavigationBar = (props) => {
         <Link href={"/contribute"}>
           <li>Contribute</li>
         </Link>
+        <Link href={"/about"}>
+          <li>About Us</li>
+        </Link>
         {!user ? (
           <Link href={"/api/auth/login"}>
             <li id={styles.li_sign_mobile}>Sign In</li>
           </Link>
         ) : (
+          <>
           <Link href={"/favorites"}>
-            <li className={`${styles.fav_btn_text} ${styles.li_item}`}>
-              Favourites
+            <li className={`${styles.li_item}`}>
+              Favourite Recipes
             </li>
           </Link>
+          <Link href={"/api/auth/logout"}>
+            <li className={`${styles.fav_btn_text} ${styles.li_item}`}>
+              Logout
+            </li>
+          </Link>
+          </>
         )}
       </ul>
     </nav>
