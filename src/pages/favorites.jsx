@@ -10,6 +10,8 @@ import Feed from "@/components/Feed/Feed";
 import Discover from "@/components/Discover/Discover";
 import About from "@/components/About/About";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Head from "next/head";
+import { fetchFavourites } from "@/features/favourites/favouritesSlice";
 
 const favorites = () => {
   const favorites = useSelector((state) => state.favouritesReducer.favourites);
@@ -60,33 +62,56 @@ const favorites = () => {
     console.log("favoritesfavoritesfavorites, ", favorites);
   };
 
-  return (
-    <section className={styles.favorites_main}>
-      <NavigationBar />
-      <div className={styles.favorites_container}>
-        {!user ? (
-          <h1>your saved recipes</h1>
-        ) : (
-          <h1>{user.name} 's Saved Recipes</h1>
-        )}
+  useEffect(()=>{
+    if(user) dispatch(fetchFavourites(user.email))
+    
+  },[])
 
-        {data.length <= 0 ? (
-          <>
+  return (
+    <React.Fragment>
+      <Head>
+        <title>{`Your Saved Recipes - CulinaShare`}</title>
+
+        <meta
+          name="description"
+          content="CulinaShare - Where Every Recipe Tells a Story!"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.svg" />
+      </Head>
+      <section className={styles.favorites_main}>
+        <NavigationBar />
+        {user ? (
+          <div className={styles.favorites_container}>
+            <h1>{user.name} 's Saved Recipes</h1>
+
+            {data.length <= 0 ? (
+              <>
+                <div className={styles.favorites_noData}>
+                  <p>no saved recipes found :)</p>
+                </div>
+                <Discover />
+              </>
+            ) : (
+              <Feed
+                data={data} // data again i.e, fetched!
+                isFav={true}
+                onClickRemove={removeFavouritesHandler}
+              />
+            )}
+          </div>
+        ) : (
+          <div className={styles.favorites_container}>
             <div className={styles.favorites_noData}>
-              <p>no saved recipes found :)</p>
+              <p>Login to see your favorites :)</p>
             </div>
             <Discover />
-          </>
-        ) : (
-          <Feed
-            data={data} // data again i.e, fetched!
-            isFav={true}
-            onClickRemove={removeFavouritesHandler}
-          />
+          </div>
         )}
-      </div>
-      <About />
-    </section>
+
+        <About />
+      </section>
+    </React.Fragment>
   );
 };
 

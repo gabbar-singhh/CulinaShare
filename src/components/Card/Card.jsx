@@ -8,8 +8,11 @@ import getTimeById from "@/utils/getTimeById";
 import { formatDistanceToNowStrict } from "date-fns";
 import { Tooltip } from "@mui/material";
 import { Howl } from "howler";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { ToastContainer, toast } from "react-toastify";
 
 const Cards = (props) => {
+  const { user, isLoading, error } = useUser();
   const soundRef = useRef(null);
   const deleteSoundRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -25,13 +28,17 @@ const Cards = (props) => {
   };
 
   const addToFavouritesHandler = () => {
-    dispatch(addFavourite({ mealId: props.id }));
-    playSound();
-    setFavoriteButtonText("Added To Favourites");
-
-    setTimeout(() => {
-      setFavoriteButtonText("Add To Favourites");
-    }, 300);
+    if (user) {
+      dispatch(addFavourite({ mealId: props.id }));
+      playSound();
+      setFavoriteButtonText("Added To Favourites");
+console.log("favoritesfavorites", JSON.stringify(favorites))
+      setTimeout(() => {
+        setFavoriteButtonText("Add To Favourites");
+      }, 300);
+    } else {
+      toast.error("Sign in to save your Favorites.");
+    }
   };
 
   const playSound = () => {
@@ -75,83 +82,98 @@ const Cards = (props) => {
   }, [props.imgUrl]);
 
   return (
-    <div className={styles.card_main}>
-      <div className={styles.card_container} data-key={props.key}>
-        <div className={styles.cardImgWrapper}>
-          {imageLoaded ? (
-            <img
-              className={styles.card_img}
-              onClick={redirectToUrl}
-              src={props.imgUrl}
-              alt="dish img"
-              loading="lazy"
-            />
+    <React.Fragment>
+      <div className={styles.card_main}>
+        <div className={styles.card_container} data-key={props.key}>
+          <div className={styles.cardImgWrapper}>
+            {imageLoaded ? (
+              <img
+                className={styles.card_img}
+                onClick={redirectToUrl}
+                src={props.imgUrl}
+                alt="dish img"
+                loading="lazy"
+              />
+            ) : (
+              <img
+                className={styles.card_img}
+                onClick={redirectToUrl}
+                src={"/assets/notLoaded.gif"}
+                alt="dish img"
+              />
+            )}
+          </div>
+          <Tooltip title={props.mealName} arrow>
+            <p className={styles.card_mealName} onClick={redirectToUrl}>
+              {spliceText(props.mealName)}
+            </p>
+          </Tooltip>
+
+          {props.isFav && (
+            <p className={styles.card_mealSaved}>
+              Saved{" "}
+              {formatDistanceToNowStrict(
+                getTimeById(props.id, favorites) && new Date().toISOString()
+              )}{" "}
+              ago
+            </p>
+          )}
+
+          {props.isFav ? (
+            <div
+              className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+              onClick={() => {
+                props.removeFavouritesHandler(props.id);
+                playDeleteSound();
+              }}
+            >
+              <img src="/icons/star-white.png" alt="star icon" />
+
+              <p>Remove from Favorites</p>
+            </div>
           ) : (
-            <img
-              className={styles.card_img}
-              onClick={redirectToUrl}
-              src={"/assets/notLoaded.gif"}
-              alt="dish img"
-            />
+            <>
+              {checkIfFavourite(props.id, favorites) ? (
+                <Tooltip
+                  arrow
+                  title={`${props.mealName} is added to favourites!`}
+                >
+                  <div
+                    className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+                  >
+                    <img src="/icons/star-white.png" alt="star icon" />
+
+                    <p>Added to Favourites</p>
+                  </div>
+                </Tooltip>
+              ) : (
+                <div
+                  className={styles.card_favbutton}
+                  onClick={addToFavouritesHandler}
+                >
+                  <img src="/icons/star-brown.png" alt="star icon" />
+
+                  <p>{favoriteButtonText}</p>
+                </div>
+              )}
+            </>
           )}
         </div>
-        <Tooltip title={props.mealName} arrow>
-          <p className={styles.card_mealName} onClick={redirectToUrl}>
-            {spliceText(props.mealName)}
-          </p>
-        </Tooltip>
-
-        {props.isFav && (
-          <p className={styles.card_mealSaved}>
-            Saved{" "}
-            {formatDistanceToNowStrict(
-              getTimeById(props.id, favorites) && new Date().toISOString()
-            )}{" "}
-            ago
-          </p>
-        )}
-
-        {props.isFav ? (
-          <div
-            className={`${styles.yes_favourite} ${styles.card_favbutton}`}
-            onClick={() => {
-              props.removeFavouritesHandler(props.id);
-              playDeleteSound();
-            }}
-          >
-            <img src="/icons/star-white.png" alt="star icon" />
-
-            <p>Remove from Favorites</p>
-          </div>
-        ) : (
-          <>
-            {checkIfFavourite(props.id, favorites) ? (
-              <Tooltip
-                arrow
-                title={`${props.mealName} is added to favourites!`}
-              >
-                <div
-                  className={`${styles.yes_favourite} ${styles.card_favbutton}`}
-                >
-                  <img src="/icons/star-white.png" alt="star icon" />
-
-                  <p>Added to Favourites</p>
-                </div>
-              </Tooltip>
-            ) : (
-              <div
-                className={styles.card_favbutton}
-                onClick={addToFavouritesHandler}
-              >
-                <img src="/icons/star-brown.png" alt="star icon" />
-
-                <p>{favoriteButtonText}</p>
-              </div>
-            )}
-          </>
-        )}
       </div>
-    </div>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          // transition="bounce"
+        />
+    </React.Fragment>
   );
 };
 
