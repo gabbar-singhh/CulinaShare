@@ -4,7 +4,10 @@ import React, { useState, useEffect } from "react";
 import NavigationBar from "@/components/Navigation/NavigationBar";
 import styles from "../styles/favorites.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFavourite } from "@/features/favourites/favouritesSlice";
+import {
+  removeFavourite,
+  addFetchedFavouritesToState,
+} from "@/features/favourites/favouritesSlice";
 import axios from "axios";
 import Feed from "@/components/Feed/Feed";
 import Discover from "@/components/Discover/Discover";
@@ -12,11 +15,11 @@ import About from "@/components/About/About";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Head from "next/head";
 import supabase from "@/lib/supabaseClient";
-import { fetchFavourites } from "@/features/favourites/favouritesSlice";
-import { insertEmptyJSON } from "@/features/favourites/favouritesSlice";
 
 const favorites = () => {
-  const favorites = useSelector((state) => state.favouritesReducer.favourites);
+  const favoriteState = useSelector(
+    (state) => state.favouritesReducer.favourites
+  );
   const dispatch = useDispatch();
 
   const { user, isLoading, error } = useUser();
@@ -39,7 +42,7 @@ const favorites = () => {
   };
 
   const fetchAllMeals = async () => {
-    const favoriteIds = favorites.map((favorite) => favorite.id);
+    const favoriteIds = favoriteState.map((favorite) => favorite.id);
     const mealIds = [...favoriteIds];
 
     const allMeals = await Promise.all(
@@ -51,41 +54,78 @@ const favorites = () => {
   useEffect(() => {
     const allMeals = fetchAllMeals()
       .then((res) => {
-        // console.log("res: ", res);
         setData(res);
       })
       .catch(() => {
         setData({ meals: null, error: true });
       });
-  }, [favorites]);
+  }, [favoriteState]);
 
   const removeFavouritesHandler = (id) => {
     console.log("u pressed thsi!");
     dispatch(removeFavourite(id));
-    console.log("favoritesfavoritesfavorites, ", favorites);
+    console.log("favoritesfavoritesfavorites, ", favoriteState);
   };
 
-  // useEffect(() => {
-  //
-
-  //   fetchFavouriteRecipes();
-  //   if (isLoading) {
-  //     // dispatch(fetchNotes(session.user.email));
-  //     console.log(user.email);
-  //     fetchFavouriteRecipes(session.user.email);
-  //   }
-  // }, [isLoading]);
-
   useEffect(() => {
-
     if (user) {
-      console.log(user.email);
-      dispatch(insertEmptyJSON(user.email))
-      dispatch(fetchFavourites(user.email));
+      fetchFavourites(user.email)
+        .then((favs) => {
+          // console.log("favs-use: ",favs.favouritesJson.length)
+          if (favs === undefined) {
+            // ROW NOT MENTIONED, ADD EMPTY JSON
+            insertEmptyJSON(user.email);
+            console.log("favs-use:undefined")
+          } else if (favs.favouritesJson.length >= 0) {
+            // ROW MENTIONED BUT EMPTY
+            dispatch(
+              addFetchedFavouritesToState({
+                favouritesJson: favs.favouritesJson,
+              })
+              );
+              console.log("favs-use:other")
+          }
+        })
+        .catch((err) => {
+          console.log("err - ", err);
+        });
     } else if (error) {
       console.error(error);
     }
   }, [user, error]);
+
+  const updateFavouritesRecipe = async (updatedFavourites) => {
+    const { error } = await supabase
+      .from("favourites")
+      .update({ favouritesJson: updatedFavourites.favorites })
+      .eq("email_id", updatedFavourites.emailId);
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFavourites = async (userEmail) => {
+    const { data, error } = await supabase
+      .from("favourites")
+      .select("favouritesJson")
+      .eq("email_id", userEmail);
+
+    if (error) {
+      console.log(error);
+    }
+
+    return data[0];
+  };
+
+  const insertEmptyJSON = async (inputEmail) => {
+    const { error } = await supabase
+      .from("favourites")
+      .insert({ email_id: inputEmail, favouritesJson: [] });
+
+    if (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <React.Fragment>

@@ -2,11 +2,18 @@ import React, { useEffect, useState } from "react";
 import styles from "./Discover.module.css";
 import axios from "axios";
 import Feed from "../Feed/Feed";
+import { useSelector, useDispatch } from "react-redux";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import supabase from "@/lib/supabaseClient";
 
 const Discover = () => {
   const [data, setData] = useState([]);
   const [resultStr, setResultStr] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const favoriteState = useSelector(
+    (state) => state.favouritesReducer.favourites
+  );
+  const { user, isLoading, error } = useUser();
 
   // USER FILTER STATES
   const [categoryVal, setCategoryVal] = useState();
@@ -35,7 +42,7 @@ const Discover = () => {
   ]);
 
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
     axios
       .get("https://www.themealdb.com/api/json/v1/1/search.php?f=l")
       .then(function (response) {
@@ -50,8 +57,49 @@ const Discover = () => {
       .finally(function (response) {
         // always executed
       });
-    setIsLoading(false);
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchFavourites(user.email)
+        .then((favs) => {
+          // console.log("favs-use: ",favs)
+          if (favs === undefined) {
+            // ROW NOT MENTIONED, ADD EMPTY JSON
+            insertEmptyJSON(user.email);
+          }
+        })
+        .catch((err) => {
+          console.log("err - ", err);
+        });
+    } else if (error) {
+      console.error(error);
+    }
+  }, [user, error]);
+
+  const fetchFavourites = async (userEmail) => {
+    const { data, error } = await supabase
+      .from("favourites")
+      .select("favouritesJson")
+      .eq("email_id", userEmail);
+
+    if (error) {
+      console.log(error);
+    }
+
+    return data[0];
+  };
+
+  const insertEmptyJSON = async (inputEmail) => {
+    const { error } = await supabase
+      .from("favourites")
+      .insert({ email_id: inputEmail, favouritesJson: [] });
+
+    if (error) {
+      console.log(error);
+    }
+  };
 
   const setActiveChip = (item) => {
     // SETTING THE ISSELECTED VALUE TO TRUE ON THE CLICKED CHIP, ALSO MAKING SURE THAT OTHER VALUES REMAIN AS USUAL
@@ -64,30 +112,30 @@ const Discover = () => {
     );
     setChipVal(item.id);
     setResultStr(item.id);
-    setIsLoading(true);
+    setLoading(true);
     getDataFromAPI({ type: "TOP_SEARCH", value: item.id });
   };
 
   const categoryDataHandler = (e) => {
     setCategoryVal(e.target.value);
     setResultStr(e.target.value);
-    setIsLoading(true);
+    setLoading(true);
     getDataFromAPI({ type: "CATEGORY", value: e.target.value });
   };
 
   const nameDataHandler = (e) => {
-    setIsLoading(true);
+    setLoading(true);
     setNameVal(e.target.value);
   };
 
   const featuredButtonHandler = async () => {
-    setIsLoading(true);
+    setLoading(true);
     getDataFromAPI({ type: "FEATURED", value: "" });
   };
 
   const randomButtonHandler = () => {
     setResultStr("a random recipe");
-    setIsLoading(true);
+    setLoading(true);
     getDataFromAPI({ type: "RANDOM", value: "" });
   };
 
@@ -127,7 +175,7 @@ const Discover = () => {
             ]);
             setShowShowResults(true);
             setNameVal(""); // making search box empty
-            setIsLoading(false);
+            setLoading(false);
           });
 
         break;
@@ -162,7 +210,7 @@ const Discover = () => {
               { id: "dessert", isSelected: false, value: "dessert" },
             ]);
             setShowShowResults(true);
-            setIsLoading(false);
+            setLoading(false);
           });
 
         break;
@@ -191,7 +239,7 @@ const Discover = () => {
             .finally(() => {
               // always executed
               setShowShowResults(true);
-              setIsLoading(false);
+              setLoading(false);
             });
         } else if (fetch.value === "indian") {
           axios
@@ -209,7 +257,7 @@ const Discover = () => {
             .finally(() => {
               // always executed
               setShowShowResults(true);
-              setIsLoading(false);
+              setLoading(false);
             });
         } else if (fetch.value === "shawarma") {
           axios
@@ -229,7 +277,7 @@ const Discover = () => {
               // always executed
               setShowShowResults(true);
               setNameVal("");
-              setIsLoading(false);
+              setLoading(false);
             });
         }
         break;
@@ -254,7 +302,7 @@ const Discover = () => {
             setResultStr("top featured recipes");
             setShowShowResults(true);
             setNameVal("");
-            setIsLoading(false);
+            setLoading(false);
           });
         break;
 
@@ -282,7 +330,7 @@ const Discover = () => {
             ]);
             setShowShowResults(true);
             setNameVal("");
-            setIsLoading(false);
+            setLoading(false);
           });
         break;
 
@@ -427,7 +475,7 @@ const Discover = () => {
             </p>
           </div>
         </div>
-        <Feed data={data} isLoading={isLoading} isFav={false} />
+        <Feed data={data} isLoading={loading} isFav={false} />
       </section>
     </>
   );
