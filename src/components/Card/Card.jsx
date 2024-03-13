@@ -84,7 +84,7 @@ console.log("favoritesfavorites", JSON.stringify(favorites))
   return (
     <React.Fragment>
       <div className={styles.card_main}>
-        <div className={styles.card_container} data-key={props.key}>
+        <div  className={styles.card_container} data-key={props.key}>
           <div className={styles.cardImgWrapper}>
             {imageLoaded ? (
               <img

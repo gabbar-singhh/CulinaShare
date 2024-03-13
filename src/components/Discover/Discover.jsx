@@ -40,7 +40,7 @@ const Discover = () => {
       .get("https://www.themealdb.com/api/json/v1/1/search.php?f=l")
       .then(function (response) {
         // handle success
-        console.log("response", response.data);
+        // console.log("response", response.data);
         setData(response.data.meals);
       })
       .catch(function (error) {

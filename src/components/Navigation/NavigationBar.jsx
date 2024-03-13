@@ -21,10 +21,6 @@ const NavigationBar = (props) => {
     setShowDropdown(!showDropdown);
   };
 
-  useEffect(() => {
-    console.log("user: ", user);
-  }, []);
-
   return (
     <nav className={styles.nav} id="nav">
       <ul className={`${styles.nav_list}`}>
@@ -77,7 +73,7 @@ const NavigationBar = (props) => {
                 <Link href={"/api/auth/logout"}>
                   <li className={`${styles.dropdownItem} ${styles.logoutItem}`}>
                     Logout{" "}
-                    <Image src={"/icons/logout.png"} height={17} width={17} />
+                    <Image src={"/icons/logout.png"} alt="logout icon" height={17} width={17} />
                   </li>
                 </Link>
               </ul>
@@ -92,7 +88,7 @@ const NavigationBar = (props) => {
         <span
           onClick={showHamburgerMenu}
           dangerouslySetInnerHTML={{ __html: hamburgerIcon }}
-          className={hamburgerIcon === "&#10005;" && `${styles.x_size}`}
+          className={hamburgerIcon === "&#10005;" ? `${styles.x_size}`:""}
         ></span>
       </div>
 

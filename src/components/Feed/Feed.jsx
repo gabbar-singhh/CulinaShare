@@ -25,7 +25,7 @@ const Feed = (props) => {
         <div className={styles.feed_container}>
           <div className={styles.card_manager}>
             {num.map(() => {
-              return <SkeletonCard />;
+              return <SkeletonCard key={Math.random()} />
             })}
           </div>
         </div>

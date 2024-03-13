@@ -11,11 +11,14 @@ import Discover from "@/components/Discover/Discover";
 import About from "@/components/About/About";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Head from "next/head";
+import supabase from "@/lib/supabaseClient";
 import { fetchFavourites } from "@/features/favourites/favouritesSlice";
+import { insertEmptyJSON } from "@/features/favourites/favouritesSlice";
 
 const favorites = () => {
   const favorites = useSelector((state) => state.favouritesReducer.favourites);
   const dispatch = useDispatch();
+
   const { user, isLoading, error } = useUser();
 
   const [data, setData] = useState([]);
@@ -48,7 +51,7 @@ const favorites = () => {
   useEffect(() => {
     const allMeals = fetchAllMeals()
       .then((res) => {
-        console.log("res: ", res);
+        // console.log("res: ", res);
         setData(res);
       })
       .catch(() => {
@@ -62,10 +65,27 @@ const favorites = () => {
     console.log("favoritesfavoritesfavorites, ", favorites);
   };
 
-  useEffect(()=>{
-    if(user) dispatch(fetchFavourites(user.email))
-    
-  },[])
+  // useEffect(() => {
+  //
+
+  //   fetchFavouriteRecipes();
+  //   if (isLoading) {
+  //     // dispatch(fetchNotes(session.user.email));
+  //     console.log(user.email);
+  //     fetchFavouriteRecipes(session.user.email);
+  //   }
+  // }, [isLoading]);
+
+  useEffect(() => {
+
+    if (user) {
+      console.log(user.email);
+      dispatch(insertEmptyJSON(user.email))
+      dispatch(fetchFavourites(user.email));
+    } else if (error) {
+      console.error(error);
+    }
+  }, [user, error]);
 
   return (
     <React.Fragment>
