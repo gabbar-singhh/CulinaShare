@@ -24,57 +24,33 @@ export const fetchFavourites = createAsyncThunk(
   }
 );
 
-export const insertEmptyJSON = createAsyncThunk(
-  "insertEmptyJSON",
-  async (inputEmail) => {
-    const { error } = await supabase
-      .from("favourites")
-      .insert({ email_id: inputEmail, favouritesJson: [] });
-
-    if (error) {
-      console.log(error);
-    }
-  }
-);
-
 export const favouritesSlice = createSlice({
   name: "FAVOURITES",
   initialState,
   reducers: {
     addFavourite: (state, action) => {
-      // Add logic to add a favourite
+      const currentDateTime = new Date().toISOString();
+
+      const recipe = {
+        id: action.payload.mealId,
+        time: currentDateTime,
+      };
+
+      state.favourites.push(recipe);
     },
 
     removeFavourite: (state, action) => {
       // Add logic to remove a favourite
     },
+    addFetchedFavouritesToState: (state, action) => {
+      state.favourites = action.payload.favouritesJson;
+    },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchFavourites.pending, (state) => {
-        state.isLoading = true;
-        state.isError = false;
-      })
-      .addCase(fetchFavourites.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.favourites = action.payload.favouritesJson;
-      })
-      .addCase(fetchFavourites.rejected, (state) => {
-        state.isLoading = false;
-        state.isError = true;
-      })
-      .addCase(insertEmptyJSON.pending, (state) => {
-        state.isEmptyArrayAdded = false;
-      })
-      .addCase(insertEmptyJSON.fulfilled, (state) => {
-        state.isEmptyArrayAdded = true;
-      })
-      .addCase(insertEmptyJSON.rejected, (state) => {
-        state.isEmptyArrayAdded = false;
-      });
+
   },
 });
 
-export const { addFavourite, removeFavourite } = favouritesSlice.actions;
+export const { addFavourite, removeFavourite,addFetchedFavouritesToState } = favouritesSlice.actions;
 
 export default favouritesSlice.reducer;

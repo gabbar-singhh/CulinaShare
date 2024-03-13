@@ -10,6 +10,7 @@ import { Tooltip } from "@mui/material";
 import { Howl } from "howler";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { ToastContainer, toast } from "react-toastify";
+import supabase from "@/lib/supabaseClient";
 
 const Cards = (props) => {
   const { user, isLoading, error } = useUser();
@@ -21,7 +22,9 @@ const Cards = (props) => {
     useState("Add to Favourites");
 
   const dispatch = useDispatch();
-  const favorites = useSelector((state) => state.favouritesReducer.favourites);
+  const favoriteState = useSelector(
+    (state) => state.favouritesReducer.favourites
+  );
 
   const redirectToUrl = () => {
     window.location.href = `/recipes/${props.id}`;
@@ -29,10 +32,10 @@ const Cards = (props) => {
 
   const addToFavouritesHandler = () => {
     if (user) {
-      dispatch(addFavourite({ mealId: props.id }));
+      dispatch(addFavourite({ mealId: props.id, emailId: user.name }));
       playSound();
       setFavoriteButtonText("Added To Favourites");
-console.log("favoritesfavorites", JSON.stringify(favorites))
+      console.log("favoritesfavorites", JSON.stringify(favoriteState));
       setTimeout(() => {
         setFavoriteButtonText("Add To Favourites");
       }, 300);
@@ -84,7 +87,7 @@ console.log("favoritesfavorites", JSON.stringify(favorites))
   return (
     <React.Fragment>
       <div className={styles.card_main}>
-        <div  className={styles.card_container} data-key={props.key}>
+        <div className={styles.card_container} data-key={props.key}>
           <div className={styles.cardImgWrapper}>
             {imageLoaded ? (
               <img
@@ -113,7 +116,7 @@ console.log("favoritesfavorites", JSON.stringify(favorites))
             <p className={styles.card_mealSaved}>
               Saved{" "}
               {formatDistanceToNowStrict(
-                getTimeById(props.id, favorites) && new Date().toISOString()
+                getTimeById(props.id, favoriteState) && new Date().toISOString()
               )}{" "}
               ago
             </p>
@@ -133,7 +136,7 @@ console.log("favoritesfavorites", JSON.stringify(favorites))
             </div>
           ) : (
             <>
-              {checkIfFavourite(props.id, favorites) ? (
+              {checkIfFavourite(props.id, favoriteState) ? (
                 <Tooltip
                   arrow
                   title={`${props.mealName} is added to favourites!`}
@@ -161,18 +164,18 @@ console.log("favoritesfavorites", JSON.stringify(favorites))
         </div>
       </div>
       <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          // transition="bounce"
-        />
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition="bounce"
+      />
     </React.Fragment>
   );
 };
