@@ -47,7 +47,7 @@
 .card_container .card_mealSaved {
   font-weight: 600;
   text-align: center;
-  color: #fff;
+  color: var(--secondary-color);
   font-size: 12px;
 }
 

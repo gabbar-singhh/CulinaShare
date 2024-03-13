@@ -1,51 +1,77 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import supabase from "@/lib/supabaseClient";
+
+const initialState = {
+  isError: false,
+  isLoading: false,
+  favourites: [],
+  isEmptyArrayAdded: false,
+};
 
 export const fetchFavourites = createAsyncThunk(
   "fetchFavourites",
-  async (input_email) => {
-    const data = await supabase
+  async (inputEmail) => {
+    const { data, error } = await supabase
       .from("favourites")
-      .select("favourites")
-      .eq("email_id", input_email);
+      .select("favouritesJson")
+      .eq("email_id", inputEmail);
 
-    console.log("asyncthunk: ", data);
+    if (error) {
+      console.log(error);
+    }
+
+    return data[0];
   }
 );
 
-const initialState = {
-  favourites: [
-    // { id: "52808", time: "2024-03-12T16:40:08.495Z" },
-    // { id: "52844", time: "2024-03-12T16:40:10.441Z" },
-    // { id: "52843", time: "2024-03-12T16:40:11.424Z" },
-    // { id: "52884", time: "2024-03-12T16:40:13.409Z" },
-    // { id: "52973", time: "2024-03-12T16:40:13.992Z" },
-    // { id: "52877", time: "2024-03-12T16:40:30.061Z" },
-    // { id: "52821", time: "2024-03-12T16:40:44.577Z" },
-    // { id: "53009", time: "2024-03-12T16:41:32.126Z" },
-  ],
-};
+export const insertEmptyJSON = createAsyncThunk(
+  "insertEmptyJSON",
+  async (inputEmail) => {
+    const { error } = await supabase
+      .from("favourites")
+      .insert({ email_id: inputEmail, favouritesJson: [] });
+
+    if (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const favouritesSlice = createSlice({
   name: "FAVOURITES",
   initialState,
   reducers: {
     addFavourite: (state, action) => {
-      const currentDateTime = new Date().toISOString();
-
-      const recipe = {
-        id: action.payload.mealId,
-        time: currentDateTime,
-      };
-
-      state.favourites.push(recipe);
+      // Add logic to add a favourite
     },
 
     removeFavourite: (state, action) => {
-      state.favourites = state.favourites.filter(
-        (meal) => meal.id !== action.payload
-      );
+      // Add logic to remove a favourite
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchFavourites.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(fetchFavourites.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.favourites = action.payload.favouritesJson;
+      })
+      .addCase(fetchFavourites.rejected, (state) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      .addCase(insertEmptyJSON.pending, (state) => {
+        state.isEmptyArrayAdded = false;
+      })
+      .addCase(insertEmptyJSON.fulfilled, (state) => {
+        state.isEmptyArrayAdded = true;
+      })
+      .addCase(insertEmptyJSON.rejected, (state) => {
+        state.isEmptyArrayAdded = false;
+      });
   },
 });
 
