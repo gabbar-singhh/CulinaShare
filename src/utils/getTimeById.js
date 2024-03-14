@@ -7,7 +7,8 @@ function getTimeById(id, arr) {
     }
   });
 
-  return result || "Unknown";
+  // return result || "Unknown";
+  return result || 0;
 }
 
 export default getTimeById;

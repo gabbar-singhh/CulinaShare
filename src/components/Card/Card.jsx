@@ -143,6 +143,14 @@ const Cards = (props) => {
     }
   }, [favoriteState]);
 
+  // useEffect(() => {
+  //   if (user) {
+  //     updateFavouritesRecipe({ favorites: favoriteState, emailId: user.email });
+  //   } else if (error) {
+  //     console.error(error);
+  //   }
+  // }, [favoriteState]);
+
   return (
     <React.Fragment>
       <div className={styles.card_main}>
@@ -185,7 +193,7 @@ const Cards = (props) => {
             <div
               className={`${styles.yes_favourite} ${styles.card_favbutton}`}
               onClick={() => {
-                props.removeFavouritesHandler(props.id);
+                props.removeFavouritesHandler({mealId:props.id, emailId:user.email});
                 playDeleteSound();
               }}
             >
@@ -229,7 +237,7 @@ const Cards = (props) => {
       </div>
       <ToastContainer
         position="top-center"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -238,7 +246,6 @@ const Cards = (props) => {
         draggable
         pauseOnHover
         theme="light"
-        // transition="bounce"
       />
     </React.Fragment>
   );

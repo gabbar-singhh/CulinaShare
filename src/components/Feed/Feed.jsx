@@ -13,15 +13,7 @@ const Feed = (props) => {
   let currentMeals = [];
 
   if (props.data) {
-    currentMeals = sortDataByTime(
-      props.data.slice(firstMealIndex, lastMealIndex)
-    );
-  }
-
-  function sortDataByTime(data) {
-    return [...data]
-      .sort((a, b) => new Date(b.time) - new Date(a.time))
-      .reverse();
+    currentMeals = props.data.slice(firstMealIndex, lastMealIndex);
   }
 
   if (props.isLoading) {

@@ -36,13 +36,29 @@ export const favouritesSlice = createSlice({
 
     removeFavourite: (state, action) => {
       // Add logic to remove a favourite
+      state.favourites = state.favourites.filter(
+        (meal) => meal.id !== action.payload.mealId
+      );
+      updateFavouritesRecipe({
+        favorites: state.favourites,
+        emailId: action.payload.emailId,
+      });
     },
     addFetchedFavouritesToState: (state, action) => {
       state.favourites = action.payload.favouritesJson;
     },
   },
-  extraReducers: (builder) => {},
 });
+
+const updateFavouritesRecipe = async (updatedFavourites) => {
+  const { error } = await supabase
+    .from("favourites")
+    .update({ favouritesJson: updatedFavourites.favorites })
+    .eq("email_id", updatedFavourites.emailId);
+  if (error) {
+    console.log(error);
+  }
+};
 
 export const { addFavourite, removeFavourite, addFetchedFavouritesToState } =
   favouritesSlice.actions;
