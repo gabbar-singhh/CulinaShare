@@ -29,12 +29,7 @@ export const favouritesSlice = createSlice({
   initialState,
   reducers: {
     addFavourite: (state, action) => {
-      const currentDateTime = new Date().toISOString();
-
-      const recipe = {
-        id: action.payload.mealId,
-        time: currentDateTime,
-      };
+      const recipe = action.payload.newRecipe;
 
       state.favourites.push(recipe);
     },
@@ -46,11 +41,10 @@ export const favouritesSlice = createSlice({
       state.favourites = action.payload.favouritesJson;
     },
   },
-  extraReducers: (builder) => {
-
-  },
+  extraReducers: (builder) => {},
 });
 
-export const { addFavourite, removeFavourite,addFetchedFavouritesToState } = favouritesSlice.actions;
+export const { addFavourite, removeFavourite, addFetchedFavouritesToState } =
+  favouritesSlice.actions;
 
 export default favouritesSlice.reducer;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Feed.module.css";
 import Cards from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
@@ -11,8 +11,17 @@ const Feed = (props) => {
   const lastMealIndex = currentPage * mealsPerPage;
   const firstMealIndex = lastMealIndex - mealsPerPage;
   let currentMeals = [];
+
   if (props.data) {
-    currentMeals = props.data.slice(firstMealIndex, lastMealIndex);
+    currentMeals = sortDataByTime(
+      props.data.slice(firstMealIndex, lastMealIndex)
+    );
+  }
+
+  function sortDataByTime(data) {
+    return [...data]
+      .sort((a, b) => new Date(b.time) - new Date(a.time))
+      .reverse();
   }
 
   if (props.isLoading) {
@@ -25,7 +34,7 @@ const Feed = (props) => {
         <div className={styles.feed_container}>
           <div className={styles.card_manager}>
             {num.map(() => {
-              return <SkeletonCard key={Math.random()} />
+              return <SkeletonCard key={Math.random()} />;
             })}
           </div>
         </div>
