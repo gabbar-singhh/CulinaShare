@@ -3,72 +3,94 @@
   scroll-snap-align: start;
   font-family: var(--primary-font);
   background-color: var(--primary-color);
-  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+  background-color: var(--secondary-color);
+}
+
+.about_main .bgNewletter {
+  position: absolute;
+  width: 100vw;
+  height: 90vh;
+  object-fit: cover;
+  opacity: 0.2;
 }
 
 .about_container {
   color: var(--secondary-color);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   cursor: default;
+  z-index: 1;
 }
 
-.about_container h1 {
-  font-family: var(--logo-font);
-  font-size: 2.4em;
-  text-transform: uppercase;
-  cursor: default;
-  color: var(--secondary-color);
+.leftSide {}
+
+.newsletter {
+  text-align: center;
+  color: #fff;
 }
 
-.about_container p {
+.newsletter h3 {
+  font-size: 1.8rem;
+}
+
+.newsletter p {
+  font-size: 1rem;
   font-weight: 500;
+  color: #efefef;
 }
 
-.leftSide {
-  width: 70%;
-}
-
-.rightSide {
-  width: 30%;
+.searchbar {
+  margin-top: 2.4rem;
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 2.4em;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--primary-color) !important;
+  border-radius: 0.4em;
+  padding: 0.2em 0.2em 0.2em 1em;
+  transition: 0.2s ease-in-out;
+  background-color: #fff;
+  border: 1px solid var(--secondary-color);
 }
 
-.rightSide .companyBox,
-.rightSide .resourceBox {}
-
-.rightSide .companyBox h3,
-.rightSide .resourceBox h3 {
-  text-transform: capitalize;
-}
-
-.rightSide .companyBox ul,
-.rightSide .resourceBox ul {
-  list-style-type: none;
-  text-transform: capitalize;
+.search_input {
+  outline: none;
+  border: none;
   font-size: 1em;
+  border-radius: 0.25rem;
+  display: inline;
+  width: 100%;
 }
 
-.rightSide .companyBox ul li,
-.rightSide .resourceBox ul li {
-  font-size: 14px;
-  margin-left: 3px;
-  transition: 0.3s ease-in-out;
+.search_input::placeholder {
+  color: var(--secondary-color-light)
 }
 
-.rightSide .companyBox ul li:hover,
-.rightSide .resourceBox ul li:hover {
-  font-size: 14px;
-  margin-left: 3px;
+.search_icon {
+  background-color: var(--primary-color) !important;
+  padding: 10px;
+  padding-bottom: 4px;
+  border-radius: 0.4em;
   cursor: pointer;
-
-  text-decoration: underline;
 }
+
+.newsletter .pSpam {
+  margin-top: 4px;
+  font-weight: 600;
+  text-align: left;
+  color: #fff;
+}
+
 
 .about_bottomLane {
   display: flex;
@@ -117,103 +139,21 @@
   color: #ffffffbb;
 }
 
-@media screen and (min-width: 1025px) and (max-width: 1200px) {
-  .about_container {
-    display: flex;
-    gap: 1.5em;
-  }
+@media screen and (min-width: 1025px) and (max-width: 1200px) {}
 
-  .leftSide {
-    width: 70%;
-  }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  .about_container {
-    display: flex;
-    gap: 1.5em;
-  }
-
-  .leftSide {
-    width: 68%;
-  }
-
-  .rightSide {
-    gap: 2em;
-  }
-}
+@media screen and (min-width: 769px) and (max-width: 1024px) {}
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
   .about_main {
     padding: 40px 1.5em;
   }
 
-  .about_container {
-    display: flex;
-    gap: 1.5em;
-  }
-
-  .rightSide {
-    gap: 2em;
-  }
-
-  .about_container {
-    color: var(--secondary-color);
-    cursor: default;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
-  .about_container h1 {
-    margin-left: 0;
-  }
-
-  .leftSide {
-    width: 100%;
-  }
-
-  .rightSide {
-    width: 100%;
-    justify-content: flex-start;
-  }
 }
 
 @media screen and (min-width: 360px) and (max-width: 480px) {
   .about_main {
     padding: 40px 1.5em;
   }
-
-  .about_container {
-    display: flex;
-    gap: 1.5em;
-  }
-
-  .rightSide {
-    gap: 2em;
-  }
-
-  .about_container {
-    color: var(--secondary-color);
-    cursor: default;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
-  .about_container h1 {
-    margin-left: 0;
-  }
-
-  .leftSide {
-    width: 100%;
-  }
-
-  .rightSide {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
 }
 
 
@@ -225,31 +165,6 @@
   .about_container {
     display: flex;
     gap: 1.5em;
-  }
-
-  .rightSide {
-    gap: 2em;
-  }
-
-  .about_container {
-    color: var(--secondary-color);
-    cursor: default;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
-  .about_container h1 {
-    margin-left: 0;
-  }
-
-  .leftSide {
-    width: 100%;
-  }
-
-  .rightSide {
-    width: 100%;
-    justify-content: flex-start;
   }
 
   .about_bottomLane {

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./About.module.css";
 
 const About = () => {
+  const [emailVal, setEmailVal] = useState("");
+  const [isSearchClicked, setIsSearchClicked] = useState(false);
+
   const socialHandler = (event) => {
     const type = event.currentTarget.getAttribute("data-key");
 
@@ -22,40 +25,70 @@ const About = () => {
       // no default case here
     }
   };
+
+  const emailDataHandler = (e) => {
+    setEmailVal(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const emailValKeyDownHandler = (e) => {
+    if (e.keyCode === 13) {
+      setEmailVal(e.target.value);
+      // send email to supabase!
+      console.log(e.target.value);
+    }
+  };
+
+  const handleSearchClick = () => {
+    setIsSearchClicked((prevState) => !prevState);
+
+    setTimeout(() => {
+      setIsSearchClicked(false);
+    }, 150);
+  };
   return (
     <React.Fragment>
       <section className={styles.about_main}>
+        <img
+          className={styles.bgNewletter}
+          src="/assets/bgNewsletterImage.webp"
+          alt=""
+        />
         <div className={styles.about_container}>
-          <div className={styles.leftSide}>
-            <h1>Culina Share</h1>
+          <div className={styles.newsletter}>
+            <h3>Join Our NewsLetter!</h3>
             <p>
-              Your kitchen companion for delightful journeys in cooking.
-              Explore, create, and savor recipes together, making culinary
-              adventures accessible for every home chef.{" "}
+              Never miss any new amazing recipes, get them right onto your
+              mails!
             </p>
-          </div>
-          <div className={styles.rightSide}>
-            <div className={styles.companyBox}>
-              <h3>company</h3>
-              <ul>
-                <li>Careers</li>
-                <li>Legal</li>
-                <li>Customer Stories</li>
-                <li>Press Kit</li>
-              </ul>
+            <div className={styles.searchbar}>
+              <input
+                placeholder="johnnysins@gmail.com"
+                className={styles.search_input}
+                type="text"
+                name=""
+                id=""
+                value={emailVal}
+                onChange={emailDataHandler}
+                onKeyDown={emailValKeyDownHandler}
+              />
+              <span
+                className={`${styles.search_icon} shine_effect`}
+                onClick={handleSearchClick}
+                style={{
+                  backgroundColor: isSearchClicked
+                    ? "var(--secondary-color-light)"
+                    : "var(--secondary-color)",
+                }}
+              >
+                <img src="/icons/send.png" height={18} alt="" />
+              </span>
             </div>
-            <div className={styles.resourceBox}>
-              <h3>resource</h3>
-              <ul>
-                <li>blog</li>
-                <li>eBooks</li>
-                <li>Strategic Partners</li>
-              </ul>
-            </div>
+            <p className={styles.pSpam}>PLS: WE WON'T SPAM</p>
           </div>
         </div>
 
-        <div className={styles.about_bottomLane}>
+        {/* <div className={styles.about_bottomLane}>
           <h3>Connect with us</h3>
 
           <ul>
@@ -88,10 +121,10 @@ const About = () => {
               <img src="/icons/facebook-about.svg" />
             </li>
           </ul>
-        </div>
+        </div> */}
       </section>
       <footer className={styles.footer}>
-        &copy; 2024 Culina Share, LTD. All rights reserved.
+        made with ❤ by himanshu!
       </footer>
     </React.Fragment>
   );
