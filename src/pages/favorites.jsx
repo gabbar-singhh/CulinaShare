@@ -11,10 +11,10 @@ import {
 import axios from "axios";
 import Feed from "@/components/Feed/Feed";
 import Discover from "@/components/Discover/Discover";
-import About from "@/components/About/About";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Head from "next/head";
 import supabase from "@/lib/supabaseClient";
+import Footer from "@/components/Footer/Footer";
 
 const favorites = () => {
   const favoriteState = useSelector(
@@ -174,7 +174,7 @@ const favorites = () => {
           </div>
         )}
 
-        <About />
+        <Footer />
       </section>
     </React.Fragment>
   );

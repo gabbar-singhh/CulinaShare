@@ -11,8 +11,8 @@ import Link from "next/link";
 import { useState } from "react";
 import getYouTubeID from "get-youtube-id";
 import { Tooltip } from "@mui/material";
-import About from "@/components/About/About";
 import Head from "next/head";
+import Footer from "@/components/Footer/Footer";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
@@ -183,7 +183,7 @@ export default function BlogPost({ meal }) {
             </div>
           </div>
         </section>
-        <About />
+        <Footer />
       </React.Fragment>
     );
   }

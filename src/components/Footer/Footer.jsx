@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styles from "./About.module.css";
+import styles from "./Footer.module.css";
 
-const About = () => {
+const Footer = () => {
   const [emailVal, setEmailVal] = useState("");
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
@@ -130,4 +130,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Footer;

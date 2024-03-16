@@ -44,14 +44,14 @@ const HeroSection = () => {
           />
           <h1 className={styles.bottom_text}>recipes</h1>
 
-          <div className={styles.discover_button}>
-            <Link href={'/recipes'}>EXPLORE NOW </Link>
+          <Link href={"/recipes"} className={styles.discover_button}>
+            EXPLORE NOW
             <img
               className={styles.next_icon}
               src="/icons/next_arrow.svg"
               alt="next arrow icon"
             />
-          </div>
+          </Link>
         </div>
       </div>
     </section>
