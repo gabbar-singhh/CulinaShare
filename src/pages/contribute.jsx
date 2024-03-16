@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/contribute.module.css";
 import NavigationBar from "@/components/Navigation/NavigationBar";
 import About from "@/components/About/About";
 import Head from "next/head";
+import youtubeUrl from "youtube-url";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { toast, ToastContainer } from "react-toastify";
+import { Tooltip } from "@mui/material";
 
 const contribute = () => {
+  const { user, isLoading, error } = useUser();
   const [recipeName, setRecipeName] = useState("");
   const [recipeArea, setRecipeArea] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
   const [youtubeVideoLink, setYoutubeVideoLink] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const [fileUploadLabel, setFileUploadLabel] = useState("Uploading");
 
   const eventDataHandler = (event) => {
     const type = event.currentTarget.getAttribute("data-key");
@@ -40,9 +50,65 @@ const contribute = () => {
   };
 
   const submitButtonHandler = (event) => {
-    event.preventDefault();
-    // submit button handler code
+    if (!isDisabled) {
+      sendRecipeDataToContributeTable(user.email, {
+        recipeName: recipeName,
+        recipeArea: recipeArea,
+        youtubeVideoUrl: youtubeVideoLink,
+        ingredients: ingredients,
+        instructions: instructions,
+      });
+    }
   };
+
+  const sendRecipeDataToContributeTable = async (emailId, recipeData) => {
+    try {
+      const { data, error } = await supabase
+        .from("contribution")
+        .insert({ email_id: emailId, recipe_date: recipeData });
+
+      if (error) {
+        throw error;
+      }
+
+      console.log('Row added to "contribution" table:', data);
+    } catch (error) {
+      console.error('Error adding row to "contribution" table:', error.message);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+    }
+
+    setTimeout(() => {
+      setFileUploadLabel("Uploaded");
+    }, 3500);
+  };
+
+  useEffect(() => {
+    if (
+      recipeName &&
+      recipeArea &&
+      youtubeUrl.valid(youtubeVideoLink) &&
+      ingredients &&
+      instructions &&
+      fileName
+    ) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [
+    recipeName,
+    recipeArea,
+    youtubeVideoLink,
+    ingredients,
+    instructions,
+    fileName,
+  ]);
 
   return (
     <React.Fragment>
@@ -115,9 +181,18 @@ const contribute = () => {
                   </svg>
                 </div>
                 <div className={styles.text}>
-                  <span>Click to upload image</span>
+                  <span>
+                    {fileName
+                      ? `${fileUploadLabel}: ${fileName}`
+                      : "Click to upload image"}
+                  </span>
                 </div>
-                <input type="file" id="file" />
+                <input
+                  type="file"
+                  id="file"
+                  accept="image/*,.png,.jpg,.jpeg"
+                  onChange={handleFileChange}
+                />
               </label>
             </div>
 
@@ -166,16 +241,35 @@ const contribute = () => {
                 onChange={eventDataHandler}
               ></textarea>
             </div>
-            <button
-              className={`${styles.submit_button}`}
-              onClick={submitButtonHandler}
+            <Tooltip
+              placement="bottom"
+              arrow
+              title={isDisabled ? "Enter input fields" : "submit"}
             >
-              submit
-            </button>
+              <button
+                className={`${styles.submit_button}`}
+                onClick={submitButtonHandler}
+                disabled={isDisabled}
+              >
+                submit
+              </button>
+            </Tooltip>
           </form>
         </div>
         <About />
       </section>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </React.Fragment>
   );
 };

@@ -71,19 +71,18 @@ const favorites = () => {
     if (user) {
       fetchFavourites(user.email)
         .then((favs) => {
-          // console.log("favs-use: ",favs.favouritesJson.length)
           if (favs === undefined) {
             // ROW NOT MENTIONED, ADD EMPTY JSON
             insertEmptyJSON(user.email);
-            console.log("favs-use:undefined")
+            console.log("favs-use:undefined");
           } else if (favs.favouritesJson.length >= 0) {
             // ROW MENTIONED BUT EMPTY
             dispatch(
               addFetchedFavouritesToState({
                 favouritesJson: favs.favouritesJson,
               })
-              );
-              console.log("favs-use:other")
+            );
+            console.log("favs-use:other");
           }
         })
         .catch((err) => {
@@ -127,6 +126,12 @@ const favorites = () => {
     }
   };
 
+  const sortDataByTime = (data) => {
+    return [...data]
+      .sort((a, b) => new Date(b.time) - new Date(a.time))
+      .reverse();
+  };
+
   return (
     <React.Fragment>
       <Head>
@@ -154,7 +159,7 @@ const favorites = () => {
               </>
             ) : (
               <Feed
-                data={data} // data again i.e, fetched!
+                data={sortDataByTime(data)} // data again i.e, fetched!
                 isFav={true}
                 onClickRemove={removeFavouritesHandler}
               />

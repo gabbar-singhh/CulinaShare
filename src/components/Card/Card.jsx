@@ -11,15 +11,19 @@ import { Howl } from "howler";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { ToastContainer, toast } from "react-toastify";
 import supabase from "@/lib/supabaseClient";
+import CircularLoader from "../CircularLoader/CircularLoader";
 
 const Cards = (props) => {
   const { user, isLoading, error } = useUser();
   const soundRef = useRef(null);
   const deleteSoundRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [favouritesFromDB, setFavouritesFromDB] = useState([]);
 
   const [favoriteButtonText, setFavoriteButtonText] =
     useState("Add to Favourites");
+
+  const [showFavouriteLoading, setShowFavouriteLoading] = useState(false);
 
   const dispatch = useDispatch();
   const favoriteState = useSelector(
@@ -31,11 +35,27 @@ const Cards = (props) => {
   };
 
   const addToFavouritesHandler = () => {
+    const currentDateTime = new Date().toISOString();
     if (user) {
-      dispatch(addFavourite({ mealId: props.id, emailId: user.name }));
-      playSound();
+      setShowFavouriteLoading(true);
       setFavoriteButtonText("Added To Favourites");
-      console.log("favoritesfavorites", JSON.stringify(favoriteState));
+      playSound();
+
+      // NEW RECIPE OBJ, THAT NEEDS TO BE PUSHED TO FAVOURITESTATE
+      const newRecipe = {
+        id: props.id,
+        time: currentDateTime,
+      };
+
+      // DISPATCHING NEW RECIPE OBJ TO SET TO FAVOURITESTATE TO GETTING UPDATED FAVOURITES
+      dispatch(addFavourite({ newRecipe: newRecipe }));
+
+      // SENDING THE RECIPE-FAVS WITH NEW RECIPE ALSO! UPDATING THE OBJ WITH PREV-VALUES TO GETTING THE LATEST DATA
+      updateFavouritesRecipe({
+        favorites: [...favoriteState, newRecipe],
+        emailId: user.email,
+      });
+
       setTimeout(() => {
         setFavoriteButtonText("Add To Favourites");
       }, 300);
@@ -84,11 +104,59 @@ const Cards = (props) => {
     img.src = props.imgUrl;
   }, [props.imgUrl]);
 
+  const updateFavouritesRecipe = async (updatedFavourites) => {
+    const { error } = await supabase
+      .from("favourites")
+      .update({ favouritesJson: updatedFavourites.favorites })
+      .eq("email_id", updatedFavourites.emailId);
+    if (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFavourites = async (userEmail) => {
+    const { data, error } = await supabase
+      .from("favourites")
+      .select("favouritesJson")
+      .eq("email_id", userEmail);
+
+    if (error) {
+      console.log(error);
+    }
+
+    return data[0];
+  };
+
+  // USEEFFECT FOR SETTING THE LABEL TO "ADDED TO FAVOURITES", IF THEY HAVE BEEN ADDED TO FAVS PREVIOUSLY
+  useEffect(() => {
+    if (user) {
+      fetchFavourites(user.email)
+        .then((data) => {
+          setFavouritesFromDB(data.favouritesJson);
+          setShowFavouriteLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else if (error) {
+      console.error(error);
+    }
+  }, [favoriteState]);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     updateFavouritesRecipe({ favorites: favoriteState, emailId: user.email });
+  //   } else if (error) {
+  //     console.error(error);
+  //   }
+  // }, [favoriteState]);
+
   return (
     <React.Fragment>
       <div className={styles.card_main}>
         <div className={styles.card_container} data-key={props.key}>
           <div className={styles.cardImgWrapper}>
+            {/* IF CARD IMAGE IS LOADED OR NOT, IF NOT THEN SHOW ORANGE-LOADER GIF INSTEAD */}
             {imageLoaded ? (
               <img
                 className={styles.card_img}
@@ -112,12 +180,11 @@ const Cards = (props) => {
             </p>
           </Tooltip>
 
+          {/* FOR FAVOURITES PAGE: IF isFav IS TRUE, WHICH MEAN THAT KI CARD WILL ACT FOR FAVOURITES, IT WILL SHOW RELATIVE TIME */}
           {props.isFav && (
             <p className={styles.card_mealSaved}>
               Saved{" "}
-              {formatDistanceToNowStrict(
-                getTimeById(props.id, favoriteState) && new Date().toISOString()
-              )}{" "}
+              {formatDistanceToNowStrict(getTimeById(props.id, favoriteState))}{" "}
               ago
             </p>
           )}
@@ -126,7 +193,7 @@ const Cards = (props) => {
             <div
               className={`${styles.yes_favourite} ${styles.card_favbutton}`}
               onClick={() => {
-                props.removeFavouritesHandler(props.id);
+                props.removeFavouritesHandler({mealId:props.id, emailId:user.email});
                 playDeleteSound();
               }}
             >
@@ -136,7 +203,7 @@ const Cards = (props) => {
             </div>
           ) : (
             <>
-              {checkIfFavourite(props.id, favoriteState) ? (
+              {checkIfFavourite(props.id, favouritesFromDB) ? (
                 <Tooltip
                   arrow
                   title={`${props.mealName} is added to favourites!`}
@@ -154,9 +221,14 @@ const Cards = (props) => {
                   className={styles.card_favbutton}
                   onClick={addToFavouritesHandler}
                 >
-                  <img src="/icons/star-brown.png" alt="star icon" />
-
-                  <p>{favoriteButtonText}</p>
+                  {showFavouriteLoading ? (
+                    <CircularLoader />
+                  ) : (
+                    <>
+                      <img src="/icons/star-brown.png" alt="star icon" />
+                      <p>{favoriteButtonText}</p>
+                    </>
+                  )}
                 </div>
               )}
             </>
@@ -165,7 +237,7 @@ const Cards = (props) => {
       </div>
       <ToastContainer
         position="top-center"
-        autoClose={5000}
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -174,7 +246,6 @@ const Cards = (props) => {
         draggable
         pauseOnHover
         theme="light"
-        // transition="bounce"
       />
     </React.Fragment>
   );

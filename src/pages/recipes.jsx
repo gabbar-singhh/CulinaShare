@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../styles/recipes.module.css";
 import Discover from "@/components/Discover/Discover";
 import NavigationBar from "@/components/Navigation/NavigationBar";
@@ -6,7 +6,6 @@ import About from "@/components/About/About";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import supabase from "@/lib/supabaseClient";
 
 const recipes = () => {
   const favoriteState = useSelector(
@@ -14,23 +13,6 @@ const recipes = () => {
   );
   const { user, isLoading, error } = useUser();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     updateFavouritesRecipe({ favorites: favoriteState, emailId: user.email });
-  //   } else if (error) {
-  //     console.error(error);
-  //   }
-  // }, [favoriteState]);
-
-  // const updateFavouritesRecipe = async (updatedFavourites) => {
-  //   const { error } = await supabase
-  //     .from("favourites")
-  //     .update({ favouritesJson: updatedFavourites.favorites })
-  //     .eq("email_id", updatedFavourites.emailId);
-  //   if (error) {
-  //     console.log(error);
-  //   }
-  // };
   return (
     <React.Fragment>
       <Head>
