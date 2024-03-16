@@ -50,6 +50,9 @@ const contribute = () => {
   };
 
   const submitButtonHandler = (event) => {
+
+    event.preventDefault()
+
     if (!isDisabled) {
       sendRecipeDataToContributeTable(user.email, {
         recipeName: recipeName,
@@ -57,7 +60,12 @@ const contribute = () => {
         youtubeVideoUrl: youtubeVideoLink,
         ingredients: ingredients,
         instructions: instructions,
-      });
+      }).then(()=>{
+        toast.success("recipe sent successfully!")
+      }).catch((err)=>{
+        toast.error("some unkown error occured!")
+
+      })
     }
   };
 
@@ -260,7 +268,7 @@ const contribute = () => {
       </section>
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

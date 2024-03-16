@@ -4,6 +4,7 @@ import NavigationBar from "@/components/Navigation/NavigationBar";
 import HeroSection from "@/components/Hero/HeroSection";
 import Discover from "@/components/Discover/Discover";
 import About from "@/components/About/About";
+import CategorySection from "@/components/CategorySection/CategorySection";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <NavigationBar />
         <div className={styles.container}>
           <HeroSection />
+          <CategorySection/>
           <Discover />
         </div>
         <About />

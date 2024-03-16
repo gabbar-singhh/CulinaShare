@@ -1,0 +1,67 @@
+.categoryMain {
+    scroll-snap-align: start;
+    height: 100vh;
+    height: 100dvh;
+    background-color: #6e2b08;
+    padding: 2.8em 2em;
+    font-family: var(--primary-font);
+}
+
+.categoryContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+    border: 1px solid var(--primary-color);
+    border-radius: 4px;
+    padding: 1.5rem;
+}
+
+.categoryImage {}
+
+.featuresList {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.featureCard {
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid #fbe1c0;
+    text-align: center;
+    max-width: 250px;
+}
+
+.kiteShape {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    transform: rotate(-45deg);
+    margin: 16px auto;
+    border-radius: 0.8rem;
+}
+
+.kiteShape img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 45%;
+    height: auto;
+}
+
+.featureCard h3 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+.featureCard p {
+    font-size: 15px;
+    color: var(--secondary-color);
+}

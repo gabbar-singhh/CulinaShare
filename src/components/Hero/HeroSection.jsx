@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./HeroSection.module.css";
 import { TypeAnimation } from "react-type-animation";
+import Link from "next/link";
 
 const HeroSection = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -21,7 +22,10 @@ const HeroSection = () => {
         {imageLoaded ? (
           <img src="/assets/hero_gradient.webp" alt="background img" />
         ) : (
-          <img src="/assets/heroPlaceholder.webp" alt="background img placeholder" />
+          <img
+            src="/assets/heroPlaceholder.webp"
+            alt="background img placeholder"
+          />
         )}
         <div className={styles.content_box}>
           <TypeAnimation
@@ -41,7 +45,7 @@ const HeroSection = () => {
           <h1 className={styles.bottom_text}>recipes</h1>
 
           <div className={styles.discover_button}>
-            EXPLORE NOW{" "}
+            <Link href={'/recipes'}>EXPLORE NOW </Link>
             <img
               className={styles.next_icon}
               src="/icons/next_arrow.svg"
