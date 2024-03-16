@@ -1,13 +1,30 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CategorySection.module.css";
-import Link from "next/link";
 
 const CategorySection = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // CHECKING IF IMAGE IS LOADED OR NOT
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      setImageLoaded(true);
+    };
+
+    img.src = "/assets/categoryImage.webp";
+  }, ["/assets/categoryImage.webp"]);
   return (
     <section className={styles.categoryMain}>
       <section className={styles.categoryContainer}>
         <div className={styles.categoryImage}>
-          <img src="/assets/5.png" alt="" />
+          {imageLoaded ? (
+            <img src="/assets/categoryImage.webp" alt="woman cooking food" />
+          ) : (
+            <img
+              src="/assets/categoryImageBlur.webp"
+              alt="woman cooking food"
+            />
+          )}
         </div>
         <div className={styles.featuresList}>
           <div className={styles.featureCard}>

@@ -1,10 +1,14 @@
 .categoryMain {
     scroll-snap-align: start;
-    height: 100vh;
-    height: 100dvh;
+    background-color: #fff;
     background-color: #6e2b08;
+    background-color: var(--primary-color);
     padding: 2.8em 2em;
     font-family: var(--primary-font);
+
+    background: rgb(110, 43, 8);
+    background: linear-gradient(169deg, rgba(110, 43, 8, 1) 0%, rgba(255, 145, 0, 1) 100%);
+    cursor: default;
 }
 
 .categoryContainer {
@@ -15,12 +19,16 @@
     position: relative;
     height: 100%;
     background-color: #fff;
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
+    border-radius: 5px;
     padding: 1.5rem;
 }
 
 .categoryImage {}
+
+.categoryImage img {
+    height: auto;
+    width: 500px;
+}
 
 .featuresList {
     display: flex;
@@ -64,4 +72,46 @@
 .featureCard p {
     font-size: 15px;
     color: var(--secondary-color);
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .categoryImage img {
+        height: auto;
+        width: 350px;
+    }
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+
+    .categoryContainer {
+        flex-direction: column;
+    }
+
+    .categoryImage img {
+        height: auto;
+        width: 350px;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .categoryContainer {
+        flex-direction: column;
+    }
+
+    .categoryImage img {
+        height: auto;
+        width: 300px;
+    }
+}
+
+@media (max-width:640px) {
+    .categoryContainer {
+        flex-direction: column;
+    }
+
+    .categoryImage img {
+        height: auto;
+        width: 80vw;
+    }
 }
