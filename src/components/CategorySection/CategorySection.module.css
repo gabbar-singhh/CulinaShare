@@ -1,0 +1,117 @@
+.categoryMain {
+    scroll-snap-align: start;
+    background-color: #fff;
+    background-color: #6e2b08;
+    background-color: var(--primary-color);
+    padding: 2.8em 2em;
+    font-family: var(--primary-font);
+
+    background: rgb(110, 43, 8);
+    background: linear-gradient(169deg, rgba(110, 43, 8, 1) 0%, rgba(255, 145, 0, 1) 100%);
+    cursor: default;
+}
+
+.categoryContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 1.5rem;
+}
+
+.categoryImage {}
+
+.categoryImage img {
+    height: auto;
+    width: 500px;
+}
+
+.featuresList {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.featureCard {
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid #fbe1c0;
+    text-align: center;
+    max-width: 250px;
+}
+
+.kiteShape {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-color);
+    transform: rotate(-45deg);
+    margin: 16px auto;
+    border-radius: 0.8rem;
+}
+
+.kiteShape img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 45%;
+    height: auto;
+}
+
+.featureCard h3 {
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+}
+
+.featureCard p {
+    font-size: 15px;
+    color: var(--secondary-color);
+}
+
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+    .categoryImage img {
+        height: auto;
+        width: 350px;
+    }
+
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+
+    .categoryContainer {
+        flex-direction: column;
+    }
+
+    .categoryImage img {
+        height: auto;
+        width: 350px;
+    }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .categoryContainer {
+        flex-direction: column;
+    }
+
+    .categoryImage img {
+        height: auto;
+        width: 300px;
+    }
+}
+
+@media (max-width:640px) {
+    .categoryContainer {
+        flex-direction: column;
+    }
+
+    .categoryImage img {
+        height: auto;
+        width: 80vw;
+    }
+}

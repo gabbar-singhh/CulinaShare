@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/contribute.module.css";
 import NavigationBar from "@/components/Navigation/NavigationBar";
-import About from "@/components/About/About";
 import Head from "next/head";
 import youtubeUrl from "youtube-url";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { toast, ToastContainer } from "react-toastify";
 import { Tooltip } from "@mui/material";
+import Footer from "@/components/Footer/Footer";
 
 const contribute = () => {
   const { user, isLoading, error } = useUser();
@@ -50,6 +50,9 @@ const contribute = () => {
   };
 
   const submitButtonHandler = (event) => {
+
+    event.preventDefault()
+
     if (!isDisabled) {
       sendRecipeDataToContributeTable(user.email, {
         recipeName: recipeName,
@@ -57,7 +60,12 @@ const contribute = () => {
         youtubeVideoUrl: youtubeVideoLink,
         ingredients: ingredients,
         instructions: instructions,
-      });
+      }).then(()=>{
+        toast.success("recipe sent successfully!")
+      }).catch((err)=>{
+        toast.error("some unkown error occured!")
+
+      })
     }
   };
 
@@ -256,11 +264,11 @@ const contribute = () => {
             </Tooltip>
           </form>
         </div>
-        <About />
+        <Footer />
       </section>
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

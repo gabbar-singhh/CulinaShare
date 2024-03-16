@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./Discover.module.css";
 import axios from "axios";
 import Feed from "../Feed/Feed";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import supabase from "@/lib/supabaseClient";
 

@@ -1,7 +1,7 @@
 .nav {
     width: 100%;
     padding: 1em 0;
-    position: sticky;
+    /* position: sticky; */
     top: 0;
     transition: 0.3s;
     z-index: 100;
@@ -55,6 +55,54 @@
 .nav_mobile,
 .nav_list_mobile {
     display: none;
+}
+
+.dropdownContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdownContent {
+    display: none;
+    position: absolute;
+    background-color: var(--primary-color);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    margin-top: 10px;
+    top: 2.5rem;
+    right: 13px;
+    border-radius: 2px;
+}
+
+.dropdownContent ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdownItem {
+    display: block;
+    color: #333;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    color: var(--secondary-color);
+    transition: 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropdownItem:hover {
+    background-color: #e1840a;
+    border-radius: 2px;
+}
+
+.logoutItem {
+    border-top: 1px solid #d07703;
+}
+
+.showDropdownMenu {
+    display: block;
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
@@ -165,52 +213,4 @@
     .x_size {
         transform: scale(1.6) !important;
     }
-}
-
-.dropdownContainer {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdownContent {
-    display: none;
-    position: absolute;
-    background-color: var(--primary-color);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    margin-top: 10px;
-    top: 2.5rem;
-    right: 13px;
-    border-radius: 2px;
-}
-
-.dropdownContent ul {
-    display: flex;
-    flex-direction: column;
-}
-
-.dropdownItem {
-    display: block;
-    color: #333;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 0.8rem 1.5rem;
-    color: var(--secondary-color);
-    transition: 0.3s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.dropdownItem:hover {
-    background-color: #e1840a;
-    border-radius: 2px;
-}
-
-.logoutItem {
-    border-top: 1px solid #d07703;
-}
-
-.showDropdownMenu {
-    display: block;
 }
