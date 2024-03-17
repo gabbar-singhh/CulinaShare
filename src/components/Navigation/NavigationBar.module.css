@@ -1,9 +1,9 @@
 .nav {
     width: 100%;
     padding: 1em 0;
-    /* position: sticky; */
+    /* position:fixed; */
     top: 0;
-    transition: 0.3s;
+    transition: top 0.3s;
     z-index: 100;
     background-color: var(--primary-color);
 }

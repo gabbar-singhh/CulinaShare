@@ -1,14 +1,10 @@
 .categoryMain {
-    scroll-snap-align: start;
-    background-color: #fff;
-    background-color: #6e2b08;
-    background-color: var(--primary-color);
     padding: 2.8em 2em;
     font-family: var(--primary-font);
-
     background: rgb(110, 43, 8);
     background: linear-gradient(169deg, rgba(110, 43, 8, 1) 0%, rgba(255, 145, 0, 1) 100%);
     cursor: default;
+    margin-bottom: 1.5rem;
 }
 
 .categoryContainer {

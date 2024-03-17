@@ -9,6 +9,9 @@ const NavigationBar = (props) => {
   const [showMenu, setShowMenu] = useState(false);
   const [hamburgerIcon, setHamburgerIcon] = useState("&#9776;");
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const [prevScrollpos, setPrevScrollpos] = useState(0);
+
   const showHamburgerMenu = () => {
     setShowMenu((prevShowMenu) => !prevShowMenu);
 
@@ -20,6 +23,21 @@ const NavigationBar = (props) => {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      if (prevScrollpos > currentScrollPos || currentScrollPos === 0) {
+        document.getElementById("nav").style.top = "0";
+      } else {
+        document.getElementById("nav").style.top = "-80px";
+      }
+      setPrevScrollpos(currentScrollPos);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollpos]);
 
   return (
     <nav className={styles.nav} id="nav">
