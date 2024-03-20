@@ -175,6 +175,11 @@ export default function BlogPost({ meal }) {
                       <img src="/icons/facebook.png" alt="facebook icon" />
                     </li>
                   </Tooltip>
+                  <Tooltip title="share on whatsapp" arrow placement="bottom">
+                    <li onClick={shareToWhatsAppHandler}>
+                      <img src="/icons/whatsapp.png" alt="whatsapp icon" />
+                    </li>
+                  </Tooltip>
                   <Tooltip title="share via email" arrow placement="bottom">
                     <li onClick={shareToEmailHandler}>
                       <img src="/icons/email.png" alt="email icon" />
@@ -185,17 +190,13 @@ export default function BlogPost({ meal }) {
                       <img src="/icons/twitter.png" alt="twitter icon" />
                     </li>
                   </Tooltip>
-                  <Tooltip title="share on whatsapp" arrow placement="bottom">
-                    <li onClick={shareToWhatsAppHandler}>
-                      <img src="/icons/whatsapp.png" alt="whatsapp icon" />
-                    </li>
-                  </Tooltip>
                 </ul>
               </div>
             </div>
 
             <div className={styles.reportRecipe}>
-<p>find anything unusual?</p>
+              <img src="/icons/report.svg" alt="report icon" />
+              <p>find anything unusual? report this recipe!</p>
             </div>
           </div>
         </section>

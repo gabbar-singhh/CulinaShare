@@ -172,7 +172,6 @@
   width: 350px;
   background-color: var(--secondary-color);
   color: #fff;
-  font-weight: 500;
   font-size: 14px;
   display: flex;
   flex-direction: column;
@@ -187,7 +186,7 @@
 }
 
 .rightContainer .mealSocialShare h2 {
-  margin-top: 0.7rem !important;
+  margin-top: 1.5rem !important;
   padding-left: 0;
   text-transform: capitalize;
   color: var(--secondary-color);
@@ -195,8 +194,26 @@
   z-index: 1;
 }
 
-.rightContainer .reportRecipe{
-  
+.rightContainer .reportRecipe {
+  margin-top: 1.5rem !important;
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.rightContainer .reportRecipe:hover {
+  text-decoration: underline;
+}
+
+.rightContainer .reportRecipe img {
+  height: 18px;
+  width: auto;
+}
+
+.rightContainer .reportRecipe p {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--secondary-color);
 }
 
 
