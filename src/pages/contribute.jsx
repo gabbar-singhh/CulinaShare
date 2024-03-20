@@ -7,6 +7,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { toast, ToastContainer } from "react-toastify";
 import { Tooltip } from "@mui/material";
 import Footer from "@/components/Footer/Footer";
+import supabase from "@/lib/supabaseClient";
 
 const contribute = () => {
   const { user, isLoading, error } = useUser();
@@ -50,8 +51,7 @@ const contribute = () => {
   };
 
   const submitButtonHandler = (event) => {
-
-    event.preventDefault()
+    event.preventDefault();
 
     if (!isDisabled) {
       sendRecipeDataToContributeTable(user.email, {
@@ -60,27 +60,30 @@ const contribute = () => {
         youtubeVideoUrl: youtubeVideoLink,
         ingredients: ingredients,
         instructions: instructions,
-      }).then(()=>{
-        toast.success("recipe sent successfully!")
-      }).catch((err)=>{
-        toast.error("some unkown error occured!")
-
-      })
+      }).then(() => {});
     }
   };
 
   const sendRecipeDataToContributeTable = async (emailId, recipeData) => {
     try {
       const { data, error } = await supabase
-        .from("contribution")
-        .insert({ email_id: emailId, recipe_date: recipeData });
+        .from("contributions")
+        .insert({ email_id: emailId, recipe_data: recipeData });
 
       if (error) {
         throw error;
       }
-
+      toast.success("recipe sent successfully!");
       console.log('Row added to "contribution" table:', data);
+
+      setRecipeName("");
+      setRecipeArea("");
+      setYoutubeVideoLink("");
+      setIngredients("");
+      setInstructions("");
+      setFileName("");
     } catch (error) {
+      toast.error("some unkown error occured!");
       console.error('Error adding row to "contribution" table:', error.message);
     }
   };
@@ -259,7 +262,7 @@ const contribute = () => {
                 onClick={submitButtonHandler}
                 disabled={isDisabled}
               >
-                submit
+                {user ? "submit" : "sign in to submit"}
               </button>
             </Tooltip>
           </form>

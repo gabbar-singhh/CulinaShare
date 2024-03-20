@@ -1,6 +1,5 @@
 .hero_main {
     background-color: var(--primary-color);
-    scroll-snap-align: start;
     height: 90vh;
 }
 

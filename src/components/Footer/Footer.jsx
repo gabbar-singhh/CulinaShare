@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styles from "./Footer.module.css";
+import Link from "next/link";
 
 const Footer = () => {
+  const LINKEDIN_URL = 'https://www.linkedin.com/in/himanshufs'
   const [emailVal, setEmailVal] = useState("");
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
@@ -124,7 +126,7 @@ const Footer = () => {
         </div> */}
       </section>
       <footer className={styles.footer}>
-        made with ❤ by himanshu!
+        made with ❤ by <Link href={LINKEDIN_URL} style={{textDecoration:'underline'}}>himanshu</Link>!
       </footer>
     </React.Fragment>
   );

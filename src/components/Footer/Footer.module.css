@@ -1,8 +1,6 @@
 .about_main {
   padding: 80px 1.5em;
-  scroll-snap-align: start;
   font-family: var(--primary-font);
-  background-color: var(--primary-color);
 
   display: flex;
   flex-direction: column;
