@@ -13,6 +13,7 @@ import getYouTubeID from "get-youtube-id";
 import { Tooltip } from "@mui/material";
 import Head from "next/head";
 import Footer from "@/components/Footer/Footer";
+import Image from "next/image";
 
 export default function BlogPost({ meal }) {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function BlogPost({ meal }) {
   };
 
   const shareToEmailHandler = () => {
-    const defaultBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, i found this   amazing ${
+    const defaultBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, i found this amazing ${
       recipe.strMeal
     } at https://culina-share.vercel.app/recipe/${slug} \n \nThanks!`;
 
@@ -59,21 +60,29 @@ export default function BlogPost({ meal }) {
     window.open(tweetUrl, "_blank", "popup");
   };
 
+  const shareToWhatsAppHandler = () => {
+    const message = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, I found this amazing ${
+      recipe.strMeal
+    } at https://culina-share.vercel.app/recipe/${slug}`;
+
+    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
   if (meal) {
     return (
       <React.Fragment>
         <Head>
           <title>{`${recipe.strMeal} - CulinaShare`}</title>
           <meta
-          name="description"
-          content="CulinaShare - Where Every Recipe Tells a Story!"
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" />
+            name="description"
+            content="CulinaShare - Where Every Recipe Tells a Story!"
+          />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="icon" href="/favicon.svg" />
         </Head>
+        <NavigationBar />
         <section className={styles.page_main}>
-          <NavigationBar />
-
           <div className={styles.page_container}>
             <h1 className={styles.mealName}>{recipe.strMeal}</h1>
             <h3 className={styles.mealArea}>{recipe.strArea}</h3>
@@ -122,64 +131,71 @@ export default function BlogPost({ meal }) {
               </div>
             </div>
 
-            {recipe.strSource && (
-              <div className={styles.mealSource}>
-                <div>
-                  <h2>source</h2>
-
-                  <Link href={recipe.strSource} className={styles.sourceText}>
-                    {extractDomain(recipe.strSource)}
-                  </Link>
-                </div>
+            <div className={styles.goPrevious}>
+              <div>
+                <hr
+                  style={{
+                    width: "100%",
+                    height: "8px",
+                    backgroundColor: "var(--primary-color)",
+                    outline: "none",
+                    border: "none",
+                    marginBottom: "10px",
+                  }}
+                />
+                <Link href={"/recipes"} className={styles.recipeText}>
+                  {" "}
+                  {"<"}All Recipes
+                </Link>
               </div>
-            )}
-
+            </div>
+          </div>
+          <div className={styles.rightContainer}>
+            <div className={styles.sourceBox}>
+              <Image src="/icons/user.svg" height={50} width={50} alt="" />
+              {recipe.strSource ? (
+                <Link href={recipe.strSource} className={styles.sourceText}>
+                  {extractDomain(recipe.strSource)}
+                </Link>
+              ) : (
+                <p className={styles.sourceText}>{"unknown"}</p>
+              )}
+            </div>
             <div className={styles.mealSocialShare}>
               <div>
                 <h2>Share: </h2>
                 <ul className={styles.socialIcons}>
-                  <Tooltip
-                    side="top"
-                    title={clipCopyText}
-                    arrow
-                    placement="top"
-                  >
+                  <Tooltip title={clipCopyText} arrow placement="bottom">
                     <li onClick={copyToClipboardHandler}>
                       <img src="/icons/copy.png" alt="clipboard icon" />
                     </li>
                   </Tooltip>
-                  <Tooltip
-                    side="top"
-                    title="share on facebook"
-                    arrow
-                    placement="top"
-                  >
+                  <Tooltip title="share on facebook" arrow placement="bottom">
                     <li onClick={shareToFacebookHandler}>
                       <img src="/icons/facebook.png" alt="facebook icon" />
                     </li>
                   </Tooltip>
-                  <Tooltip
-                    side="top"
-                    title="share via email"
-                    arrow
-                    placement="top"
-                  >
+                  <Tooltip title="share via email" arrow placement="bottom">
                     <li onClick={shareToEmailHandler}>
                       <img src="/icons/email.png" alt="email icon" />
                     </li>
                   </Tooltip>
-                  <Tooltip
-                    side="top"
-                    title="share on twitter"
-                    arrow
-                    placement="top"
-                  >
+                  <Tooltip title="share on twitter" arrow placement="bottom">
                     <li onClick={shareToTwitterHandler}>
                       <img src="/icons/twitter.png" alt="twitter icon" />
                     </li>
                   </Tooltip>
+                  <Tooltip title="share on whatsapp" arrow placement="bottom">
+                    <li onClick={shareToWhatsAppHandler}>
+                      <img src="/icons/whatsapp.png" alt="whatsapp icon" />
+                    </li>
+                  </Tooltip>
                 </ul>
               </div>
+            </div>
+
+            <div className={styles.reportRecipe}>
+<p>find anything unusual?</p>
             </div>
           </div>
         </section>
