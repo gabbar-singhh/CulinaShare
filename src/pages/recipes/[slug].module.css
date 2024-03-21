@@ -216,6 +216,45 @@
   color: var(--secondary-color);
 }
 
+.favouriteButton .card_favbutton {
+  margin-top: 0.8em;
+  background-color: #dfdfdf;
+  padding: 0.2em;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.5em;
+  transition: 0.3s ease-in-out;
+}
+
+.favouriteButton .card_favbutton:hover {
+  background-color: #dfdfdf;
+}
+
+.yes_favourite {
+  background-color: #dfdfdf !important;
+  background-color: var(--primary-color) !important;
+  cursor: pointer;
+}
+
+.yes_favourite p {
+  color: #fff !important;
+}
+
+.favouriteButton .card_favbutton img {
+  height: 20px;
+  width: 20px;
+}
+
+.favouriteButton .card_favbutton p {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .page_container {

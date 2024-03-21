@@ -71,6 +71,9 @@ export default function BlogPost({ meal, suggestions }) {
     window.open(url, "_blank");
   };
 
+  const removeFromFavouriteHandler = () => {};
+  const addToFavouriteHandler = () => {};
+
   if (meal) {
     return (
       <React.Fragment>
@@ -163,6 +166,7 @@ export default function BlogPost({ meal, suggestions }) {
                 <p className={styles.sourceText}>{"unknown"}</p>
               )}
             </div>
+
             <div className={styles.mealSocialShare}>
               <div>
                 <h2>Share: </h2>
@@ -201,6 +205,28 @@ export default function BlogPost({ meal, suggestions }) {
               <p>find anything unusual? report this recipe!</p>
             </div>
 
+            <div className={styles.favouriteButton}>
+              {true ? (
+                <div
+                  onClick={removeFromFavouriteHandler}
+                  className={`${styles.yes_favourite} ${styles.card_favbutton}`}
+                >
+                  <img src="/icons/star-white.png" alt="star icon" />
+
+                  <p>Remove from Favourites</p>
+                </div>
+              ) : (
+                <div
+                  onClick={removeFromFavouriteHandler}
+                  className={`${styles.card_favbutton}`}
+                >
+                  <img src="/icons/star-brown.png" alt="star icon" />
+
+                  <p>Add to Favourites</p>
+                </div>
+              )}
+            </div>
+
             <SuggestionCards data={suggestions} />
           </div>
         </section>
@@ -222,7 +248,7 @@ export async function getServerSideProps({ params }) {
 
   const suggestionResponse = await fetch(
     `https://www.themealdb.com/api/json/v1/1/filter.php?c=${strCategory}`
-  );  
+  );
 
   let suggestions = await suggestionResponse.json();
   suggestions = shuffle(suggestions.meals, meal.idMeal);
