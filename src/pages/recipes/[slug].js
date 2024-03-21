@@ -16,67 +16,118 @@ import Footer from "@/components/Footer/Footer";
 import Image from "next/image";
 import SuggestionCards from "@/components/SuggestionCards/SuggestionCards";
 import shuffle from "@/utils/shuffle";
+import supabase from "@/lib/supabaseClient";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function BlogPost({ meal, suggestions }) {
   const router = useRouter();
   const { slug } = router.query;
+  const { user, isLoading, error } = useUser();
   const [clipCopyText, setClipCopyText] = useState("click to copy");
 
   const recipe = meal.meals[0];
 
-  const copyToClipboardHandler = () => {
-    navigator.clipboard.writeText(window.location.href);
-    setClipCopyText("copied!");
+  const shareToSocial = (event) => {
+    const TYPE = event.target.getAttribute("data-key");
 
-    setTimeout(() => {
-      setClipCopyText("click to copy");
-    }, 5000);
-  };
+    switch (TYPE) {
+      case "CLIPBOARD":
+        navigator.clipboard.writeText(window.location.href);
+        setClipCopyText("copied!");
+        setTimeout(() => {
+          setClipCopyText("click to copy");
+        }, 5000);
+        break;
+      case "FACEBOOK":
+        const facebookUrl = `http://www.facebook.com/share.php?u=https://culina-share.vercel.app/recipe/${slug}`;
+        window.open(facebookUrl, "_blank", "popup");
+        break;
+      case "WHATSAPP":
+        const whatsappBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, I found this amazing ${
+          recipe.strMeal
+        } at https://culina-share.vercel.app/recipe/${slug}`;
 
-  const shareToFacebookHandler = () => {
-    const url = `http://www.facebook.com/share.php?u=https://culina-share.vercel.app/recipe/${slug}`;
-
-    window.open(url, "_blank", "popup");
-  };
-
-  const shareToEmailHandler = () => {
-    const defaultBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, i found this amazing ${
-      recipe.strMeal
-    } at https://culina-share.vercel.app/recipe/${slug} \n \nThanks!`;
-
-    const mailtoLink = `https://mail.google.com/mail/?view=cm&fs=1&to&body=${encodeURIComponent(
-      defaultBody + "\n\n"
-    )}`;
-
-    window.open(mailtoLink, "_blank", "popup");
-  };
-
-  const shareToTwitterHandler = () => {
-    const defaultBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, I found this amazing ${
-      recipe.strMeal
-    } at https://culina-share.vercel.app/recipe/${slug}`;
-
-    const tweetText = encodeURIComponent(defaultBody);
-    const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
-
-    window.open(tweetUrl, "_blank", "popup");
-  };
-
-  const shareToWhatsAppHandler = () => {
-    const message = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, I found this amazing ${
-      recipe.strMeal
-    } at https://culina-share.vercel.app/recipe/${slug}`;
-
-    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
+        const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(
+          whatsappBody
+        )}`;
+        window.open(whatsappUrl, "_blank");
+        break;
+      case "EMAIL":
+        const emailBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, i found this amazing ${
+          recipe.strMeal
+        } at https://culina-share.vercel.app/recipe/${slug} \n \nThanks!`;
+        const emailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to&body=${encodeURIComponent(
+          emailBody + "\n\n"
+        )}`;
+        window.open(emailUrl, "_blank", "popup");
+        break;
+      case "TWITTER":
+        const tweetBody = `Hey, I found this amazing website where you get all the recipes for free. Checkout this - ${"https://culina-share.vercel.app"} \n \nFor instance, I found this amazing ${
+          recipe.strMeal
+        } at https://culina-share.vercel.app/recipe/${slug}`;
+        const tweetMessage = encodeURIComponent(tweetBody);
+        const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetMessage}`;
+        window.open(tweetUrl, "_blank", "popup");
+        break;
+      default:
+        // Handle default case if needed
+        break;
+    }
   };
 
   const removeFromFavouriteHandler = () => {};
   const addToFavouriteHandler = () => {};
 
+  const reportRecipe = async () => {
+    if (user) {
+      const { error } = await supabase
+        .from("reported_recipes")
+        .insert({ email_id: user.email, recipe_id: slug });
+
+      toast.success(`${recipe.strMeal} reported successfully!`);
+      if (error) {
+        toast.error(`unknown error occured`);
+      }
+    } else {
+      const { error } = await supabase
+        .from("reported_recipes")
+        .insert({ recipe_id: slug });
+
+      if (error) {
+        toast.error(`unknown error occured`);
+      } else {
+        toast.success(`${recipe.strMeal} reported successfully!`);
+      }
+    }
+  };
+
   if (meal) {
     return (
       <React.Fragment>
+        <Toaster
+          toastOptions={{
+            success: {
+              style: {
+                background: "#e6ffc4",
+                border: "1px solid green",
+                color: "#000",
+              },
+            },
+            error: {
+              style: {
+                background: "red",
+                border: "1px solid red",
+                color: "#fff",
+              },
+            },
+            style: {
+              border: "1px solid var(--secondary-color)",
+              padding: "16px",
+              color: "var(--secondary-color)",
+            },
+          }}
+        />
         <Head>
           <title>{`${recipe.strMeal} - CulinaShare`}</title>
           <meta
@@ -172,35 +223,55 @@ export default function BlogPost({ meal, suggestions }) {
                 <h2>Share: </h2>
                 <ul className={styles.socialIcons}>
                   <Tooltip title={clipCopyText} arrow placement="bottom">
-                    <li onClick={copyToClipboardHandler}>
-                      <img src="/icons/copy.png" alt="clipboard icon" />
+                    <li onClick={shareToSocial} data-key="CLIPBOARD">
+                      <img
+                        src="/icons/copy.png"
+                        data-key="CLIPBOARD"
+                        alt="clipboard icon"
+                      />
                     </li>
                   </Tooltip>
                   <Tooltip title="share on facebook" arrow placement="bottom">
-                    <li onClick={shareToFacebookHandler}>
-                      <img src="/icons/facebook.png" alt="facebook icon" />
+                    <li onClick={shareToSocial} data-key={"FACEBOOK"}>
+                      <img
+                        src="/icons/facebook.png"
+                        data-key={"FACEBOOK"}
+                        alt="facebook icon"
+                      />
                     </li>
                   </Tooltip>
                   <Tooltip title="share on whatsapp" arrow placement="bottom">
-                    <li onClick={shareToWhatsAppHandler}>
-                      <img src="/icons/whatsapp.png" alt="whatsapp icon" />
+                    <li onClick={shareToSocial} data-key={"WHATSAPP"}>
+                      <img
+                        src="/icons/whatsapp.png"
+                        data-key={"WHATSAPP"}
+                        alt="whatsapp icon"
+                      />
                     </li>
                   </Tooltip>
                   <Tooltip title="share via email" arrow placement="bottom">
-                    <li onClick={shareToEmailHandler}>
-                      <img src="/icons/email.png" alt="email icon" />
+                    <li onClick={shareToSocial} data-key={"EMAIL"}>
+                      <img
+                        src="/icons/email.png"
+                        data-key={"EMAIL"}
+                        alt="email icon"
+                      />
                     </li>
                   </Tooltip>
                   <Tooltip title="share on twitter" arrow placement="bottom">
-                    <li onClick={shareToTwitterHandler}>
-                      <img src="/icons/twitter.png" alt="twitter icon" />
+                    <li onClick={shareToSocial} data-key={"TWITTER"}>
+                      <img
+                        src="/icons/twitter.png"
+                        data-key={"TWITTER"}
+                        alt="twitter icon"
+                      />
                     </li>
                   </Tooltip>
                 </ul>
               </div>
             </div>
 
-            <div className={styles.reportRecipe}>
+            <div className={styles.reportRecipe} onClick={reportRecipe}>
               <img src="/icons/report.svg" alt="report icon" />
               <p>find anything unusual? report this recipe!</p>
             </div>

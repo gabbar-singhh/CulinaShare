@@ -16,7 +16,6 @@ import CircularLoader from "../CircularLoader/CircularLoader";
 const Cards = (props) => {
   const { user, isLoading, error } = useUser();
   const soundRef = useRef(null);
-  const deleteSoundRef = useRef(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [favouritesFromDB, setFavouritesFromDB] = useState([]);
 
@@ -68,10 +67,6 @@ const Cards = (props) => {
     soundRef.current.play();
   };
 
-  const playDeleteSound = () => {
-    deleteSoundRef.current.play();
-  };
-
   // USEEFFECT FOR "ADDED TO FAVS" AUDIO
   useEffect(() => {
     soundRef.current = new Howl({
@@ -82,17 +77,6 @@ const Cards = (props) => {
       soundRef.current.unload();
     };
   }, ["/sound/multi-pop.mp3"]);
-
-  // USEEFFECT FOR "DELETE" AUDIO
-  useEffect(() => {
-    deleteSoundRef.current = new Howl({
-      src: ["/sound/delete.mp3"],
-    });
-
-    return () => {
-      deleteSoundRef.current.unload();
-    };
-  }, ["/sound/delete.mp3"]);
 
   // CHECKING IF IMAGE IS LOADED OR NOT
   useEffect(() => {
