@@ -142,20 +142,12 @@ const Cards = (props) => {
       console.error(error);
     }
   }, [favoriteState]);
-
-  // useEffect(() => {
-  //   if (user) {
-  //     updateFavouritesRecipe({ favorites: favoriteState, emailId: user.email });
-  //   } else if (error) {
-  //     console.error(error);
-  //   }
-  // }, [favoriteState]);
-
+  
   return (
     <React.Fragment>
       <div className={styles.card_main}>
         <div className={styles.card_container} data-key={props.key}>
-          <div className={styles.cardImgWrapper}>
+          <div className={styles.cardImgWrapper} style={props.customStyle}>
             {/* IF CARD IMAGE IS LOADED OR NOT, IF NOT THEN SHOW ORANGE-LOADER GIF INSTEAD */}
             {imageLoaded ? (
               <img
@@ -164,6 +156,7 @@ const Cards = (props) => {
                 src={props.imgUrl}
                 alt="dish img"
                 loading="lazy"
+                style={props.customStyle}
               />
             ) : (
               <img
@@ -193,7 +186,10 @@ const Cards = (props) => {
             <div
               className={`${styles.yes_favourite} ${styles.card_favbutton}`}
               onClick={() => {
-                props.removeFavouritesHandler({mealId:props.id, emailId:user.email});
+                props.removeFavouritesHandler({
+                  mealId: props.id,
+                  emailId: user.email,
+                });
                 playDeleteSound();
               }}
             >

@@ -190,7 +190,7 @@
   padding-left: 0;
   text-transform: capitalize;
   color: var(--secondary-color);
-  font-size: 1em;
+  font-size: 15px;
   z-index: 1;
 }
 
@@ -211,7 +211,7 @@
 }
 
 .rightContainer .reportRecipe p {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--secondary-color);
 }

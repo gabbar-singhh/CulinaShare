@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import styles from "./[slug].module.css";
 import NavigationBar from "@/components/Navigation/NavigationBar";
@@ -14,8 +14,10 @@ import { Tooltip } from "@mui/material";
 import Head from "next/head";
 import Footer from "@/components/Footer/Footer";
 import Image from "next/image";
+import SuggestionCards from "@/components/SuggestionCards/SuggestionCards";
+import shuffle from "@/utils/shuffle";
 
-export default function BlogPost({ meal }) {
+export default function BlogPost({ meal, suggestions }) {
   const router = useRouter();
   const { slug } = router.query;
   const [clipCopyText, setClipCopyText] = useState("click to copy");
@@ -198,6 +200,8 @@ export default function BlogPost({ meal }) {
               <img src="/icons/report.svg" alt="report icon" />
               <p>find anything unusual? report this recipe!</p>
             </div>
+
+            <SuggestionCards data={suggestions} />
           </div>
         </section>
         <Footer />
@@ -209,12 +213,26 @@ export default function BlogPost({ meal }) {
 export async function getServerSideProps({ params }) {
   const { slug } = params;
 
-  const response = await fetch(
+  const slugResponse = await fetch(
     `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${slug}`
   );
-  let meal = await response.json();
+  const meal = await slugResponse.json();
+
+  const { strCategory } = meal.meals[0];
+
+  const suggestionResponse = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?c=${strCategory}`
+  );  
+
+  let suggestions = await suggestionResponse.json();
+  suggestions = shuffle(suggestions.meals, meal.idMeal);
+
+  // ONLY SHOWING 4 SUGGESTION CARD
+  if (suggestions.length > 4) {
+    suggestions = suggestions.slice(0, 4);
+  }
 
   return {
-    props: { meal },
+    props: { meal, suggestions },
   };
 }
