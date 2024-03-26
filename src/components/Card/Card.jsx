@@ -30,6 +30,8 @@ const Cards = (props) => {
   const [favoriteButtonText, setFavoriteButtonText] =
     useState("Add to Favourites");
 
+  const [favouriteIsLoading, setFavouriteIsLoading] = useState(false);
+
   const playSound = () => {
     soundRef.current.play();
   };
@@ -56,19 +58,25 @@ const Cards = (props) => {
   }, [props.imgUrl]);
 
   const addToFavouritesHandler = () => {
-    if (user) {
-      console.log("⚪️ you clicked fav.button");
-      dispatch(
-        addToFavourite({
-          recipeId: props.id,
-          recipeName: props.mealName,
-          recipeImg: props.imgUrl,
-        })
-      );
-      toast.success(`${props.mealName} added to favourites!`);
-    } else {
-      toast.error("Sign in to add favourites");
-    }
+    setFavouriteIsLoading(true);
+    playSound();
+    setTimeout(() => {
+      if (user) {
+        console.log("⚪️ you clicked fav.button");
+        dispatch(
+          addToFavourite({
+            recipeId: props.id,
+            recipeName: props.mealName,
+            recipeImg: props.imgUrl,
+          })
+        );
+        toast.success(`${props.mealName} added to favourites!`);
+        setFavouriteIsLoading(false);
+        setFavoriteButtonText("added to favourites");
+      } else {
+        toast.error("Sign in to add favourites");
+      }
+    }, 1300);
   };
 
   const deleteFavouritesHandler = () => {
@@ -172,13 +180,25 @@ const Cards = (props) => {
                   </div>
                 </Tooltip>
               ) : (
-                <div
-                  className={styles.card_favbutton}
-                  onClick={addToFavouritesHandler}
-                >
-                  <img src="/icons/star-brown.png" alt="star icon" />
-                  <p>{favoriteButtonText}</p>{" "}
-                </div>
+                <>
+                  {favouriteIsLoading ? (
+                    <>
+                      <div className={styles.card_favbutton}>
+                        <CircularLoader />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className={`${styles.card_favbutton}`}
+                        onClick={addToFavouritesHandler}
+                      >
+                        <img src="/icons/star-brown.png" alt="star icon" />
+                        <p>{favoriteButtonText}</p>{" "}
+                      </div>
+                    </>
+                  )}
+                </>
               )}
             </>
           )}
@@ -189,9 +209,3 @@ const Cards = (props) => {
 };
 
 export default Cards;
-
-//  <div className={styles.card_favbutton}>
-{
-  /* <CircularLoader /> */
-}
-// </div>

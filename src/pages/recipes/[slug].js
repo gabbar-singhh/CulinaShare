@@ -19,12 +19,28 @@ import shuffle from "@/utils/shuffle";
 import supabase from "@/lib/supabaseClient";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import checkIfFavourite from "@/utils/checkIfFavourite";
+import {
+  addToFavourite,
+  removeFromFavourite,
+} from "@/features/favourites/favouritesSlice";
+import CircularLoader from "../../components/CircularLoader/CircularLoader";
+import { fetchFavourites } from "@/features/favourites/favouritesSlice";
 
 export default function BlogPost({ meal, suggestions }) {
   const router = useRouter();
   const { slug } = router.query;
   const { user, isLoading, error } = useUser();
   const [clipCopyText, setClipCopyText] = useState("click to copy");
+  const favouriteState = useSelector(
+    (state) => state.favouritesReducer.favouriteState
+  );
+  const [favouriteIsLoading, setFavouriteIsLoading] = useState(false);
+  const [favoriteButtonText, setFavoriteButtonText] =
+    useState("Add to Favourites");
+
+  const dispatch = useDispatch();
 
   const recipe = meal.meals[0];
 
@@ -76,9 +92,6 @@ export default function BlogPost({ meal, suggestions }) {
     }
   };
 
-  const removeFromFavouriteHandler = () => {};
-  const addToFavouriteHandler = () => {};
-
   const reportRecipe = async () => {
     if (user) {
       const { error } = await supabase
@@ -101,6 +114,74 @@ export default function BlogPost({ meal, suggestions }) {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        insertDataIntoDB(user.email, favouriteState)
+          .then((res) => {
+            console.log("🟣 UPDATED!");
+          })
+          .catch((err) => {
+            console.log("🔴 ERROR!", err);
+          });
+      }, 1500);
+    }
+  }, [favouriteState]);
+
+  const insertDataIntoDB = async (emailId, currentFavState) => {
+    const { data, error } = await supabase
+      .from("favourite_recipes")
+      .update({
+        recipesJSON: currentFavState,
+      })
+      .eq("email_id", emailId)
+      .select();
+
+    if (data) return data;
+    if (error) return error;
+  };
+
+  const deleteFavouritesHandler = () => {
+    if (user) {
+      console.log("⚪️ you clicked fav.remove.button");
+      dispatch(
+        removeFromFavourite({
+          id: slug,
+        })
+      );
+      toast.success(`${recipe.strMeal} removed successfully!`);
+    } else {
+      toast.error("unkown error occured");
+    }
+  };
+
+  const addToFavouritesHandler = () => {
+    setFavouriteIsLoading(true);
+    setTimeout(() => {
+      if (user) {
+        console.log("⚪️ you clicked fav.button");
+        dispatch(
+          addToFavourite({
+            recipeId: slug,
+            recipeName: recipe.strMeal,
+            recipeImg: recipe.strMealThumb,
+          })
+        );
+        toast.success(`${recipe.strMeal} added to favourites!`);
+        setFavouriteIsLoading(false);
+        setFavoriteButtonText("added to favourites");
+      } else {
+        toast.error("Sign in to add favourites");
+      }
+    }, 1300);
+  };
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchFavourites(user.email));
+    }
+  }, [user]);
 
   if (meal) {
     return (
@@ -277,9 +358,9 @@ export default function BlogPost({ meal, suggestions }) {
             </div>
 
             <div className={styles.favouriteButton}>
-              {true ? (
+              {checkIfFavourite(slug, favouriteState) ? (
                 <div
-                  onClick={removeFromFavouriteHandler}
+                  onClick={deleteFavouritesHandler}
                   className={`${styles.yes_favourite} ${styles.card_favbutton}`}
                 >
                   <img src="/icons/star-white.png" alt="star icon" />
@@ -287,14 +368,26 @@ export default function BlogPost({ meal, suggestions }) {
                   <p>Remove from Favourites</p>
                 </div>
               ) : (
-                <div
-                  onClick={removeFromFavouriteHandler}
-                  className={`${styles.card_favbutton}`}
-                >
-                  <img src="/icons/star-brown.png" alt="star icon" />
+                <>
+                  {favouriteIsLoading ? (
+                    <>
+                      <div className={styles.card_favbutton}>
+                        <CircularLoader />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        onClick={addToFavouritesHandler}
+                        className={`${styles.card_favbutton}`}
+                      >
+                        <img src="/icons/star-brown.png" alt="star icon" />
 
-                  <p>Add to Favourites</p>
-                </div>
+                        <p>{favoriteButtonText}</p>
+                      </div>
+                    </>
+                  )}
+                </>
               )}
             </div>
 
