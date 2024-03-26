@@ -1,9 +1,10 @@
-function checkIfFavourite(id, arrayOfObjects) {
-  for (let obj of arrayOfObjects) {
-    if (obj.hasOwnProperty("id") && obj.id === id) {
+function checkIfFavourite(id, data) {
+  for (const item of data) {
+    if (parseInt(item.idMeal) == id) {
       return true;
     }
   }
+
   return false;
 }
 

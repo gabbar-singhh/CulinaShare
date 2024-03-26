@@ -158,7 +158,7 @@ const Cards = (props) => {
             </div>
           ) : (
             <>
-              {checkIfFavourite(props.id, props.data) ? (
+              {checkIfFavourite(props.id, favouriteState) ? (
                 <Tooltip
                   arrow
                   title={`${props.mealName} is added to favourites!`}
