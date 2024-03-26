@@ -29,19 +29,26 @@ export const favouritesSlice = createSlice({
   reducers: {
     addToFavourite: (state, action) => {
       const timestamp = new Date().toISOString();
-      const userEmailId = action.payload.emailId;
 
       const newRecipe = {
         idMeal: action.payload.recipeId,
         timestamp: timestamp,
         strMeal: action.payload.recipeName,
-        strMealThumb: action.payload.recipeImg
+        strMealThumb: action.payload.recipeImg,
       };
 
       state.favouriteState.push(newRecipe);
     },
 
-    removeFromFavourite: (state, action) => {},
+    removeFromFavourite: (state, action) => {
+      const idMealToRemove = parseInt(action.payload.id);
+
+      const updatedState = state.favouriteState.filter(
+        (item) => item.idMeal != idMealToRemove
+      );
+
+      state.favouriteState = updatedState;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchFavourites.fulfilled, (state, action) => {

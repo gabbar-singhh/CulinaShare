@@ -12,7 +12,10 @@ import supabase from "@/lib/supabaseClient";
 import CircularLoader from "../CircularLoader/CircularLoader";
 import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
-import { addToFavourite } from "@/features/favourites/favouritesSlice";
+import {
+  addToFavourite,
+  removeFromFavourite,
+} from "@/features/favourites/favouritesSlice";
 
 const Cards = (props) => {
   const { user, isLoading, error } = useUser();
@@ -58,7 +61,6 @@ const Cards = (props) => {
       dispatch(
         addToFavourite({
           recipeId: props.id,
-          emailId: user.email,
           recipeName: props.mealName,
           recipeImg: props.imgUrl,
         })
@@ -69,9 +71,19 @@ const Cards = (props) => {
     }
   };
 
-  useEffect(() => {
-  //  console.log("props=>",props);
-  }, [])
+  const deleteFavouritesHandler = () => {
+    if (user) {
+      console.log("⚪️ you clicked fav.remove.button");
+      dispatch(
+        removeFromFavourite({
+          id: props.id,
+        })
+      );
+      toast.success(`${props.mealName} removed successfully!`);
+    } else {
+      toast.error("unkown error occured");
+    }
+  };
 
   return (
     <React.Fragment>
@@ -138,12 +150,7 @@ const Cards = (props) => {
           {props.isFav ? (
             <div
               className={`${styles.yes_favourite} ${styles.card_favbutton}`}
-              onClick={() => {
-                props.removeFavouritesHandler({
-                  mealId: props.id,
-                  emailId: user.email,
-                });
-              }}
+              onClick={deleteFavouritesHandler}
             >
               <img src="/icons/star-white.png" alt="star icon" />
 

@@ -34,11 +34,6 @@ const favorites = () => {
 
   const [favouritesFromDB, setFavouritesFromDB] = useState([]);
 
-  const removeFavouritesHandler = (id) => {
-    console.log("u pressed thsi!");
-    // dispatch(removeFavourite(id));
-  };
-
   const sortDataByTime = (data) => {
     // return data;
 
@@ -52,6 +47,34 @@ const favorites = () => {
       dispatch(fetchFavourites(user.email));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      console.log("favouriteState changed!");
+      setTimeout(() => {
+        insertDataIntoDB(user.email, favouriteState)
+          .then((res) => {
+            console.log("🟣 UPDATED!");
+          })
+          .catch((err) => {
+            console.log("🔴 ERROR!", err);
+          });
+      }, 1500);
+    }
+  }, [favouriteState]);
+
+  const insertDataIntoDB = async (emailId, currentFavState) => {
+    const { data, error } = await supabase
+      .from("favourite_recipes")
+      .update({
+        recipesJSON: currentFavState,
+      })
+      .eq("email_id", emailId)
+      .select();
+
+    if (data) return data;
+    if (error) return error;
+  };
 
   return (
     <React.Fragment>
@@ -94,56 +117,20 @@ const favorites = () => {
         <div className={styles.favorites_container}>
           {user && <h1>{user.name} 's Saved Recipes</h1>}
 
-          {/* {user ? (
-            <>
-              {dataLoading && (
-                <Feed
-                  data={sortDataByTime(favouritesFromDB)} // data again i.e, fetched!
-                  isFav={true}
-                  onClickRemove={removeFavouritesHandler}
-                  isLoading={true}
-                />
-              )}
-
-              {dataLoading === -1 ||
-                (favouritesFromDB.length === 0 && (
-                  <>
-                    <div className={styles.favorites_noData}>
-                      <p>no saved recipes found :)</p>
-                    </div>
-                  </>
-                ))}
-
-              {favouritesFromDB.length >= 1 && (
-                <>
-                  <Feed
-                    data={sortDataByTime(favouritesFromDB)} // data again i.e, fetched!
-                    isFav={true}
-                    onClickRemove={removeFavouritesHandler}
-                  />
-                </>
-              )}
-            </>
-          ) : (
-            <Feed
-              data={sortDataByTime(favouritesFromDB)} // data again i.e, fetched!
-              isFav={true}
-              onClickRemove={removeFavouritesHandler}
-              isLoading={true}
-            />
-          )} */}
           {favouriteState.length !== 0 && (
             <Feed
               data={sortDataByTime(favouriteState)} // data again i.e, fetched!
               isFav={true}
-              onClickRemove={removeFavouritesHandler}
               isLoading={false}
             />
           )}
           {favouriteState.length === 0 && (
-            <div className={styles.favorites_noData}>
-              <p>no saved recipes found :)</p>
-            </div>
+            <>
+              <div className={styles.favorites_noData}>
+                <p>no saved recipes found :)</p>
+              </div>
+              <Discover />
+            </>
           )}
         </div>
 

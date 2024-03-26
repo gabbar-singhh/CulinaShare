@@ -52,7 +52,6 @@ const Feed = (props) => {
                 imgUrl={meal.strMealThumb}
                 mealName={meal.strMeal}
                 isFav={props.isFav}
-                removeFavouritesHandler={props.onClickRemove}
               />
             ))}
           </div>
