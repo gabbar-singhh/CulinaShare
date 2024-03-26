@@ -225,15 +225,6 @@ export default function BlogPost({ meal, suggestions }) {
           />
           <meta property="og:description" content={`CulinaShare`} />
           <meta property="og:image" content={recipe.strMealThumb} />
-
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:site" content={"@himanshufs_"} />
-          <meta
-            name="twitter:title"
-            content={`Learn how to prepare ${recipe.strMeal}`}
-          />
-          <meta name="twitter:description" content="CulinaShare" />
-          <meta name="twitter:image" content={recipe.strMealThumb}></meta>
         </Head>
         <NavigationBar />
         <section className={styles.page_main}>
