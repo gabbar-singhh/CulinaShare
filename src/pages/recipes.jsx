@@ -7,11 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Footer from "@/components/Footer/Footer";
 import { fetchFavourites } from "@/features/favourites/favouritesSlice";
+import supabase from "@/lib/supabaseClient";
 
 const recipes = () => {
   const dispatch = useDispatch();
-  const favoriteState = useSelector(
-    (state) => state.favouritesReducer.favourites
+  const favouriteState = useSelector(
+    (state) => state.favouritesReducer.favouriteState
   );
   const { user, isLoading, error } = useUser();
 
@@ -20,6 +21,33 @@ const recipes = () => {
       dispatch(fetchFavourites(user.email));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        insertDataIntoDB(user.email, favouriteState)
+          .then((res) => {
+            console.log("🟣 UPDATED!");
+          })
+          .catch((err) => {
+            console.log("🔴 ERROR!", err);
+          });
+      }, 1500);
+    }
+  }, [favouriteState]);
+
+  const insertDataIntoDB = async (emailId, currentFavState) => {
+    const { data, error } = await supabase
+      .from("favourite_recipes")
+      .update({
+        recipesJSON: currentFavState,
+      })
+      .eq("email_id", emailId)
+      .select();
+
+    if (data) return data;
+    if (error) return error;
+  };
 
   return (
     <React.Fragment>

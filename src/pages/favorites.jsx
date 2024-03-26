@@ -19,7 +19,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { fetchFavourites } from "@/features/favourites/favouritesSlice";
 
 const favorites = () => {
-  const favoriteState = useSelector(
+  const favouriteState = useSelector(
     (state) => state.favouritesReducer.favouriteState
   );
 
@@ -132,13 +132,16 @@ const favorites = () => {
               isLoading={true}
             />
           )} */}
-          {favoriteState.length !== 0 && (
+          {favouriteState.length !== 0 && (
             <Feed
-              data={sortDataByTime(favoriteState)} // data again i.e, fetched!
+              data={sortDataByTime(favouriteState)} // data again i.e, fetched!
               isFav={true}
               onClickRemove={removeFavouritesHandler}
               isLoading={false}
             />
+          )}
+          {favouriteState.length === 0 && (
+            <Feed data={favouriteState}/>
           )}
         </div>
 

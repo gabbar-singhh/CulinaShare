@@ -70,36 +70,8 @@ const Cards = (props) => {
   };
 
   useEffect(() => {
-    if (user) {
-      setTimeout(() => {
-        insertDataIntoDB(user.email, favouriteState)
-          .then((res) => {
-            console.log("🟣 UPDATED!");
-          })
-          .catch((err) => {
-            console.log("🔴 ERROR!", err);
-          });
-      }, 1500);
-    }
-  }, [favouriteState]);
-
-  useEffect(() => {
-   console.log("props=>",props);
+  //  console.log("props=>",props);
   }, [])
-  
-
-  const insertDataIntoDB = async (emailId, currentFavState) => {
-    const { data, error } = await supabase
-      .from("favourite_recipes")
-      .update({
-        recipesJSON: currentFavState,
-      })
-      .eq("email_id", emailId)
-      .select();
-
-    if (data) return data;
-    if (error) return error;
-  };
 
   return (
     <React.Fragment>

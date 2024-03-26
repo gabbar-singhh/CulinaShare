@@ -47,7 +47,11 @@ export const favouritesSlice = createSlice({
     builder.addCase(fetchFavourites.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isError = false;
-      state.favouriteState = action.payload.recipesJSON;
+      try {
+        state.favouriteState = action.payload.recipesJSON;
+      } catch {
+        state.favouriteState = [];
+      }
     });
     builder.addCase(fetchFavourites.pending, (state, action) => {
       state.isLoading = true;
