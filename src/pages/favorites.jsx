@@ -141,7 +141,9 @@ const favorites = () => {
             />
           )}
           {favouriteState.length === 0 && (
-            <Feed data={favouriteState}/>
+            <div className={styles.favorites_noData}>
+              <p>no saved recipes found :)</p>
+            </div>
           )}
         </div>
 

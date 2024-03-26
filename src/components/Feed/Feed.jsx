@@ -12,11 +12,7 @@ const Feed = (props) => {
   const isLoadingState = useSelector(
     (state) => state.favouritesReducer.isLoading
   );
-
-  useEffect(() => {
-    console.log("🏎", props.data);
-  }, []);
-
+  
   const lastMealIndex = currentPage * mealsPerPage;
   const firstMealIndex = lastMealIndex - mealsPerPage;
   let currentMeals = [];
