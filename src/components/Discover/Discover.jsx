@@ -80,8 +80,8 @@ const Discover = () => {
 
   const fetchFavourites = async (userEmail) => {
     const { data, error } = await supabase
-      .from("favourites")
-      .select("favouritesJson")
+      .from("favourite_recipes")
+      .select("recipesJSON")
       .eq("email_id", userEmail);
 
     if (error) {
@@ -93,8 +93,8 @@ const Discover = () => {
 
   const insertEmptyJSON = async (inputEmail) => {
     const { error } = await supabase
-      .from("favourites")
-      .insert({ email_id: inputEmail, favouritesJson: [] });
+      .from("favourite_recipes")
+      .insert({ email_id: inputEmail, recipesJSON: [] });
 
     if (error) {
       console.log(error);

@@ -3,10 +3,19 @@ import styles from "./Feed.module.css";
 import Cards from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
+import { useSelector, useDispatch } from "react-redux";
 
 const Feed = (props) => {
   const [currentPage, setcurrentPage] = useState(1);
   const [mealsPerPage, setMealsPerPage] = useState(15);
+
+  const isLoadingState = useSelector(
+    (state) => state.favouritesReducer.isLoading
+  );
+
+  useEffect(() => {
+    console.log("🏎", props.data);
+  }, []);
 
   const lastMealIndex = currentPage * mealsPerPage;
   const firstMealIndex = lastMealIndex - mealsPerPage;
@@ -41,6 +50,7 @@ const Feed = (props) => {
           <div className={styles.card_manager}>
             {currentMeals.map((meal) => (
               <Cards
+                data={props.data}
                 key={meal.strId}
                 id={meal.idMeal}
                 imgUrl={meal.strMealThumb}

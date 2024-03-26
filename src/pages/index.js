@@ -5,8 +5,19 @@ import HeroSection from "@/components/Hero/HeroSection";
 import Discover from "@/components/Discover/Discover";
 import Footer from "@/components/Footer/Footer";
 import CategorySection from "@/components/CategorySection/CategorySection";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchFavourites } from "@/features/favourites/favouritesSlice";
 
 export default function Home() {
+  const { user, isLoading, error } = useUser();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchFavourites(user.email));
+    }
+  }, [user]);
   return (
     <>
       <Head>
