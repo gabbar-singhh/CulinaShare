@@ -221,17 +221,10 @@ export default function BlogPost({ meal, suggestions }) {
           {/* OG META TAGS */}
           <meta
             property="og:title"
-            content={`${recipe.strMeal} - CulinaShare`}
-          />
-          <meta
-            property="og:description"
             content={`Learn how to prepare ${recipe.strMeal}`}
           />
+          <meta property="og:description" content={`CulinaShare`} />
           <meta property="og:image" content={recipe.strMealThumb} />
-          {/* <meta
-            property="og:url"
-            content={navigator.clipboard.writeText(window.location.href)}
-          /> */}
         </Head>
         <NavigationBar />
         <section className={styles.page_main}>
