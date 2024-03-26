@@ -2,7 +2,7 @@ function getTimeById(id, data) {
   let result = null;
 
   data.forEach((obj) => {
-    if (obj.idMeal === id) {
+    if (obj.idMeal == parseInt(id)) {
       result = obj.timestamp;
     }
   });

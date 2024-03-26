@@ -54,7 +54,7 @@ const Cards = (props) => {
 
   const addToFavouritesHandler = () => {
     if (user) {
-      console.log("you clicked addToFavouritesHandler!");
+      console.log("⚪️ you clicked fav.button");
       dispatch(
         addToFavourite({
           recipeId: props.id,
@@ -74,14 +74,19 @@ const Cards = (props) => {
       setTimeout(() => {
         insertDataIntoDB(user.email, favouriteState)
           .then((res) => {
-            console.log("UPDATED!");
+            console.log("🟣 UPDATED!");
           })
           .catch((err) => {
-            console.log("error ##", err);
+            console.log("🔴 ERROR!", err);
           });
       }, 1500);
     }
   }, [favouriteState]);
+
+  useEffect(() => {
+   console.log("props=>",props);
+  }, [])
+  
 
   const insertDataIntoDB = async (emailId, currentFavState) => {
     const { data, error } = await supabase
@@ -95,10 +100,6 @@ const Cards = (props) => {
     if (data) return data;
     if (error) return error;
   };
-
-  useEffect(() => {
-    console.log("props.data: ", props.data);
-  }, [props.data]);
 
   return (
     <React.Fragment>
@@ -130,7 +131,7 @@ const Cards = (props) => {
           <div className={styles.cardImgWrapper} style={props.customStyle}>
             {/* IF CARD IMAGE IS LOADED OR NOT, IF NOT THEN SHOW ORANGE-LOADER GIF INSTEAD */}
             {imageLoaded ? (
-              <Link href={`/recipes/${parseInt(props.idMeal)}`}>
+              <Link href={`/recipes/${parseInt(props.id)}`}>
                 <img
                   className={styles.card_img}
                   src={props.imgUrl}
@@ -146,7 +147,7 @@ const Cards = (props) => {
               />
             )}
           </div>
-          <Link href={`/recipes/${parseInt(props.idMeal)}`}>
+          <Link href={`/recipes/${parseInt(props.id)}`}>
             <Tooltip title={props.mealName} arrow>
               <p className={styles.card_mealName}>
                 {spliceText(props.mealName)}
@@ -158,7 +159,7 @@ const Cards = (props) => {
           {props.isFav && (
             <p className={styles.card_mealSaved}>
               Saved{" "}
-              {formatDistanceToNowStrict(getTimeById(parseInt(props.idMeal), props.data))} ago
+              {formatDistanceToNowStrict(getTimeById(props.id, props.data))} ago
             </p>
           )}
 
@@ -167,7 +168,7 @@ const Cards = (props) => {
               className={`${styles.yes_favourite} ${styles.card_favbutton}`}
               onClick={() => {
                 props.removeFavouritesHandler({
-                  mealId: props.idMeal,
+                  mealId: props.id,
                   emailId: user.email,
                 });
               }}
@@ -178,7 +179,7 @@ const Cards = (props) => {
             </div>
           ) : (
             <>
-              {checkIfFavourite(parseInt(props.idMeal), props.data) ? (
+              {checkIfFavourite(props.id, props.data) ? (
                 <Tooltip
                   arrow
                   title={`${props.mealName} is added to favourites!`}
