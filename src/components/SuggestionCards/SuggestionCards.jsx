@@ -3,9 +3,6 @@ import styles from "./SuggestionCards.module.css";
 import Cards from "../Card/Card";
 
 const SuggestionCards = ({ data }) => {
-  // useEffect(() => {
-  //  console.log("sugg", data)
-  // }, [])
 
   return (
     <section className={styles.suggestionCardsMain}>

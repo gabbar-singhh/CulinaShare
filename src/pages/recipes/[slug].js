@@ -98,7 +98,18 @@ export default function BlogPost({ meal, suggestions }) {
         .from("reported_recipes")
         .insert({ email_id: user.email, recipe_id: slug });
 
-      toast.success(`${recipe.strMeal} reported successfully!`);
+      toast.success(`${recipe.strMeal} reported successfully!`, {
+        style: {
+          border: "1px solid var(--secondary-color)",
+          padding: "16px",
+          color: "var(--secondary-color)",
+          backgroundColor: "#fff",
+        },
+        iconTheme: {
+          primary: "var(--secondary-color)",
+          secondary: "#fff",
+        },
+      });
       if (error) {
         toast.error(`unknown error occured`);
       }
@@ -110,7 +121,7 @@ export default function BlogPost({ meal, suggestions }) {
       if (error) {
         toast.error(`unknown error occured`);
       } else {
-        toast.success(`${recipe.strMeal} reported successfully!`);
+        toast.error(`sign in to report recipes`)
       }
     }
   };
@@ -173,6 +184,7 @@ export default function BlogPost({ meal, suggestions }) {
         setFavoriteButtonText("added to favourites");
       } else {
         toast.error("Sign in to add favourites");
+        setFavouriteIsLoading(false);
       }
     }, 1300);
   };
@@ -199,6 +211,13 @@ export default function BlogPost({ meal, suggestions }) {
               style: {
                 background: "red",
                 border: "1px solid red",
+                color: "#fff",
+              },
+            },
+            info: {
+              styles: {
+                background: "#ccc",
+                border: "1px solid grey",
                 color: "#fff",
               },
             },

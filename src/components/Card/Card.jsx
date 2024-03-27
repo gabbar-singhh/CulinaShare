@@ -75,6 +75,7 @@ const Cards = (props) => {
         setFavoriteButtonText("added to favourites");
       } else {
         toast.error("Sign in to add favourites");
+        setFavouriteIsLoading(false);
       }
     }, 1300);
   };
