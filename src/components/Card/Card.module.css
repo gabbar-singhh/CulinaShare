@@ -28,7 +28,7 @@
   border-radius: 4px;
 }
 
-.cardImgWrapper .imgNotLoaded{
+.cardImgWrapper .imgNotLoaded {
   background-color: red;
 }
 
@@ -107,13 +107,9 @@
   }
 }
 
-@media (max-width:429px) {
-  .card_container {
-    padding: 0.6em;
-  }
-
+@media (max-width: 400px) {
   .card_container .cardImgWrapper {
-    height: 140px;
-    width: 140px;
+    height: 200px;
+    width: 200px;
   }
 }
