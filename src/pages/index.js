@@ -9,6 +9,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchFavourites } from "@/features/favourites/favouritesSlice";
+import GithubStatsSection from "@/components/GithubStatsSection/GithubStatsSection";
 
 export default function Home() {
   const { user, isLoading, error } = useUser();
@@ -36,6 +37,7 @@ export default function Home() {
           <HeroSection />
           <CategorySection />
           <Discover />
+          <GithubStatsSection/>
         </div>
         <Footer />
       </main>

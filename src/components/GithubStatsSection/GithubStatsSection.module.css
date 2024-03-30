@@ -1,0 +1,86 @@
+.githubMain {
+    padding: 2.8em 2em;
+    font-family: var(--primary-font);
+    cursor: default;
+    background: rgb(110, 43, 8);
+    background: linear-gradient(169deg,
+            rgba(110, 43, 8, 1) 0%,
+            rgba(255, 145, 0, 1) 100%);
+}
+
+.githubContainer {
+    background-color: #fff;
+    gap: 1.5rem;
+
+    position: relative;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5rem 1rem;
+    text-align: center;
+}
+
+.githubContainer .headTop {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--secondary-color);
+}
+
+.githubContainer .heading {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}
+
+.githubContainer .summary {
+    color: #262626;
+    font-weight: 500;
+    padding: 0 4rem;
+}
+
+.githubContainer .githubButtons {
+    margin-top: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.githubButtons .githubRepoStars {
+    font-family: var(--primary-font);
+    font-weight: 600;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 8px 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 7px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+.githubButtons .githubRepoStars:hover {
+transform: rotate(-2deg)
+}
+
+.githubButtons .buyMeATee:hover{
+transform: rotate(2deg)
+
+} 
+
+@media (max-width: 640px) {
+
+    .githubContainer .githubButtons {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .githubContainer .summary {
+        padding: 0 1rem;
+    }
+}
