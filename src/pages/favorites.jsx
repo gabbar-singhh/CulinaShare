@@ -15,121 +15,65 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Head from "next/head";
 import supabase from "@/lib/supabaseClient";
 import Footer from "@/components/Footer/Footer";
+import toast, { Toaster } from "react-hot-toast";
+import { fetchFavourites } from "@/features/favourites/favouritesSlice";
 
 const favorites = () => {
-  const favoriteState = useSelector(
-    (state) => state.favouritesReducer.favourites
+  const favouriteState = useSelector(
+    (state) => state.favouritesReducer.favouriteState
   );
+
+  const isLoadingState = useSelector(
+    (state) => state.favouritesReducer.isLoading
+  );
+
   const dispatch = useDispatch();
 
   const { user, isLoading, error } = useUser();
+  const [isDataLoading, setIsDataLoading] = useState(true);
 
-  const [data, setData] = useState([]);
+  const [favouritesFromDB, setFavouritesFromDB] = useState([]);
 
-  const fetchMealDetails = async (mealId) => {
-    try {
-      const response = await axios.get(
-        `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealId}`
-      );
-      return response.data.meals[0];
-    } catch (error) {
-      console.error(
-        `Error fetching meal details for ID ${mealId}:`,
-        error.message
-      );
-      return null;
-    }
-  };
+  const sortDataByTime = (data) => {
+    // return data;
 
-  const fetchAllMeals = async () => {
-    const favoriteIds = favoriteState.map((favorite) => favorite.id);
-    const mealIds = [...favoriteIds];
-
-    const allMeals = await Promise.all(
-      mealIds.map((id) => fetchMealDetails(id))
-    );
-    return allMeals.filter((meal) => meal !== null);
-  };
-
-  useEffect(() => {
-    const allMeals = fetchAllMeals()
-      .then((res) => {
-        setData(res);
-      })
-      .catch(() => {
-        setData({ meals: null, error: true });
-      });
-  }, [favoriteState]);
-
-  const removeFavouritesHandler = (id) => {
-    console.log("u pressed thsi!");
-    dispatch(removeFavourite(id));
-    console.log("favoritesfavoritesfavorites, ", favoriteState);
+    return [...data]
+      .sort((a, b) => new Date(b.time) - new Date(a.time))
+      .reverse();
   };
 
   useEffect(() => {
     if (user) {
-      fetchFavourites(user.email)
-        .then((favs) => {
-          if (favs === undefined) {
-            // ROW NOT MENTIONED, ADD EMPTY JSON
-            insertEmptyJSON(user.email);
-            console.log("favs-use:undefined");
-          } else if (favs.favouritesJson.length >= 0) {
-            // ROW MENTIONED BUT EMPTY
-            dispatch(
-              addFetchedFavouritesToState({
-                favouritesJson: favs.favouritesJson,
-              })
-            );
-            console.log("favs-use:other");
-          }
-        })
-        .catch((err) => {
-          console.log("err - ", err);
-        });
-    } else if (error) {
-      console.error(error);
+      dispatch(fetchFavourites(user.email));
     }
-  }, [user, error]);
+  }, [user]);
 
-  const updateFavouritesRecipe = async (updatedFavourites) => {
-    const { error } = await supabase
-      .from("favourites")
-      .update({ favouritesJson: updatedFavourites.favorites })
-      .eq("email_id", updatedFavourites.emailId);
-    if (error) {
-      console.log(error);
+  useEffect(() => {
+    if (user) {
+      console.log("favouriteState changed!");
+      setTimeout(() => {
+        insertDataIntoDB(user.email, favouriteState)
+          .then((res) => {
+            console.log("🟣 UPDATED!");
+          })
+          .catch((err) => {
+            console.log("🔴 ERROR!", err);
+          });
+      }, 1500);
     }
-  };
+  }, [favouriteState]);
 
-  const fetchFavourites = async (userEmail) => {
+  const insertDataIntoDB = async (emailId, currentFavState) => {
     const { data, error } = await supabase
-      .from("favourites")
-      .select("favouritesJson")
-      .eq("email_id", userEmail);
+      .from("favourite_recipes")
+      .update({
+        recipesJSON: currentFavState,
+      })
+      .eq("email_id", emailId)
+      .select();
 
-    if (error) {
-      console.log(error);
-    }
-
-    return data[0];
-  };
-
-  const insertEmptyJSON = async (inputEmail) => {
-    const { error } = await supabase
-      .from("favourites")
-      .insert({ email_id: inputEmail, favouritesJson: [] });
-
-    if (error) {
-      console.log(error);
-    }
-  };
-
-  const sortDataByTime = (data) => {
-    return [...data]
-      .sort((a, b) => new Date(b.time) - new Date(a.time))
-      .reverse();
+    if (data) return data;
+    if (error) return error;
   };
 
   return (
@@ -144,35 +88,51 @@ const favorites = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              background: "#e6ffc4",
+              border: "1px solid green",
+              color: "#000",
+            },
+          },
+          error: {
+            style: {
+              background: "red",
+              border: "1px solid red",
+              color: "#fff",
+            },
+          },
+          style: {
+            border: "1px solid var(--secondary-color)",
+            padding: "16px",
+            color: "var(--secondary-color)",
+          },
+        }}
+      />
       <section className={styles.favorites_main}>
         <NavigationBar />
-        {user ? (
-          <div className={styles.favorites_container}>
-            <h1>{user.name} 's Saved Recipes</h1>
 
-            {data.length <= 0 ? (
-              <>
-                <div className={styles.favorites_noData}>
-                  <p>no saved recipes found :)</p>
-                </div>
-                <Discover />
-              </>
-            ) : (
-              <Feed
-                data={sortDataByTime(data)} // data again i.e, fetched!
-                isFav={true}
-                onClickRemove={removeFavouritesHandler}
-              />
-            )}
-          </div>
-        ) : (
-          <div className={styles.favorites_container}>
-            <div className={styles.favorites_noData}>
-              <p>Login to see your favorites :)</p>
-            </div>
-            <Discover />
-          </div>
-        )}
+        <div className={styles.favorites_container}>
+          {user && <h1>{user.name} 's Saved Recipes</h1>}
+
+          {favouriteState.length !== 0 && (
+            <Feed
+              data={sortDataByTime(favouriteState)} // data again i.e, fetched!
+              isFav={true}
+              isLoading={false}
+            />
+          )}
+          {favouriteState.length === 0 && (
+            <>
+              <div className={styles.favorites_noData}>
+                <p>no saved recipes found :)</p>
+              </div>
+              <Discover />
+            </>
+          )}
+        </div>
 
         <Footer />
       </section>

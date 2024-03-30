@@ -4,16 +4,15 @@ import supabase from "@/lib/supabaseClient";
 const initialState = {
   isError: false,
   isLoading: false,
-  favourites: [],
-  isEmptyArrayAdded: false,
+  favouriteState: [],
 };
 
 export const fetchFavourites = createAsyncThunk(
   "fetchFavourites",
   async (inputEmail) => {
     const { data, error } = await supabase
-      .from("favourites")
-      .select("favouritesJson")
+      .from("favourite_recipes")
+      .select("recipesJSON")
       .eq("email_id", inputEmail);
 
     if (error) {
@@ -28,39 +27,51 @@ export const favouritesSlice = createSlice({
   name: "FAVOURITES",
   initialState,
   reducers: {
-    addFavourite: (state, action) => {
-      const recipe = action.payload.newRecipe;
+    addToFavourite: (state, action) => {
+      const timestamp = new Date().toISOString();
 
-      state.favourites.push(recipe);
+      const newRecipe = {
+        idMeal: action.payload.recipeId,
+        timestamp: timestamp,
+        strMeal: action.payload.recipeName,
+        strMealThumb: action.payload.recipeImg,
+      };
+
+      state.favouriteState.push(newRecipe);
     },
 
-    removeFavourite: (state, action) => {
-      // Add logic to remove a favourite
-      state.favourites = state.favourites.filter(
-        (meal) => meal.id !== action.payload.mealId
+    removeFromFavourite: (state, action) => {
+      const idMealToRemove = parseInt(action.payload.id);
+
+      const updatedState = state.favouriteState.filter(
+        (item) => item.idMeal != idMealToRemove
       );
-      updateFavouritesRecipe({
-        favorites: state.favourites,
-        emailId: action.payload.emailId,
-      });
+
+      state.favouriteState = updatedState;
     },
-    addFetchedFavouritesToState: (state, action) => {
-      state.favourites = action.payload.favouritesJson;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchFavourites.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      try {
+        state.favouriteState = action.payload.recipesJSON;
+      } catch {
+        state.favouriteState = [];
+      }
+    });
+    builder.addCase(fetchFavourites.pending, (state, action) => {
+      state.isLoading = true;
+      state.isError = false;
+    });
+    builder.addCase(fetchFavourites.rejected, (state, action) => {
+      console.log("Error: ", action.payload);
+      state.isLoading = false;
+      state.isError = true;
+    });
   },
 });
 
-const updateFavouritesRecipe = async (updatedFavourites) => {
-  const { error } = await supabase
-    .from("favourites")
-    .update({ favouritesJson: updatedFavourites.favorites })
-    .eq("email_id", updatedFavourites.emailId);
-  if (error) {
-    console.log(error);
-  }
-};
-
-export const { addFavourite, removeFavourite, addFetchedFavouritesToState } =
-  favouritesSlice.actions;
+export const { addToFavourite, removeFromFavourite } = favouritesSlice.actions;
 
 export default favouritesSlice.reducer;

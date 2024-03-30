@@ -1,6 +1,5 @@
 .favorites_main {
     height: 100vh;
-    scroll-snap-align: start;
     font-family: var(--primary-font);
 }
 

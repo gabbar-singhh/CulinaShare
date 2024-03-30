@@ -1,7 +1,11 @@
 function spliceText(inputString) {
-  if (inputString.length > 23) {
-    return inputString.substring(0, 18) + "..";
-  } else {
+  try {
+    if (inputString.length > 23) {
+      return inputString.substring(0, 18) + "..";
+    } else {
+      return inputString;
+    }
+  } catch {
     return inputString;
   }
 }

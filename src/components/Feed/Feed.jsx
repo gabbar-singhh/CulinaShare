@@ -3,11 +3,17 @@ import styles from "./Feed.module.css";
 import Cards from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
+import { useSelector, useDispatch } from "react-redux";
+import { Fade } from "react-awesome-reveal";
 
 const Feed = (props) => {
   const [currentPage, setcurrentPage] = useState(1);
   const [mealsPerPage, setMealsPerPage] = useState(15);
 
+  const isLoadingState = useSelector(
+    (state) => state.favouritesReducer.isLoading
+  );
+  
   const lastMealIndex = currentPage * mealsPerPage;
   const firstMealIndex = lastMealIndex - mealsPerPage;
   let currentMeals = [];
@@ -40,14 +46,16 @@ const Feed = (props) => {
         <div className={styles.feed_container}>
           <div className={styles.card_manager}>
             {currentMeals.map((meal) => (
+              <Fade cascade damping={0.1}>
               <Cards
+                data={props.data}
                 key={meal.strId}
                 id={meal.idMeal}
                 imgUrl={meal.strMealThumb}
                 mealName={meal.strMeal}
                 isFav={props.isFav}
-                removeFavouritesHandler={props.onClickRemove}
-              />
+                />
+                </Fade>
             ))}
           </div>
         </div>

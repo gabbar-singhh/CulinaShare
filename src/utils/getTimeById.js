@@ -1,9 +1,9 @@
-function getTimeById(id, arr) {
+function getTimeById(id, data) {
   let result = null;
 
-  arr.forEach((obj) => {
-    if (obj.id == id) {
-      result = obj.time;
+  data.forEach((obj) => {
+    if (obj.idMeal == parseInt(id)) {
+      result = obj.timestamp;
     }
   });
 

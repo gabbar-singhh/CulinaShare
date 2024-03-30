@@ -169,7 +169,7 @@
 }
 
 .rightContainer .sourceBox {
-  width: 350px;
+  width: 100%;
   background-color: var(--secondary-color);
   color: #fff;
   font-size: 14px;
@@ -185,12 +185,16 @@
   text-decoration: underline;
 }
 
+.rightContainer .mealSocialShare {
+  width: 100%;
+}
+
 .rightContainer .mealSocialShare h2 {
   margin-top: 1.5rem !important;
   padding-left: 0;
   text-transform: capitalize;
   color: var(--secondary-color);
-  font-size: 1em;
+  font-size: 15px;
   z-index: 1;
 }
 
@@ -211,15 +215,109 @@
 }
 
 .rightContainer .reportRecipe p {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--secondary-color);
 }
 
+.favouriteButton .card_favbutton {
+  margin-top: 0.8em;
+  background-color: #dfdfdf;
+  padding: 0.2em;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.5em;
+  transition: 0.3s ease-in-out;
+}
+
+.favouriteButton .card_favbutton:hover {
+  background-color: #dfdfdf;
+}
+
+.yes_favourite {
+  background-color: #dfdfdf !important;
+  background-color: var(--primary-color) !important;
+  cursor: pointer;
+}
+
+.yes_favourite p {
+  color: #fff !important;
+}
+
+.favouriteButton .card_favbutton img {
+  height: 20px;
+  width: 20px;
+}
+
+.favouriteButton .card_favbutton p {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+
+
+@media screen and (min-width: 360px) and (max-width: 1024px) {
+  .page_main {
+    flex-direction: column;
+    padding: 2rem 0.5rem 0 0.5rem;
+  }
+
+  .page_container {
+    padding: 0;
+  }
+
+  .mealName {
+    line-height: 1;
+    font-size: 1.8em;
+  }
+
+  .mealArea {
+    margin-top: 1em;
+  }
+
+  .rightContainer {
+    margin-top: 2.8rem;
+    align-self: center;
+    width: 80%;
+    justify-self: center;
+  }
+
+  .rightContainer .mealSocialShare {
+    display: flex;
+  }
+
+  .mealSocialShare div {
+    width: 100%;
+  }
+
+  .socialIcons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6em;
+  }
+
+  .socialIcons ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+
+  }
+
+  .mealprepare,
+  .mealInstructions,
+  .mealSource,
+  .mealVideo {
+    padding-left: 0.5em;
+  }
+}
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
   .page_container {
-    padding: 3em 0;
+    /* padding: 3em 0; */
   }
 
   .mealImg {
@@ -235,7 +333,7 @@
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
   .page_container {
-    padding: 3em 0;
+    /* padding: 3em 0; */
   }
 
 
@@ -260,7 +358,7 @@
 
 @media screen and (min-width: 360px) and (max-width: 480px) {
   .page_container {
-    padding: 3em 0;
+    /* padding: 3em 0; */
     margin: 0.4em;
   }
 
@@ -281,5 +379,13 @@
   .mealVideo .mealPlayer {
     margin-top: 1em;
     height: 200px;
+  }
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {}
+
+@media (max-width:640px) {
+  .page_main {
+    flex-direction: column;
   }
 }

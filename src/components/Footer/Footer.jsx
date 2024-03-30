@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import styles from "./Footer.module.css";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { validate } from "email-validator";
+import supabase from "@/lib/supabaseClient";
 
 const Footer = () => {
-  const LINKEDIN_URL = 'https://www.linkedin.com/in/himanshufs'
+  const LINKEDIN_URL = "https://www.linkedin.com/in/himanshufs";
   const [emailVal, setEmailVal] = useState("");
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 
@@ -30,24 +33,51 @@ const Footer = () => {
 
   const emailDataHandler = (e) => {
     setEmailVal(e.target.value);
-    console.log(e.target.value);
   };
 
   const emailValKeyDownHandler = (e) => {
     if (e.keyCode === 13) {
-      setEmailVal(e.target.value);
-      // send email to supabase!
-      console.log(e.target.value);
+      if (validate(e.target.value)) {
+        sendNewsletterEmailDB(emailVal).catch(() => {
+          toast.error(`unknown error occured`);
+        });
+      } else {
+        toast.error(`enter a valid email address`);
+      }
     }
   };
 
-  const handleSearchClick = () => {
+  const newsletterSendHandler = () => {
     setIsSearchClicked((prevState) => !prevState);
+    if (validate(emailVal)) {
+      sendNewsletterEmailDB(emailVal).catch(() => {
+        toast.error(`unknown error occured`);
+      });
+    } else {
+      toast.error(`enter a valid email address`);
+    }
 
     setTimeout(() => {
       setIsSearchClicked(false);
     }, 150);
   };
+
+  const sendNewsletterEmailDB = async (emailId) => {
+    const { data, error } = await supabase
+      .from("newsletter")
+      .insert({ email_id: emailId })
+      .select();
+
+    if (error) {
+      toast.error(`you're already subscribed to CulinaShare`);
+    }
+
+    if (data) {
+      toast.success(`you subscribed to culinashare`);
+      setEmailVal("");
+    }
+  };
+
   return (
     <React.Fragment>
       <section className={styles.about_main}>
@@ -76,7 +106,7 @@ const Footer = () => {
               />
               <span
                 className={`${styles.search_icon} shine_effect`}
-                onClick={handleSearchClick}
+                onClick={newsletterSendHandler}
                 style={{
                   backgroundColor: isSearchClicked
                     ? "var(--secondary-color-light)"
@@ -89,44 +119,13 @@ const Footer = () => {
             <p className={styles.pSpam}>PLS: WE WON'T SPAM</p>
           </div>
         </div>
-
-        {/* <div className={styles.about_bottomLane}>
-          <h3>Connect with us</h3>
-
-          <ul>
-            <li
-              className={styles.social}
-              data-key={"INSTA"}
-              onClick={socialHandler}
-            >
-              <img src="/icons/instagram-about.svg" />
-            </li>
-            <li
-              className={styles.social}
-              data-key={"TWITTER"}
-              onClick={socialHandler}
-            >
-              <img src="/icons/twitterx-about.svg" />
-            </li>
-            <li
-              className={styles.social}
-              data-key={"LINKEDIN"}
-              onClick={socialHandler}
-            >
-              <img src="/icons/linkedin-about.svg" />
-            </li>
-            <li
-              className={styles.social}
-              data-key={"FACEBOOK"}
-              onClick={socialHandler}
-            >
-              <img src="/icons/facebook-about.svg" />
-            </li>
-          </ul>
-        </div> */}
       </section>
       <footer className={styles.footer}>
-        made with ❤ by <Link href={LINKEDIN_URL} style={{textDecoration:'underline'}}>himanshu</Link>!
+        made with ❤ by{" "}
+        <Link href={LINKEDIN_URL} style={{ textDecoration: "underline" }}>
+          himanshu
+        </Link>
+        !
       </footer>
     </React.Fragment>
   );

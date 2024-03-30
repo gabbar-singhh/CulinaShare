@@ -1,0 +1,24 @@
+.suggestionCardsMain {}
+
+.suggestionCardsMain h2 {
+    margin-top: 1.5rem;
+    padding-left: 0;
+    color: var(--secondary-color);
+    font-size: 15px;
+    z-index: 1;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .cardContainer{
+        flex-direction: row;
+    }
+}
