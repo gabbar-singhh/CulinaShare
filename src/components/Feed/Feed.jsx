@@ -4,6 +4,7 @@ import Cards from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import SkeletonCard from "../SkeletonCard/SkeletonCard";
 import { useSelector, useDispatch } from "react-redux";
+import { Fade } from "react-awesome-reveal";
 
 const Feed = (props) => {
   const [currentPage, setcurrentPage] = useState(1);
@@ -45,6 +46,7 @@ const Feed = (props) => {
         <div className={styles.feed_container}>
           <div className={styles.card_manager}>
             {currentMeals.map((meal) => (
+              <Fade cascade damping={0.1}>
               <Cards
                 data={props.data}
                 key={meal.strId}
@@ -52,7 +54,8 @@ const Feed = (props) => {
                 imgUrl={meal.strMealThumb}
                 mealName={meal.strMeal}
                 isFav={props.isFav}
-              />
+                />
+                </Fade>
             ))}
           </div>
         </div>
