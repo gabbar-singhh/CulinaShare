@@ -10,7 +10,7 @@ It helps users to discover, share, and save recipes 🍕
 
 🟢 live: https://culina-share.vercel.app/
 
-[demo video](https://github.com/gabbar-singhh/my-project-images/assets/110885026/fc377baa-75a4-4241-a818-74442149aa99)
+[demo video](https://github.com/gabbar-singhh/my-project-images/blob/654c7009ee071da55be705d87798499422e08dad/culina-share/culina-share-low.mp4)
 
 
 ## 📦 Features
