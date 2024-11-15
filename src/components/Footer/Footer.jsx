@@ -123,7 +123,7 @@ const Footer = () => {
       <footer className={styles.footer}>
         made with ❤ by{" "}
         <Link href={LINKEDIN_URL} style={{ textDecoration: "underline" }}>
-          himanshu
+          himanshu & team
         </Link>
         !
       </footer>
